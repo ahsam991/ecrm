@@ -1,0 +1,244 @@
+{
+  "communities": {
+    "0": [
+      "scripts_create_doc",
+      "scripts_create_doc_border",
+      "scripts_create_doc_borders",
+      "scripts_create_doc_bullet",
+      "scripts_create_doc_doc",
+      "scripts_create_doc_document_packer_paragraph_textrun_table_tablerow_tablecell_headinglevel_alignmenttype_borderstyle_widthtype_shadingtype_verticalalign_pagenumber_pagebreak_levelformat_header_footer_tabstoptype_tabstopposition",
+      "scripts_create_doc_fs",
+      "scripts_create_doc_h1",
+      "scripts_create_doc_h2",
+      "scripts_create_doc_h3",
+      "scripts_create_doc_infobox",
+      "scripts_create_doc_makeheaderrow",
+      "scripts_create_doc_makerow",
+      "scripts_create_doc_note",
+      "scripts_create_doc_pagebreak",
+      "scripts_create_doc_para",
+      "scripts_create_doc_spacer",
+      "scripts_create_doc_thickborder",
+      "scripts_create_doc_thickborders"
+    ],
+    "1": [
+      "package",
+      "package_author",
+      "package_description",
+      "package_keywords",
+      "package_license",
+      "package_main",
+      "package_name",
+      "package_scripts",
+      "package_scripts_start",
+      "package_scripts_test",
+      "package_version"
+    ],
+    "2": [
+      "bcryptjs",
+      "express",
+      "jsonwebtoken",
+      "package_dependencies",
+      "package_dependencies_bcryptjs",
+      "package_dependencies_express",
+      "package_dependencies_jsonwebtoken",
+      "package_dependencies_pg",
+      "pg"
+    ],
+    "3": [
+      "server",
+      "server_app",
+      "server_bcrypt",
+      "server_client",
+      "server_express",
+      "server_jwt",
+      "server_path"
+    ],
+    "4": [
+      "db_seed_admin",
+      "db_seed_admin_accounts",
+      "db_seed_admin_bcrypt",
+      "db_seed_admin_client",
+      "db_seed_admin_seed"
+    ],
+    "5": [
+      "scripts_patch_html",
+      "scripts_patch_html_fs",
+      "scripts_patch_html_html",
+      "scripts_patch_html_htmlpath",
+      "scripts_patch_html_path"
+    ],
+    "6": [
+      "api_login",
+      "api_login_bcrypt",
+      "api_login_client",
+      "api_login_jwt"
+    ],
+    "7": [
+      "vercel",
+      "vercel_builds",
+      "vercel_routes",
+      "vercel_version"
+    ],
+    "8": [
+      "api_register",
+      "api_register_bcrypt",
+      "api_register_client"
+    ],
+    "9": [
+      "api_submissions",
+      "api_submissions_client",
+      "api_submissions_jwt"
+    ],
+    "10": [
+      "api_tasks",
+      "api_tasks_client",
+      "api_tasks_jwt"
+    ],
+    "11": [
+      "db_setup_db",
+      "db_setup_db_client",
+      "db_setup_db_setup"
+    ],
+    "12": [
+      "scripts_merge_pages",
+      "scripts_merge_pages_get_h2_text",
+      "scripts_merge_pages_main"
+    ],
+    "13": [
+      "api_realtime",
+      "api_realtime_client"
+    ],
+    "14": [
+      "scripts_patch_practice",
+      "scripts_patch_practice_main"
+    ],
+    "15": [
+      "db_personal_call_center_report"
+    ],
+    "16": [
+      "db_personal_call_checkback_report"
+    ],
+    "17": [
+      "db_personal_interval"
+    ],
+    "18": [
+      "db_personal_live_observation_report"
+    ],
+    "19": [
+      "db_personal_task_2"
+    ],
+    "20": [
+      "db_questions"
+    ],
+    "21": [
+      "scripts_check_campaign"
+    ],
+    "22": [
+      "scripts_check_db_cards"
+    ],
+    "23": [
+      "scripts_favicon_inject"
+    ],
+    "24": [
+      "scripts_ui_overhaul"
+    ]
+  },
+  "cohesion": {
+    "0": 0.10526315789473684,
+    "1": 0.18181818181818182,
+    "2": 0.2222222222222222,
+    "3": 0.2857142857142857,
+    "4": 0.4,
+    "5": 0.4,
+    "6": 0.5,
+    "7": 0.5,
+    "8": 0.6666666666666666,
+    "9": 0.6666666666666666,
+    "10": 0.6666666666666666,
+    "11": 0.6666666666666666,
+    "12": 1.0,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0
+  },
+  "gods": [
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 3
+    },
+    {
+      "id": "package_dependencies_bcryptjs",
+      "label": "bcryptjs",
+      "degree": 2
+    },
+    {
+      "id": "package_dependencies_express",
+      "label": "express",
+      "degree": 2
+    },
+    {
+      "id": "package_dependencies_jsonwebtoken",
+      "label": "jsonwebtoken",
+      "degree": 2
+    },
+    {
+      "id": "package_dependencies_pg",
+      "label": "pg",
+      "degree": 2
+    },
+    {
+      "id": "scripts_merge_pages_get_h2_text",
+      "label": "get_h2_text()",
+      "degree": 2
+    },
+    {
+      "id": "scripts_merge_pages_main",
+      "label": "main()",
+      "degree": 2
+    },
+    {
+      "id": "api_login_client",
+      "label": "{ Client }",
+      "degree": 1
+    },
+    {
+      "id": "api_login_bcrypt",
+      "label": "bcrypt",
+      "degree": 1
+    },
+    {
+      "id": "api_login_jwt",
+      "label": "jwt",
+      "degree": 1
+    }
+  ],
+  "surprises": [],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `dependencies` connect `dependencies` to `package.json`?",
+      "why": "High betweenness centrality (0.027) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `{ Client }`, `bcrypt`, `jwt` to the rest of the system?",
+      "why": "47 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `create_doc.js` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected."
+    }
+  ]
+}
