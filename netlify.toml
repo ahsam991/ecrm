@@ -1,6 +1,7 @@
 # Netlify Configuration
 [build]
-  publish = "."
+  base = "ECRM-tutorial"
+  publish = "public"
 
 [[redirects]]
   from = "/*"
