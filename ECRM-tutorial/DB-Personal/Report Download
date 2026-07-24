@@ -1,0 +1,57 @@
+SELECT
+    c.id AS "Contact ID",
+    l_outlet.id AS "Location ID",
+   
+    r.name AS "Region",
+    l_area.name AS "Area",
+    l_territory.name AS "Territory",
+    l_point.name AS "Distributorspoint",
+    l_route.name AS "Routes",
+    l_cluster.name AS "Cluster Name",
+    l_outlet.name AS "Outlets Name",
+    
+    c.contacted_br AS "User Name",
+    ui.full_name AS "BR Name",
+    ca.name AS "Campaign Name",
+    c.contact_date AS "Contact Date",
+    c.contact_no AS "Consumer Number",
+    co.name AS "Consumer Name",
+    co.fathers_name AS "Consumers fathers_name",
+    AGE(current_date, co.dob) as "AGE",
+    co.address AS "Consumer Address",
+    co.profession AS "Consumer Occupation",
+    pr.name AS "Primary Brand",
+    sr.name AS "Secondary Brand",
+    TO_CHAR(c.start AT TIME ZONE 'Asia/Dhaka', 'HH24:MI:SS') as "Contact Start",
+    TO_CHAR(c.end AT TIME ZONE 'Asia/Dhaka','HH24:MI:SS') as "Contact End",
+    (c.end - c.start) AS "Contact Duration",
+c.signature AS "Contact Picture",
+cs1.answer AS "asking_about_kit",
+cs2.answer AS "asking_about_travel_kit_preference",
+cs3.answer AS "social_media_info"
+FROM
+    ecrm.contacts c
+    JOIN ecrm.locations l_outlet ON c.location_id = l_outlet.id
+    AND l_outlet.type = 8
+    LEFT JOIN ecrm.locations l_cluster ON l_outlet.parent = l_cluster.id
+    AND l_cluster.type = 7
+    LEFT JOIN ecrm.locations l_route ON l_cluster.parent = l_route.id
+    AND l_route.type = 6
+    LEFT JOIN ecrm.locations l_point ON l_route.parent = l_point.id
+    AND l_point.type = 5
+    LEFT JOIN ecrm.locations l_territory ON l_point.parent = l_territory.id
+    AND l_territory.type = 3
+    LEFT JOIN ecrm.locations l_area ON l_territory.parent = l_area.id
+    AND l_area.type = 2
+    LEFT JOIN ecrm.locations r ON l_area.parent = r.id
+    AND r.type = 1
+    LEFT JOIN ecrm.user_infos ui ON c.user_id = ui.user_id
+    LEFT JOIN ecrm.campaigns ca ON c.campaign_id = ca.id
+    LEFT JOIN ecrm.consumers co ON c.contact_no = co.contact_no
+    LEFT JOIN ecrm.products pr ON c.product = pr.id
+    LEFT JOIN ecrm.products sr ON c.secondary_brand = sr.id
+    LEFT JOIN ecrm.contact_survey_data_maps cs1 ON c.id = cs1.contact_id AND cs1.question = 'asking_about_kit'
+    LEFT JOIN ecrm.contact_survey_data_maps cs2 ON c.id = cs2.contact_id AND cs2.question = 'asking_about_travel_kit_preference'
+    LEFT JOIN ecrm.contact_survey_data_maps cs3 ON c.id = cs3.contact_id AND cs3.question = 'social_media_info'
+WHERE
+    c.id = 12429776;

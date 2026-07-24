@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/svg+xml" href="img/ECRM_Logo.aa055d6f9939ac675c4fe4f3451220f2.svg">
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PostgreSQL Knowledge Assessment | Intern Quiz</title>
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg" />
+    <link rel="apple-touch-icon" href="img/favicon.svg" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d27;
+            --surface2: #22263a;
+            --border: #2e3250;
+            --accent: #6c63ff;
+            --accent2: #00d4aa;
+            --easy: #00d4aa;
+            --medium: #f59e0b;
+            --text: #e2e8f0;
+            --muted: #8892b0;
+            --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ── */
+        header {
+            background: linear-gradient(135deg, #1a1d27 0%, #12162b 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 28px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .logo h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .logo p {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-pill {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 0.82rem;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .stat-pill span {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* ── PROGRESS BAR ── */
+        #progress-wrap {
+            background: var(--surface);
+            padding: 14px 40px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .progress-bar-outer {
+            flex: 1;
+            height: 8px;
+            background: var(--surface2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-inner {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            border-radius: 4px;
+            transition: width 0.4s ease;
+        }
+
+        .progress-label {
+            font-size: 0.8rem;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        /* ── LAYOUT ── */
+        main {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* ── FILTER TABS ── */
+        .filter-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--muted);
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        /* ── QUESTION CARD ── */
+        .question-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            box-shadow: var(--card-shadow);
+        }
+
+        .question-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 32px rgba(108, 99, 255, 0.15);
+        }
+
+        .question-card.answered {
+            border-color: var(--accent2);
+        }
+
+        .card-header {
+            padding: 20px 24px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            user-select: none;
+        }
+
+        .q-num {
+            min-width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .easy .q-num {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--easy);
+        }
+
+        .medium .q-num {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--medium);
+        }
+
+        .query .q-num {
+            background: rgba(99, 179, 237, 0.15);
+            color: #63b3ed;
+        }
+
+        .q-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-easy {
+            background: rgba(0, 212, 170, 0.15);
+            color: var(--easy);
+        }
+
+        .badge-medium {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--medium);
+        }
+
+        .badge-query {
+            background: rgba(99, 179, 237, 0.15);
+            color: #63b3ed;
+        }
+
+        .badge-topic {
+            background: var(--surface2);
+            color: var(--muted);
+        }
+
+        .q-text {
+            font-size: 0.97rem;
+            font-weight: 500;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .card-header .arrow {
+            margin-left: auto;
+            color: var(--muted);
+            font-size: 1.1rem;
+            transition: transform 0.25s;
+            flex-shrink: 0;
+        }
+
+        .question-card.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* ── ANSWER AREA ── */
+        .answer-area {
+            padding: 0 24px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.3s;
+        }
+
+        .question-card.open .answer-area {
+            max-height: 600px;
+            padding: 0 24px 20px;
+        }
+
+        .answer-box {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            min-height: 110px;
+        }
+
+        textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: vertical;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            min-height: 90px;
+        }
+
+        textarea.code-input {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            min-height: 130px;
+        }
+
+        textarea::placeholder {
+            color: var(--muted);
+        }
+
+        .answer-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .char-count {
+            font-size: 0.75rem;
+            color: var(--muted);
+        }
+
+        .save-btn {
+            padding: 7px 18px;
+            background: linear-gradient(135deg, var(--accent), #8b83ff);
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+        }
+
+        .save-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .save-btn:active {
+            transform: translateY(0);
+        }
+
+        .saved-tick {
+            color: var(--accent2);
+            font-size: 0.8rem;
+            display: none;
+        }
+
+        .saved-tick.show {
+            display: inline;
+        }
+
+        /* ── SUBMIT SECTION ── */
+        .submit-section {
+            margin-top: 40px;
+            background: linear-gradient(135deg, var(--surface) 0%, #1e2240 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .submit-section h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .submit-section p {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+        }
+
+        .submit-btn {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, var(--accent2), #00b894);
+            border: none;
+            border-radius: 10px;
+            color: #0f1117;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0, 212, 170, 0.4);
+        }
+
+        .export-btn {
+            padding: 10px 28px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .export-btn:hover {
+            border-color: var(--accent);
+        }
+
+        /* ── SUMMARY MODAL ── */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 520px;
+            width: 90%;
+            text-align: center;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .overlay.show .modal {
+            transform: translateY(0);
+        }
+
+        .modal-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .modal h2 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .modal p {
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .modal-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .modal-stat {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 18px;
+            min-width: 90px;
+        }
+
+        .modal-stat .val {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent2);
+        }
+
+        .modal-stat .lbl {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .modal-export-note {
+            font-size: 0.8rem;
+            color: var(--accent2);
+            margin-bottom: 18px;
+        }
+
+        .score-ring {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(var(--accent2) 0% var(--score-pct, 0%), var(--surface2) 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            position: relative;
+        }
+
+        .score-ring::after {
+            content: '';
+            position: absolute;
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: var(--surface);
+        }
+
+        .score-text {
+            position: relative;
+            z-index: 1;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent2);
+        }
+
+        .close-modal {
+            background: var(--accent);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            padding: 12px 32px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* responsive */
+        @media (max-width: 600px) {
+            header {
+                padding: 16px 20px;
+            }
+
+            .header-stats {
+                display: none;
+            }
+
+            main {
+                padding: 24px 12px 60px;
+            }
+
+            .card-header {
+                padding: 16px 16px 12px;
+            }
+
+            .answer-area {
+                padding: 0 16px;
+            }
+
+            .question-card.open .answer-area {
+                padding: 0 16px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body style="overflow: hidden; background: #080b12;">
+
+    <!-- AUTH WRAPPER -->
+    <div id="quiz-auth" style="background:#080b12; position:fixed; inset:0; z-index:9999; display:flex; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:#111620; border:1px solid #1e2a3a; border-radius:14px; padding:48px; max-width:500px; width:100%; text-align:center; box-shadow:0 12px 40px rgba(59,130,246,.08);">
+            <div style="font-size:40px; margin-bottom:16px;">🎓</div>
+            <h3 style="font-family:sans-serif; font-size:24px; margin-bottom:12px; color:#e2e8f0; font-weight:700;">Exam Access Restricted</h3>
+            <p style="color:#94a3b8; font-size:14px; margin-bottom:24px;">Please enter your credentials to access the PostgreSQL Assessment.</p>
+            <input type="email" id="quizEmail" placeholder="Email Address" style="width:100%; padding:12px 16px; margin-bottom:16px; border-radius:8px; border:1px solid #1e2a3a; background:#0d1117; color:#e2e8f0; outline:none; font-family:inherit;">
+            <input type="password" id="quizPassword" placeholder="Password" style="width:100%; padding:12px 16px; margin-bottom:24px; border-radius:8px; border:1px solid #1e2a3a; background:#0d1117; color:#e2e8f0; outline:none; font-family:inherit;">
+            <div style="display:flex; gap:12px; width:100%;">
+                <a href="index.html" style="flex:1; padding:14px; font-size:14px; background:transparent; border:1px solid #243040; color:#94a3b8; border-radius:8px; cursor:pointer; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">⬅ Back to Portal</a>
+                <button onclick="unlockQuiz()" style="flex:1; padding:14px; font-size:14px; background:#3b82f6; border:none; color:#fff; border-radius:8px; cursor:pointer; font-weight:600;">Unlock Exam</button>
+            </div>
+            <p id="quizError" style="color:#ef4444; font-size:12px; margin-top:12px; display:none;">❌ Invalid email or password.</p>
+        </div>
+    </div>
+    
+    <div id="quiz-content" style="display:none; height:100%;">
+
+    <header>
+        <div class="logo">
+            <div class="logo-icon">🐘</div>
+            <div>
+                <h1>PostgreSQL Assessment</h1>
+                <p>Database Internship — 3 Month Checkpoint</p>
+            </div>
+        </div>
+        <div class="header-stats" style="display:flex; align-items:center; gap:16px;">
+
+<style>
+.nav-team { display: flex; align-items: center; gap: 10px; margin-left: 24px; margin-right: 16px; }
+.nav-profile { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 4px 14px 4px 4px; border-radius: 40px; cursor: pointer; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); text-decoration: none; }
+.nav-profile:hover { background: rgba(59,130,246,0.1); border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.nav-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+.nav-info { display: flex; flex-direction: column; justify-content: center; }
+.nav-name { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.2; }
+.nav-role { font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text3); font-family: 'JetBrains Mono', monospace; line-height: 1; }
+@media (max-width: 1000px) {
+  .nav-team { display: none; }
+}
+</style>
+<div class="nav-team">
+    <div class="nav-profile" title="Ahsam - Author">
+    <img src="img/ahsam-bhai.png" class="nav-avatar" alt="Ahsam">
+    <div class="nav-info">
+      <span class="nav-name">Ahsam</span>
+      <span class="nav-role">Author</span>
+    </div>
+  </div>
+    <div class="nav-profile" title="Pranto - Supervisor">
+        <img src="img/pranto-bhai.png" class="nav-avatar" alt="Pranto">
+    <div class="nav-info">
+      <span class="nav-name">Pranto</span>
+      <span class="nav-role">Supervisor</span>
+    </div>
+  </div>
+    <div class="nav-profile" title="Shohan - Manager">
+        <img src="img/shohan-bhai.png" class="nav-avatar" alt="Shohan">
+    <div class="nav-info">
+      <span class="nav-name">Shohan</span>
+      <span class="nav-role">Manager</span>
+    </div>
+  </div>
+</div>
+
+            <a href="index.html" class="stat-pill" style="text-decoration:none; color:inherit; cursor:pointer; background:rgba(59,130,246,0.15); border-color:rgba(59,130,246,0.4); font-weight:600;">⬅ Back to Portal</a>
+            <div class="stat-pill">📝 <span id="answered-count">0</span> / 60 answered</div>
+            <div class="stat-pill">⏱ <span id="timer">00:00</span></div>
+        </div>
+    </header>
+
+    <div id="progress-wrap">
+        <div class="progress-bar-outer">
+            <div class="progress-bar-inner" id="progress-bar"></div>
+        </div>
+        <div class="progress-label" id="progress-label">0% complete</div>
+    </div>
+
+    <main>
+        <div class="filter-row">
+            <button class="filter-btn active" data-filter="all">All (60)</button>
+            <button class="filter-btn" data-filter="easy">🟢 Easy (20)</button>
+            <button class="filter-btn" data-filter="medium">🟡 Medium (30)</button>
+            <button class="filter-btn" data-filter="query">💻 SQL Queries (10)</button>
+            <button class="filter-btn" data-filter="Intro">Intro</button>
+            <button class="filter-btn" data-filter="Tables">Tables</button>
+            <button class="filter-btn" data-filter="Querying">Querying</button>
+            <button class="filter-btn" data-filter="Data Types">Data Types</button>
+            <button class="filter-btn" data-filter="Functions">Functions</button>
+            <button class="filter-btn" data-filter="Advanced">Advanced</button>
+        </div>
+
+        <div id="questions-container"></div>
+
+        <div class="submit-section">
+            <h3>🎯 All done? Submit your assessment</h3>
+            <p>Your answers are saved in your browser. Clicking <strong style="color:var(--text)">Submit</strong> will
+                show your summary and automatically download your answers file to send to your manager.</p>
+            <button class="submit-btn" onclick="submitQuiz()">Submit Assessment</button>
+            <button class="export-btn" onclick="exportAnswers()">⬇ Export Answers</button>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="overlay" id="result-overlay">
+        <div class="modal">
+            <div class="modal-icon">🎉</div>
+            <div class="score-ring" id="score-ring"><span class="score-text" id="score-text">0/60</span></div>
+            <h2>Assessment Submitted!</h2>
+            <p id="modal-msg">Great effort! Keep reviewing the topics you found challenging.</p>
+            <div class="modal-stats">
+                <div class="modal-stat">
+                    <div class="val" id="modal-answered">0/60</div>
+                    <div class="lbl">Answered</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="val" id="modal-pct">0%</div>
+                    <div class="lbl">Completion</div>
+                </div>
+                <div class="modal-stat">
+                    <div class="val" id="modal-time">00:00</div>
+                    <div class="lbl">Time Spent</div>
+                </div>
+            </div>
+            <p class="modal-export-note">✅ Your answers file has been automatically downloaded.</p>
+            <button class="close-modal" onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const QUESTIONS = [
+            { id: 1, diff: "easy", topic: "Intro", q: "What is PostgreSQL and how does it differ from a simple spreadsheet for storing data?" },
+            { id: 2, diff: "easy", topic: "Intro", q: "What does ACID stand for in the context of databases, and why does it matter?" },
+            { id: 3, diff: "easy", topic: "Intro", q: "What is the difference between a relational and a non-relational database?" },
+            { id: 4, diff: "easy", topic: "Tables", q: "What is the purpose of a PRIMARY KEY in a table?" },
+            { id: 5, diff: "easy", topic: "Tables", q: "What is the difference between DELETE, TRUNCATE, and DROP for a table?" },
+            { id: 6, diff: "easy", topic: "Querying", q: "What is the difference between WHERE and HAVING clauses?" },
+            { id: 7, diff: "easy", topic: "Querying", q: "What does DISTINCT do in a SELECT query?" },
+            { id: 8, diff: "easy", topic: "Querying", q: "What is the order of execution in a SQL SELECT statement?" },
+            { id: 9, diff: "easy", topic: "Data Types", q: "What is the difference between CHAR, VARCHAR, and TEXT in PostgreSQL?" },
+            { id: 10, diff: "easy", topic: "Data Types", q: "When would you use the BOOLEAN data type vs storing 0/1 as an integer?" },
+            { id: 11, diff: "easy", topic: "Tables", q: "What is a FOREIGN KEY and what problem does it solve?" },
+            { id: 12, diff: "easy", topic: "Tables", q: "What is the difference between NOT NULL and DEFAULT constraints?" },
+            { id: 13, diff: "easy", topic: "Querying", q: "What does the LIMIT and OFFSET clause do, and what is a common use case?" },
+            { id: 14, diff: "easy", topic: "Querying", q: "What is the difference between INNER JOIN and LEFT JOIN?" },
+            { id: 15, diff: "easy", topic: "Functions", q: "What is the difference between COUNT(*), COUNT(column), and COUNT(DISTINCT column)?" },
+            { id: 16, diff: "easy", topic: "Data Types", q: "What is the difference between DATE, TIMESTAMP, and TIMESTAMPTZ in PostgreSQL?" },
+            { id: 17, diff: "easy", topic: "Querying", q: "What does NULL represent in SQL and why is NULL = NULL false?" },
+            { id: 18, diff: "easy", topic: "Tables", q: "What is the purpose of the SERIAL or GENERATED ALWAYS AS IDENTITY column type?" },
+            { id: 19, diff: "easy", topic: "Querying", q: "What is the difference between UNION and UNION ALL?" },
+            { id: 20, diff: "easy", topic: "Intro", q: "What is a schema in PostgreSQL and how is it different from a database?" },
+            { id: 21, diff: "medium", topic: "Tables", q: "What is the difference between a UNIQUE constraint and a PRIMARY KEY constraint?" },
+            { id: 22, diff: "medium", topic: "Querying", q: "Explain what a self-join is and give a scenario where it is useful." },
+            { id: 23, diff: "medium", topic: "Advanced", q: "What is an index in PostgreSQL and what trade-off does it introduce?" },
+            { id: 24, diff: "medium", topic: "Advanced", q: "What is the difference between a B-tree index and a GIN index in PostgreSQL?" },
+            { id: 25, diff: "medium", topic: "Data Types", q: "What is JSONB in PostgreSQL and how does it differ from JSON?" },
+            { id: 26, diff: "medium", topic: "Querying", q: "What is a subquery and what is the difference between a correlated and non-correlated subquery?" },
+            { id: 27, diff: "medium", topic: "Advanced", q: "What is a CTE (Common Table Expression) and what advantage does it offer over a subquery?" },
+            { id: 28, diff: "medium", topic: "Advanced", q: "What is a Window Function in SQL and how does it differ from GROUP BY?" },
+            { id: 29, diff: "medium", topic: "Advanced", q: "What is the difference between RANK() and DENSE_RANK()?" },
+            { id: 30, diff: "medium", topic: "Functions", q: "What are aggregate functions and can you use them without GROUP BY? Give an example." },
+            { id: 31, diff: "medium", topic: "Functions", q: "What is the difference between COALESCE and NULLIF in PostgreSQL?" },
+            { id: 32, diff: "medium", topic: "Data Types", q: "What are PostgreSQL sequences and when would you use one directly instead of SERIAL?" },
+            { id: 33, diff: "medium", topic: "Querying", q: "What is the difference between a correlated subquery and a JOIN? When would you prefer each?" },
+            { id: 34, diff: "medium", topic: "Advanced", q: "What is a View in PostgreSQL and what are its limitations?" },
+            { id: 35, diff: "medium", topic: "Advanced", q: "What is a Materialized View and how does it differ from a regular View?" },
+            { id: 36, diff: "medium", topic: "Data Types", q: "What is the difference between numeric/decimal and float in PostgreSQL, and when does the choice matter?" },
+            { id: 37, diff: "medium", topic: "Functions", q: "What are string functions? Give three examples of commonly used ones in PostgreSQL." },
+            { id: 38, diff: "medium", topic: "Querying", q: "What is a CROSS JOIN and when would it be used?" },
+            { id: 39, diff: "medium", topic: "Advanced", q: "What are array types in PostgreSQL and what is one advantage and one disadvantage of using them?" },
+            { id: 40, diff: "medium", topic: "Advanced", q: "What is a database constraint and name four types PostgreSQL supports." },
+            { id: 41, diff: "medium", topic: "Querying", q: "What is the purpose of GROUP BY and what must be true about SELECT columns when using it?" },
+            { id: 42, diff: "medium", topic: "Data Types", q: "What is type casting in PostgreSQL and give two ways to do it?" },
+            { id: 43, diff: "medium", topic: "Advanced", q: "What is the difference between a FULL OUTER JOIN and a CROSS JOIN?" },
+            { id: 44, diff: "medium", topic: "Functions", q: "What is the difference between a scalar function and an aggregate function?" },
+            { id: 45, diff: "medium", topic: "Advanced", q: "What does EXPLAIN do in PostgreSQL and why is it useful?" },
+            { id: 46, diff: "medium", topic: "Querying", q: "What is a CASE expression in SQL and give a practical use case?" },
+            { id: 47, diff: "medium", topic: "Advanced", q: "What are grouping sets and how do they differ from writing multiple GROUP BY queries with UNION ALL?" },
+            { id: 48, diff: "medium", topic: "Data Types", q: "What is the TEXT SEARCH capability in PostgreSQL and what makes it more powerful than a LIKE query?" },
+            { id: 49, diff: "medium", topic: "Advanced", q: "What is table partitioning in PostgreSQL and what problem does it solve?" },
+            { id: 50, diff: "medium", topic: "Querying", q: "What is the difference between EXISTS and IN when filtering with a subquery? When would you prefer EXISTS?" },
+
+            // ── SQL QUERY QUESTIONS (CRM context) ──
+            { id: 51, diff: "query", topic: "SQL Queries", q: "Write a query to list all customers (from a \`customers\` table with columns: id, name, email, created_at) who signed up in the last 30 days, ordered by signup date descending.", isQuery: true },
+            { id: 52, diff: "query", topic: "SQL Queries", q: "Write a query to count how many deals each sales representative has, using a \`deals\` table (columns: id, rep_id, status, amount) and a \`reps\` table (columns: id, name). Show rep name and deal count, sorted by deal count descending.", isQuery: true },
+            { id: 53, diff: "query", topic: "SQL Queries", q: "Write a query to find the total revenue (sum of amount) per month for the current year from a \`deals\` table (columns: id, amount, closed_at, status). Only include deals with status = 'won'.", isQuery: true },
+            { id: 54, diff: "query", topic: "SQL Queries", q: "Write a query to find customers who have never placed an order. Use a \`customers\` table (id, name) and an \`orders\` table (id, customer_id, order_date). Use a LEFT JOIN approach.", isQuery: true },
+            { id: 55, diff: "query", topic: "SQL Queries", q: "Write a query to find the top 5 customers by total purchase amount from an \`orders\` table (columns: id, customer_id, amount). Show customer_id and total_amount.", isQuery: true },
+            { id: 56, diff: "query", topic: "SQL Queries", q: "Write a query to update the status column to 'inactive' for all customers in a \`customers\` table who have had no activity (no rows in \`orders\`) in the past 6 months.", isQuery: true },
+            { id: 57, diff: "query", topic: "SQL Queries", q: "Write a query using a CTE to find sales reps whose total deal value exceeds the average total deal value across all reps. Use a \`deals\` table (id, rep_id, amount, status='won').", isQuery: true },
+            { id: 58, diff: "query", topic: "SQL Queries", q: "Write a query to show each customer's name, their most recent order date, and total number of orders. Use \`customers\` (id, name) and \`orders\` (id, customer_id, order_date) tables.", isQuery: true },
+            { id: 59, diff: "query", topic: "SQL Queries", q: "Write a query to find duplicate email addresses in a \`contacts\` table (columns: id, name, email). Show the email and how many times it appears, only for emails that appear more than once.", isQuery: true },
+            { id: 60, diff: "query", topic: "SQL Queries", q: "Write a query using a window function to rank customers by their total purchase amount within each country. Use \`customers\` (id, name, country) and \`orders\` (id, customer_id, amount). Show name, country, total_amount, and rank.", isQuery: true },
+        ];
+
+        // ── load saved answers ──
+        function loadAnswers() {
+            try { return JSON.parse(localStorage.getItem('pg_quiz_answers') || '{}'); }
+            catch (e) { return {}; }
+        }
+        let answers = loadAnswers();
+
+        function saveAnswer(id, val) {
+            answers[id] = val;
+            localStorage.setItem('pg_quiz_answers', JSON.stringify(answers));
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = QUESTIONS.length;
+            const count = Object.values(answers).filter(v => v && v.trim()).length;
+            document.getElementById('answered-count').textContent = count;
+            const pct = Math.round(count / total * 100);
+            document.getElementById('progress-bar').style.width = pct + '%';
+            document.getElementById('progress-label').textContent = pct + '% complete';
+            // mark cards
+            document.querySelectorAll('.question-card').forEach(card => {
+                const id = +card.dataset.id;
+                if (answers[id] && answers[id].trim()) card.classList.add('answered');
+                else card.classList.remove('answered');
+            });
+        }
+
+        // ── render ──
+        let currentFilter = 'all';
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            const filtered = QUESTIONS.filter(q => {
+                if (currentFilter === 'all') return true;
+                if (currentFilter === 'easy' || currentFilter === 'medium' || currentFilter === 'query') return q.diff === currentFilter;
+                return q.topic === currentFilter;
+            });
+
+            container.innerHTML = filtered.map(q => `
+    <div class="question-card ${q.diff}" data-id="${q.id}" id="card-${q.id}">
+      <div class="card-header" onclick="toggleCard(${q.id})">
+        <div class="q-num">#${q.id}</div>
+        <div style="flex:1">
+          <div class="q-meta">
+            <span class="badge badge-${q.diff}">${q.diff === 'query' ? '💻 SQL Query' : q.diff}</span>
+            <span class="badge badge-topic">${q.topic}</span>
+            ${answers[q.id] && answers[q.id].trim() ? '<span style="color:var(--accent2);font-size:0.8rem">✓ Answered</span>' : ''}
+          </div>
+          <div class="q-text">${q.q}</div>
+        </div>
+        <div class="arrow">▾</div>
+      </div>
+      <div class="answer-area">
+        <div class="answer-box">
+          <textarea id="ta-${q.id}" class="${q.isQuery ? 'code-input' : ''}" placeholder="${q.isQuery ? 'Write your SQL query here...' : 'Type your answer here...'}" oninput="updateChar(${q.id})">${answers[q.id] || ''}</textarea>
+        </div>
+        <div class="answer-footer">
+          <span class="char-count" id="cc-${q.id}">${(answers[q.id] || '').length} chars</span>
+          <div>
+            <span class="saved-tick ${answers[q.id] ? 'show' : ''}" id="tick-${q.id}">✓ Saved</span>
+            &nbsp;
+            <button class="save-btn" onclick="doSave(${q.id})">Save Answer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+            updateProgress();
+        }
+
+        function toggleCard(id) {
+            const card = document.getElementById('card-' + id);
+            if (!card) return;
+            const isOpen = card.classList.contains('open');
+            // close all
+            document.querySelectorAll('.question-card.open').forEach(c => c.classList.remove('open'));
+            if (!isOpen) card.classList.add('open');
+        }
+
+        function updateChar(id) {
+            const ta = document.getElementById('ta-' + id);
+            document.getElementById('cc-' + id).textContent = ta.value.length + ' chars';
+        }
+
+        function doSave(id) {
+            const val = document.getElementById('ta-' + id).value;
+            saveAnswer(id, val);
+            const tick = document.getElementById('tick-' + id);
+            tick.classList.add('show');
+            // update answered badge in header
+            const card = document.getElementById('card-' + id);
+            const meta = card.querySelector('.q-meta');
+            const existing = meta.querySelector('.answered-badge');
+            if (!existing && val.trim()) {
+                const sp = document.createElement('span');
+                sp.className = 'answered-badge';
+                sp.style.cssText = 'color:var(--accent2);font-size:0.8rem';
+                sp.textContent = '✓ Answered';
+                meta.appendChild(sp);
+            } else if (existing && !val.trim()) {
+                existing.remove();
+            }
+        }
+
+        // ── filter buttons ──
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderQuestions();
+            });
+        });
+
+        // ── timer ──
+        let seconds = 0;
+        setInterval(() => {
+            seconds++;
+            const m = String(Math.floor(seconds / 60)).padStart(2, '0');
+            const s = String(seconds % 60).padStart(2, '0');
+            document.getElementById('timer').textContent = m + ':' + s;
+        }, 1000);
+
+        // ── submit ──
+        function submitQuiz() {
+            // save any open textareas first
+            document.querySelectorAll('textarea').forEach(ta => {
+                const id = +ta.id.replace('ta-', '');
+                if (ta.value.trim()) saveAnswer(id, ta.value);
+            });
+
+            const total = QUESTIONS.length;
+            const count = Object.values(answers).filter(v => v && v.trim()).length;
+            const pct = Math.round(count / total * 100);
+            const timeStr = document.getElementById('timer').textContent;
+
+            const ring = document.getElementById('score-ring');
+            ring.style.setProperty('--score-pct', pct + '%');
+            document.getElementById('score-text').textContent = count + '/' + total;
+
+            // populate modal stats
+            document.getElementById('modal-answered').textContent = count + '/' + total;
+            document.getElementById('modal-pct').textContent = pct + '%';
+            document.getElementById('modal-time').textContent = timeStr;
+
+            const msgs = [
+                [0, 30, "Keep going! Revisit the course materials and try again."],
+                [30, 60, "Good start! Focus on the topics you struggled with."],
+                [60, 80, "Solid effort! You have a good grasp of the fundamentals."],
+                [80, 95, "Great work! You have strong PostgreSQL knowledge."],
+                [95, 101, "Outstanding! Excellent PostgreSQL knowledge. 🚀"],
+            ];
+            const msg = msgs.find(([lo, hi]) => pct >= lo && pct < hi)?.[2] || '';
+            document.getElementById('modal-msg').textContent = msg;
+            document.getElementById('result-overlay').classList.add('show');
+
+            // auto-download the export
+            exportAnswers(timeStr, count, total, pct);
+        }
+
+        function closeModal() {
+            document.getElementById('result-overlay').classList.remove('show');
+        }
+
+        // ── export ──
+        function exportAnswers(timeStr, count, total, pct) {
+            // if called manually (button), gather stats from current state
+            if (timeStr === undefined) {
+                document.querySelectorAll('textarea').forEach(ta => {
+                    const id = +ta.id.replace('ta-', '');
+                    if (ta.value.trim()) saveAnswer(id, ta.value);
+                });
+                total = QUESTIONS.length;
+                count = Object.values(answers).filter(v => v && v.trim()).length;
+                pct = Math.round(count / total * 100);
+                timeStr = document.getElementById('timer').textContent;
+            }
+
+            const line = '='.repeat(52);
+            const thin = '─'.repeat(52);
+            let txt = '';
+            txt += line + '\n';
+            txt += '  PostgreSQL Internship Assessment — Answer Sheet\n';
+            txt += line + '\n';
+            txt += `  Exported   : ${new Date().toLocaleString()}\n`;
+            txt += `  Time Spent : ${timeStr}\n`;
+            txt += `  Answered   : ${count} / ${total} questions\n`;
+            txt += `  Completion : ${pct}%\n`;
+            txt += line + '\n\n';
+
+            // group by section
+            const sections = [
+                { label: 'SECTION A — Easy (Theoretical)', filter: q => q.diff === 'easy' },
+                { label: 'SECTION B — Medium (Conceptual)', filter: q => q.diff === 'medium' },
+                { label: 'SECTION C — SQL Query Practice', filter: q => q.diff === 'query' },
+            ];
+
+            sections.forEach(sec => {
+                const qs = QUESTIONS.filter(sec.filter);
+                txt += '\n' + thin + '\n';
+                txt += `  ${sec.label}\n`;
+                txt += thin + '\n\n';
+                qs.forEach(q => {
+                    txt += `Q${q.id}. [${q.topic}]\n`;
+                    txt += `${q.q}\n\n`;
+                    txt += `Answer:\n${answers[q.id] ? answers[q.id].trim() : '(no answer provided)'}\n\n`;
+                    txt += thin + '\n\n';
+                });
+            });
+
+            const blob = new Blob([txt], { type: 'text/plain;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'pg_assessment_answers.txt';
+            a.click();
+        }
+
+        // ── init ──
+        renderQuestions();
+    </script>
+    </div>
+    <script>
+        function cancelQuizAuth() {
+            document.getElementById('quizEmail').value = '';
+            document.getElementById('quizPassword').value = '';
+            document.getElementById('quizError').style.display = 'none';
+        }
+        function unlockQuiz() {
+            const email = document.getElementById('quizEmail').value;
+            const pwd = document.getElementById('quizPassword').value;
+            if(email === 'dbtask@v2.ltd' && pwd === 'examtest') {
+                document.getElementById('quiz-auth').style.display = 'none';
+                document.getElementById('quiz-content').style.display = 'block';
+                document.body.style.overflow = '';
+            } else {
+                document.getElementById('quizError').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+
+</html>

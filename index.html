@@ -1,0 +1,2592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eCRM Complete Documentation — BATB Platform</title>
+  <meta name="description" content="BATB eCRM Platform — Complete Business Overview & Database Schema Reference. 131 tables across 14 modules with interactive Knowledge Graph."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    /* ============================
+       CSS VARIABLES & RESET
+    ============================ */
+    :root {
+      --bg-primary: #070b14;
+      --bg-secondary: #0d1421;
+      --bg-card: #111827;
+      --bg-card-hover: #1a2538;
+      --bg-glass: rgba(17, 24, 39, 0.75);
+      --border: rgba(255,255,255,0.08);
+      --border-accent: rgba(212,175,55,0.3);
+      --gold: #d4af37;
+      --gold-light: #f0d060;
+      --gold-dim: rgba(212,175,55,0.15);
+      --blue-accent: #3b82f6;
+      --blue-dim: rgba(59,130,246,0.15);
+      --teal: #14b8a6;
+      --purple: #8b5cf6;
+      --red: #ef4444;
+      --green: #22c55e;
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted: #4b5563;
+      --text-code: #7dd3fc;
+      --sidebar-w: 280px;
+      --header-h: 64px;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --shadow-gold: 0 0 20px rgba(212,175,55,0.2);
+      --transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 24px); }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ============================
+       SCROLLBAR
+    ============================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--border-accent); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* ============================
+       BACKGROUND GRID
+    ============================ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,175,55,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ============================
+       HEADER
+    ============================ */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      background: rgba(7,11,20,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px 0 calc(var(--sidebar-w) + 24px);
+      z-index: 100;
+      transition: var(--transition);
+    }
+
+    .header-left { display: flex; align-items: center; gap: 16px; }
+
+    .logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.02em;
+    }
+
+    .logo-badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 100px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .header-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 14px;
+      width: 260px;
+      transition: var(--transition);
+    }
+    .header-search:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px var(--gold-dim);
+    }
+    .header-search input {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+    }
+    .header-search input::placeholder { color: var(--text-muted); }
+    .search-icon { color: var(--text-muted); font-size: 0.9rem; flex-shrink: 0; }
+
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+
+    .btn-graph {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, var(--gold), #b8860b);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      letter-spacing: 0.02em;
+      font-family: 'Inter', sans-serif;
+      text-transform: uppercase;
+    }
+    .btn-graph:hover { transform: translateY(-1px); box-shadow: var(--shadow-gold); }
+
+    /* ============================
+       SIDEBAR
+    ============================ */
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-brand {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      margin-top: var(--header-h);
+    }
+
+    .sidebar-brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .sidebar-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .stat-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px;
+      text-align: center;
+    }
+    .stat-chip .num {
+      display: block;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-chip .lbl {
+      display: block;
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 2px;
+    }
+
+    .sidebar-nav { padding: 12px 0; flex: 1; }
+
+    .nav-section { margin-bottom: 4px; }
+
+    .nav-section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      padding: 10px 20px 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      border-left: 2px solid transparent;
+      text-decoration: none;
+    }
+    .nav-item:hover {
+      color: var(--text-primary);
+      background: var(--bg-card);
+      border-left-color: var(--gold);
+    }
+    .nav-item.active {
+      color: var(--gold);
+      background: var(--gold-dim);
+      border-left-color: var(--gold);
+    }
+
+    .nav-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: currentColor;
+      opacity: 0.5;
+    }
+
+    .nav-item.active .nav-dot { opacity: 1; }
+
+    .module-nav-item {
+      padding: 6px 20px 6px 32px;
+      font-size: 0.78rem;
+    }
+
+    .module-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px; height: 18px;
+      border-radius: 4px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* ============================
+       MAIN CONTENT
+    ============================ */
+    .main {
+      margin-left: var(--sidebar-w);
+      padding-top: var(--header-h);
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content {
+      max-width: 1000px;
+      padding: 40px 48px;
+    }
+
+    /* ============================
+       HERO SECTION
+    ============================ */
+    .hero {
+      padding: 60px 48px 40px;
+      max-width: 1000px;
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      padding: 6px 16px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, var(--gold) 60%, var(--gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 32px;
+    }
+
+    .disclaimer-box {
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 40px;
+    }
+    .disclaimer-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+    .disclaimer-text { font-size: 0.83rem; color: #fca5a5; line-height: 1.6; }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .hero-stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .hero-stat::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+    .hero-stat:hover { border-color: var(--border-accent); transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+
+    .hero-stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ============================
+       SECTIONS
+    ============================ */
+    .doc-section {
+      padding: 0 48px 60px;
+      max-width: 1000px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .doc-section.visible { opacity: 1; transform: translateY(0); }
+
+    .part-divider {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+      padding-top: 20px;
+    }
+    .part-divider-line { flex: 1; height: 1px; background: var(--border); }
+    .part-divider-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      background: var(--bg-primary);
+      padding: 4px 16px;
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+    }
+
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-accent), transparent);
+    }
+
+    .subsection-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 28px 0 12px;
+      color: var(--text-primary);
+    }
+
+    p { color: var(--text-secondary); margin-bottom: 12px; }
+
+    ul, ol { padding-left: 20px; margin-bottom: 12px; }
+    li { color: var(--text-secondary); margin-bottom: 4px; }
+
+    strong { color: var(--text-primary); }
+
+    /* ============================
+       MODULE CARDS
+    ============================ */
+    .module-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin-bottom: 28px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .module-card:hover { border-color: var(--border-accent); box-shadow: 0 8px 32px rgba(0,0,0,0.3); }
+
+    .module-header {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: linear-gradient(135deg, rgba(212,175,55,0.06), transparent);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .module-num {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      background: var(--gold-dim);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-sm);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .module-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      flex: 1;
+    }
+
+    .module-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .meta-chip {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 3px 10px;
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+
+    .module-toggle {
+      width: 28px; height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 1rem;
+      transition: transform 0.25s ease;
+    }
+    .module-card.open .module-toggle { transform: rotate(180deg); }
+
+    .module-body {
+      display: none;
+      padding: 0;
+    }
+    .module-card.open .module-body { display: block; }
+
+    /* ============================
+       TABLE CARDS
+    ============================ */
+    .table-card {
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+    }
+    .table-card:last-child { border-bottom: none; }
+
+    .table-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .table-type-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+    .badge-table { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.3); }
+    .badge-view { background: rgba(20,184,166,0.15); color: #5eead4; border: 1px solid rgba(20,184,166,0.3); }
+
+    .table-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fbbf24;
+      flex: 1;
+    }
+
+    .table-toggle {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+    .table-card.open .table-toggle { transform: rotate(180deg); }
+
+    .table-purpose {
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    .table-details { display: none; margin-top: 14px; }
+    .table-card.open .table-details { display: block; }
+
+    .detail-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      margin-top: 16px;
+    }
+    .detail-label:first-child { margin-top: 0; }
+
+    .fk-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(139,92,246,0.1);
+      border: 1px solid rgba(139,92,246,0.3);
+      border-radius: var(--radius-sm);
+      padding: 4px 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #c4b5fd;
+      margin: 3px;
+      display: inline-flex;
+    }
+
+    .key-notes {
+      background: rgba(212,175,55,0.04);
+      border: 1px solid rgba(212,175,55,0.15);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+    }
+    .key-notes li { font-size: 0.82rem; }
+
+    /* ============================
+       DATA TABLES
+    ============================ */
+    .data-table-wrap { overflow-x: auto; margin: 12px 0; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .data-table th {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 9px 14px;
+      color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .data-table td:first-child { color: var(--text-code); font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.75rem; }
+
+    .req-yes {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px; height: 20px;
+      background: rgba(34,197,94,0.15);
+      border: 1px solid rgba(34,197,94,0.3);
+      border-radius: 50%;
+      color: #86efac;
+      font-size: 0.7rem;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(125,211,252,0.08);
+      color: var(--text-code);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    pre {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-code);
+      line-height: 1.6;
+      margin: 12px 0;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--gold);
+      padding: 12px 16px;
+      background: var(--gold-dim);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 12px 0;
+    }
+    blockquote p { color: #fde68a; font-size: 0.85rem; margin: 0; }
+
+    .info-box {
+      background: rgba(59,130,246,0.06);
+      border: 1px solid rgba(59,130,246,0.25);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin: 12px 0;
+    }
+    .info-box p { color: #93c5fd; font-size: 0.83rem; margin: 0; }
+
+    /* ============================
+       LOCATION HIERARCHY TREE
+    ============================ */
+    .tree-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--text-code);
+      line-height: 2;
+    }
+
+    /* ============================
+       USER TYPES TABLE
+    ============================ */
+    .user-type-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .user-type-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      transition: var(--transition);
+    }
+    .user-type-card:hover { border-color: var(--border-accent); }
+    .user-type-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 1.1rem;
+      margin-bottom: 4px;
+    }
+    .user-type-role { font-size: 0.82rem; color: var(--text-secondary); }
+    .user-type-access {
+      margin-top: 8px;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      background: var(--blue-dim);
+      color: #93c5fd;
+      border-radius: 100px;
+      display: inline-block;
+    }
+
+    /* ============================
+       ARCHITECTURE DIAGRAM
+    ============================ */
+    .arch-diagram {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .arch-node {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      flex: 1;
+      min-width: 140px;
+    }
+    .arch-node-icon { font-size: 2rem; margin-bottom: 8px; }
+    .arch-node-title { font-weight: 700; font-size: 0.9rem; color: var(--text-primary); }
+    .arch-node-sub { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
+    .arch-arrow { font-size: 1.5rem; color: var(--gold); }
+
+    /* ============================
+       SEARCH RESULTS OVERLAY
+    ============================ */
+    .search-overlay {
+      display: none;
+      position: fixed;
+      top: var(--header-h); left: var(--sidebar-w);
+      right: 0; bottom: 0;
+      background: rgba(7,11,20,0.96);
+      z-index: 200;
+      padding: 32px 48px;
+      overflow-y: auto;
+    }
+    .search-overlay.active { display: block; }
+
+    .search-results-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .search-result-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .search-result-item:hover { border-color: var(--gold); }
+    .result-name { font-family: 'JetBrains Mono', monospace; color: var(--gold); font-size: 0.9rem; font-weight: 600; }
+    .result-module { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+    .result-desc { font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px; }
+
+    /* ============================
+       KNOWLEDGE GRAPH MODAL
+    ============================ */
+    .graph-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(7,11,20,0.98);
+    }
+    .graph-modal.active { display: flex; flex-direction: column; }
+
+    .graph-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      backdrop-filter: blur(20px);
+    }
+
+    .graph-modal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .graph-title-badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--gold);
+      background: var(--gold-dim);
+      border: 1px solid var(--border-accent);
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .graph-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .graph-filter-select {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+    }
+    .graph-filter-select:focus { border-color: var(--gold); }
+
+    .graph-search-input {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.8rem;
+      padding: 6px 12px;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      width: 180px;
+    }
+    .graph-search-input:focus { border-color: var(--gold); }
+
+    .btn-close-graph {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-close-graph:hover { color: var(--red); border-color: var(--red); }
+
+    .graph-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    #graph-canvas {
+      flex: 1;
+      cursor: grab;
+    }
+    #graph-canvas:active { cursor: grabbing; }
+
+    .graph-info-panel {
+      width: 300px;
+      border-left: 1px solid var(--border);
+      background: var(--bg-secondary);
+      padding: 20px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .info-panel-placeholder {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-align: center;
+      margin-top: 60px;
+      line-height: 1.8;
+    }
+    .info-panel-placeholder span { font-size: 2.5rem; display: block; margin-bottom: 12px; }
+
+    .info-panel-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .info-panel-module {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .info-panel-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .connections-list { margin-top: 12px; }
+    .connection-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 4px;
+      font-size: 0.78rem;
+    }
+    .conn-arrow { color: var(--gold); font-size: 0.65rem; }
+    .conn-name { font-family: 'JetBrains Mono', monospace; color: var(--text-code); }
+
+    .graph-legend {
+      padding: 12px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    .legend-title { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+
+    /* ============================
+       ANIMATIONS
+    ============================ */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .animate-pulse { animation: pulse 2s ease infinite; }
+
+    /* Number counter */
+    .counter { display: inline-block; }
+
+    /* ============================
+       PART III - PATTERNS
+    ============================ */
+    .pattern-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 12px;
+      transition: var(--transition);
+    }
+    .pattern-card:hover { border-color: var(--border-accent); }
+    .pattern-title {
+      font-weight: 700;
+      color: var(--gold);
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pattern-desc { font-size: 0.83rem; color: var(--text-secondary); line-height: 1.6; }
+
+    /* ============================
+       FOOTER
+    ============================ */
+    .footer {
+      margin-left: var(--sidebar-w);
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .footer-text { font-size: 0.8rem; color: var(--text-muted); }
+    .footer-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--gold);
+      background: var(--gold-dim);
+      border: 1px solid var(--border-accent);
+      padding: 4px 12px;
+      border-radius: 100px;
+    }
+
+    /* ============================
+       SCROLLSPY INDICATOR
+    ============================ */
+    .reading-progress {
+      position: fixed;
+      top: var(--header-h);
+      left: var(--sidebar-w);
+      right: 0;
+      height: 2px;
+      background: var(--border);
+      z-index: 99;
+    }
+    .reading-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- READING PROGRESS BAR -->
+<div class="reading-progress">
+  <div class="reading-progress-bar" id="progressBar"></div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <span class="logo">eCRM Docs</span>
+    <span class="logo-badge">BATB Platform</span>
+  </div>
+  <div class="header-search" id="searchBox">
+    <span class="search-icon">⌕</span>
+    <input type="text" id="searchInput" placeholder="Search tables, modules, sections…" autocomplete="off"/>
+  </div>
+  <div class="header-actions">
+    <button class="btn-graph" id="openGraph">
+      <span>◉</span> Knowledge Graph
+    </button>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand-title">Platform Overview</div>
+    <div class="sidebar-stats">
+      <div class="stat-chip">
+        <span class="num counter" data-target="131">0</span>
+        <span class="lbl">Tables</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num counter" data-target="14">0</span>
+        <span class="lbl">Modules</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num counter" data-target="5">0</span>
+        <span class="lbl">Views</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num counter" data-target="138">0</span>
+        <span class="lbl">Total</span>
+      </div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">
+      <div class="nav-section-title">Navigation</div>
+      <a class="nav-item" href="#hero" onclick="return navTo('hero')"><span class="nav-dot"></span>Overview</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Part I — Business</div>
+      <a class="nav-item" href="#biz-overview" onclick="return navTo('biz-overview')"><span class="nav-dot"></span>eCRM Overview</a>
+      <a class="nav-item" href="#biz-why" onclick="return navTo('biz-why')"><span class="nav-dot"></span>Why This Exists</a>
+      <a class="nav-item" href="#biz-how" onclick="return navTo('biz-how')"><span class="nav-dot"></span>How It's Run</a>
+      <a class="nav-item" href="#biz-objectives" onclick="return navTo('biz-objectives')"><span class="nav-dot"></span>Objectives</a>
+      <a class="nav-item" href="#biz-data" onclick="return navTo('biz-data')"><span class="nav-dot"></span>Data Collection</a>
+      <a class="nav-item" href="#biz-market" onclick="return navTo('biz-market')"><span class="nav-dot"></span>Market Analysis</a>
+      <a class="nav-item" href="#biz-benefits" onclick="return navTo('biz-benefits')"><span class="nav-dot"></span>Expected Benefits</a>
+      <a class="nav-item" href="#biz-users" onclick="return navTo('biz-users')"><span class="nav-dot"></span>Who Are the Users</a>
+      <a class="nav-item" href="#biz-products" onclick="return navTo('biz-products')"><span class="nav-dot"></span>BATB Products</a>
+      <a class="nav-item" href="#biz-jml" onclick="return navTo('biz-jml')"><span class="nav-dot"></span>JML Process</a>
+      <a class="nav-item" href="#biz-reports" onclick="return navTo('biz-reports')"><span class="nav-dot"></span>Report Manager</a>
+      <a class="nav-item" href="#biz-location" onclick="return navTo('biz-location')"><span class="nav-dot"></span>Location Hierarchy</a>
+      <a class="nav-item" href="#biz-ptr" onclick="return navTo('biz-ptr')"><span class="nav-dot"></span>PTR</a>
+      <a class="nav-item" href="#biz-brands" onclick="return navTo('biz-brands')"><span class="nav-dot"></span>Brand Definitions</a>
+      <a class="nav-item" href="#biz-types" onclick="return navTo('biz-types')"><span class="nav-dot"></span>Types of Users</a>
+      <a class="nav-item" href="#biz-agencies" onclick="return navTo('biz-agencies')"><span class="nav-dot"></span>Agencies</a>
+      <a class="nav-item" href="#biz-arch" onclick="return navTo('biz-arch')"><span class="nav-dot"></span>Architecture</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Part II — Database</div>
+      <a class="nav-item" href="#db-nav" onclick="return navTo('db-nav')"><span class="nav-dot"></span>Navigation & Summary</a>
+      <a class="nav-item module-nav-item" href="#module-1" onclick="return navTo('module-1')"><span class="nav-dot"></span>M1: Users & Identity</a>
+      <a class="nav-item module-nav-item" href="#module-2" onclick="return navTo('module-2')"><span class="nav-dot"></span>M2: Roles & RBAC</a>
+      <a class="nav-item module-nav-item" href="#module-3" onclick="return navTo('module-3')"><span class="nav-dot"></span>M3: JML Workflow</a>
+      <a class="nav-item module-nav-item" href="#module-4" onclick="return navTo('module-4')"><span class="nav-dot"></span>M4: Location Hierarchy</a>
+      <a class="nav-item module-nav-item" href="#module-5" onclick="return navTo('module-5')"><span class="nav-dot"></span>M5: Campaigns</a>
+      <a class="nav-item module-nav-item" href="#module-6" onclick="return navTo('module-6')"><span class="nav-dot"></span>M6: Products & SKU</a>
+      <a class="nav-item module-nav-item" href="#module-7" onclick="return navTo('module-7')"><span class="nav-dot"></span>M7: Field Contacts</a>
+      <a class="nav-item module-nav-item" href="#module-8" onclick="return navTo('module-8')"><span class="nav-dot"></span>M8: QA & Supervision</a>
+      <a class="nav-item module-nav-item" href="#module-9" onclick="return navTo('module-9')"><span class="nav-dot"></span>M9: Dialer Workflows</a>
+      <a class="nav-item module-nav-item" href="#module-10" onclick="return navTo('module-10')"><span class="nav-dot"></span>M10: Rewards & Coupons</a>
+      <a class="nav-item module-nav-item" href="#module-11" onclick="return navTo('module-11')"><span class="nav-dot"></span>M11: Reporting</a>
+      <a class="nav-item module-nav-item" href="#module-12" onclick="return navTo('module-12')"><span class="nav-dot"></span>M12: Communications</a>
+      <a class="nav-item module-nav-item" href="#module-13" onclick="return navTo('module-13')"><span class="nav-dot"></span>M13: Leave Management</a>
+      <a class="nav-item module-nav-item" href="#module-14" onclick="return navTo('module-14')"><span class="nav-dot"></span>M14: AAI Audio Auditing</a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Part III — Summary</div>
+      <a class="nav-item" href="#part-iii" onclick="return navTo('part-iii')"><span class="nav-dot"></span>Document Summary</a>
+      <a class="nav-item" href="#patterns" onclick="return navTo('patterns')"><span class="nav-dot"></span>Architectural Patterns</a>
+      <a class="nav-item" href="#totals" onclick="return navTo('totals')"><span class="nav-dot"></span>Document Totals</a>
+    </div>
+  </nav>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-eyebrow">
+      <span class="animate-pulse">●</span>
+      BATB eCRM Platform — Complete Reference
+    </div>
+    <h1 class="hero-title">eCRM Complete Documentation</h1>
+    <p class="hero-sub">Business Overview &amp; Database Schema Reference for the BATB eCRM Platform. Covering all modules, tables, views, workflows, and architectural patterns.</p>
+
+    <div class="disclaimer-box">
+      <span class="disclaimer-icon">⚠️</span>
+      <div class="disclaimer-text">
+        <strong>সতর্কতা / Disclaimer:</strong> The database structure documented here reflects a point-in-time snapshot and <strong>may change in the future</strong> as the application evolves (new columns, new tables, altered constraints, etc.). This document is <strong>not automatically synced</strong> with the live database — to get accurate, up-to-date information, this document must be <strong>manually reviewed and updated</strong> whenever the schema changes.
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num counter" data-target="131">0</div>
+        <div class="hero-stat-label">Database Tables</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num counter" data-target="14">0</div>
+        <div class="hero-stat-label">Functional Modules</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num counter" data-target="5">0</div>
+        <div class="hero-stat-label">Views / Mat. Views</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num counter" data-target="138">0</div>
+        <div class="hero-stat-label">Total Entries</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PART I: BUSINESS DOCUMENTATION
+  ========================================== -->
+  <div class="doc-section" id="part-i-header">
+    <div class="part-divider">
+      <div class="part-divider-line"></div>
+      <div class="part-divider-label">Part I — Business Documentation</div>
+      <div class="part-divider-line"></div>
+    </div>
+  </div>
+
+  <!-- eCRM Overview -->
+  <section class="doc-section" id="biz-overview">
+    <div class="content">
+      <h2 class="section-title">eCRM Overview</h2>
+      <p><strong>Owner:</strong> BATB — British American Tobacco Bangladesh</p>
+      <p><strong>eCRM</strong> is a centralized platform designed to manage consumer data, marketing activities, surveys, product insights, and campaign execution in a structured, data-driven way.</p>
+    </div>
+  </section>
+
+  <!-- Why This Business Exists -->
+  <section class="doc-section" id="biz-why">
+    <div class="content">
+      <h2 class="section-title">Why This Business Exists</h2>
+      <ul>
+        <li>Smoking advertisements are <strong>not allowed</strong> in public media or billboards.</li>
+        <li>Therefore, the company must <strong>reach consumers directly</strong> through person-to-person interactions.</li>
+        <li>The only effective way to contact smokers is by <strong>visiting outlets</strong>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- How The Business is Run -->
+  <section class="doc-section" id="biz-how">
+    <div class="content">
+      <h2 class="section-title">How the Business is Run</h2>
+      <ul>
+        <li>Multiple <strong>campaigns</strong> are designed with <strong>survey questions</strong>.</li>
+        <li><strong>RAs (Retail Agents)</strong> visit outlets and interact <strong>one-on-one</strong> with consumers who smoke.</li>
+        <li>They ask questions to <strong>collect data and preferences</strong> from consumers.</li>
+        <li>All consumers must be <strong>18 years or older</strong>.</li>
+        <li>The data collected is used to <strong>understand consumer behavior and preferences</strong>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Objectives -->
+  <section class="doc-section" id="biz-objectives">
+    <div class="content">
+      <h2 class="section-title">Objectives</h2>
+      <ul>
+        <li>Collect consumer and product-related data.</li>
+        <li>Use surveys as a primary engagement and insight tool.</li>
+        <li>Collect and analyze historical data.</li>
+        <li>Perform competitor and internal product analysis.</li>
+        <li>Design and execute requirement-based, campaign-wise marketing flows.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Data Collection -->
+  <section class="doc-section" id="biz-data">
+    <div class="content">
+      <h2 class="section-title">Data Collection Process</h2>
+      <ul>
+        <li>Campaign interactions (consumer details and products).</li>
+        <li>Survey responses.</li>
+        <li>Campaign-wise survey responses.</li>
+      </ul>
+      <p>All collected data is stored in a centralized database for analysis and campaign planning.</p>
+    </div>
+  </section>
+
+  <!-- Market Analysis -->
+  <section class="doc-section" id="biz-market">
+    <div class="content">
+      <h2 class="section-title">Market &amp; Product Analysis</h2>
+      <h3 class="subsection-title">Competitor Analysis</h3>
+      <p>The eCRM system supports competitor analysis by tracking:</p>
+      <ul>
+        <li>Competitor product offerings.</li>
+        <li>Promotions and campaign trends.</li>
+        <li>Market positioning.</li>
+      </ul>
+      <p>This data helps in identifying gaps and opportunities in the market.</p>
+      <h3 class="subsection-title">Own Product Analysis</h3>
+      <p>Internal product analysis focuses on:</p>
+      <ul>
+        <li>Sales trends.</li>
+        <li>Customer engagement levels.</li>
+        <li>Survey feedback.</li>
+        <li>Product lifecycle stage.</li>
+      </ul>
+      <h3 class="subsection-title">New Product Promotion</h3>
+      <p>For new products, eCRM enables:</p>
+      <ul>
+        <li>Target audience identification.</li>
+        <li>Survey-based validation before launch.</li>
+        <li>Campaign testing (pilot campaigns).</li>
+        <li>Performance tracking after launch.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="doc-section" id="biz-benefits">
+    <div class="content">
+      <h2 class="section-title">Expected Benefits</h2>
+      <ul>
+        <li>Better customer understanding.</li>
+        <li>Reduced dependency on traditional advertising.</li>
+        <li>Data-driven decision making.</li>
+        <li>Improved product-market fit.</li>
+        <li>Higher campaign effectiveness and ROI.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Who Are the Users -->
+  <section class="doc-section" id="biz-users">
+    <div class="content">
+      <h2 class="section-title">Who Are the Users</h2>
+      <ul>
+        <li><strong>User:</strong> The person who <strong>uses the eCRM app</strong> to conduct surveys or is involved in the system (e.g., RA, campaign manager).</li>
+        <li><strong>Consumer:</strong> The person whose <strong>data is collected</strong> through surveys.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- BATB Products -->
+  <section class="doc-section" id="biz-products">
+    <div class="content">
+      <h2 class="section-title">BATB Products</h2>
+      <p>BATB works on 2 products:</p>
+      <div class="user-type-grid">
+        <div class="user-type-card">
+          <div class="user-type-code">Franchise</div>
+          <div class="user-type-role">Brand of BATB</div>
+        </div>
+        <div class="user-type-card">
+          <div class="user-type-code">SOB</div>
+          <div class="user-type-role">Non-BATB product</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JML Process -->
+  <section class="doc-section" id="biz-jml">
+    <div class="content">
+      <h2 class="section-title">Joiner–Mover–Leaver (JML) Process</h2>
+      <p>The <strong>Joiner–Mover–Leaver (JML)</strong> process is implemented in the system to manage user lifecycle events in a <strong>controlled, secure, and auditable</strong> manner.</p>
+      <p>The JML process applies to <strong>all management users and roles</strong>, including but not limited to <strong>AC, SUP, RA</strong>, and other applicable user categories. It governs <strong>user onboarding</strong>, <strong>role or access changes</strong>, and <strong>user deactivation or reactivation</strong> through defined and approved workflows.</p>
+      <h3 class="subsection-title">JML Stages</h3>
+      <ol>
+        <li><strong>Joiner</strong> — Creation and activation of a new user account.</li>
+        <li><strong>Mover</strong> — Modification of an existing user's role or access permissions.</li>
+        <li><strong>Leaver</strong> — Deactivation of a user account due to employee exit or role change.</li>
+      </ol>
+      <h3 class="subsection-title">Governance and Approvals</h3>
+      <ul>
+        <li>All JML requests are <strong>initiated within the system</strong>.</li>
+        <li>Each request requires <strong>approval according to the configured workflow</strong>.</li>
+        <li>All actions are <strong>logged and auditable</strong> to ensure compliance and security.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Report Manager -->
+  <section class="doc-section" id="biz-reports">
+    <div class="content">
+      <h2 class="section-title">Report Manager</h2>
+      <h3 class="subsection-title">Daily Raw Report</h3>
+      <p>Provides raw campaign data generated on a daily basis.</p>
+      <h3 class="subsection-title">Call Check Back Report</h3>
+      <p>Records follow-up calls made to consumers to verify whether they were contacted, conducted as part of random quality checks.</p>
+      <h3 class="subsection-title">Live Observation Report</h3>
+      <p>Captures calls made to <strong>RA</strong> to ensure they are working properly and following defined processes.</p>
+      <h3 class="subsection-title">Surveys Campaign Raw Report</h3>
+      <p>In this campaign, no consumer information is taken — only questions and answers are captured, unlike the regular/Daily Raw Report campaign type.</p>
+      <h3 class="subsection-title">Call Center Report</h3>
+      <p>Used when a <strong>second contact</strong> with a consumer is required. This report supports running a <strong>call campaign</strong> to:</p>
+      <ul>
+        <li>Make follow-up announcements, or</li>
+        <li>Inform the consumer about and deliver details related to a <strong>gift or incentive</strong>.</li>
+      </ul>
+      <p>Enables structured and trackable communication for repeat consumer outreach.</p>
+      <h3 class="subsection-title">Dynamic Report</h3>
+      <p>Allows creation of <strong>dynamic reports</strong> with configurable parameters. Supports selecting a <strong>custom date range</strong> to filter and view data. Enables flexible analysis without the need for fixed or predefined reports.</p>
+      <h3 class="subsection-title">3 Most Important Tables for Reporting</h3>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>#</th><th>Table</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>contacts</td><td>Primary consumer interaction records</td></tr>
+            <tr><td>2</td><td>contact_survey_data_maps</td><td>Survey responses linked to contacts</td></tr>
+            <tr><td>3</td><td>locations</td><td>Geographic data for all contacts</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location Hierarchy -->
+  <section class="doc-section" id="biz-location">
+    <div class="content">
+      <h2 class="section-title">Location Hierarchy</h2>
+      <p>The system follows a structured location hierarchy to manage campaigns and contact points:</p>
+      <div class="tree-box">
+        Region<br>
+        &nbsp;&nbsp;└─ Area<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Territory<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ House<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Point<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Route<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Cluster<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ Outlet &nbsp;&nbsp;<span style="color:var(--gold)">← Contact occurs here</span>
+      </div>
+      <h3 class="subsection-title">Key Notes</h3>
+      <ul>
+        <li><strong>Terminal point for contact: Outlet</strong> — all consumer or retailer contacts occur at the Outlet level.</li>
+        <li><strong>Campaign terminal point:</strong> Typically <strong>Point</strong>. In some cases, <strong>Cluster</strong> is used as the campaign terminal point.</li>
+        <li><strong>Outlet, Retailer, and POS</strong> all refer to the same entity. <strong>POS</strong> stands for <strong>Point of Sale</strong>.</li>
+        <li>Locations are assigned to a Cluster.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PTR -->
+  <section class="doc-section" id="biz-ptr">
+    <div class="content">
+      <h2 class="section-title">PTR (Purchase Through Retail)</h2>
+      <blockquote>
+        <p><strong>PTR refers to Purchase Through Retail and represents rewards or gifts provided to customers during a campaign period.</strong></p>
+      </blockquote>
+      <ul>
+        <li>During a campaign, the company offers a gift or reward to the customer.</li>
+        <li>In this context: <strong>Gift = PTR = Reward.</strong></li>
+        <li>In the database, PTR represents <strong>giveable</strong> items in the <strong>Contacts</strong> table.</li>
+        <li>PTR details are stored in the <strong>materials</strong> table.</li>
+        <li>PTR is also used to define Promotional Material Templates for campaign execution and tracking.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Brand Definitions -->
+  <section class="doc-section" id="biz-brands">
+    <div class="content">
+      <h2 class="section-title">Brand Definitions and Data Mapping</h2>
+      <h3 class="subsection-title">Brand Types</h3>
+      <ul>
+        <li><strong>Primary Brand</strong> — The brand the customer usually smokes.</li>
+        <li><strong>Secondary Brand</strong> — The brand smoked when the primary brand is unavailable.</li>
+        <li><strong>Previous Brand</strong> — A brand the customer smoked in the past.</li>
+      </ul>
+      <h3 class="subsection-title">Database Mapping</h3>
+      <p>In the <strong>contacts</strong> table:</p>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Column</th><th>Brand Type</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>product</td><td>Primary Brand</td><td>—</td></tr>
+            <tr><td>secondary_brand</td><td>Secondary Brand</td><td>—</td></tr>
+            <tr><td>previous_brand</td><td>Previous Brand</td><td>Introduced Q1 2025. Data prior will be NULL.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="subsection-title">Retrieving Brand Names</h3>
+      <p>Brand values in the <strong>contacts</strong> table are stored as IDs. To retrieve the brand names for Primary Brand, Secondary Brand, and Previous Brand, you must join the <strong>contacts</strong> table with the <strong>sku_items</strong> table <strong>three separate times</strong>, once for each brand reference.</p>
+    </div>
+  </section>
+
+  <!-- Types of Users -->
+  <section class="doc-section" id="biz-types">
+    <div class="content">
+      <h2 class="section-title">Types of Users</h2>
+      <div class="user-type-grid">
+        <div class="user-type-card">
+          <div class="user-type-code">DC</div>
+          <div class="user-type-role">District Coordinator</div>
+          <span class="user-type-access">Web Platform</span>
+        </div>
+        <div class="user-type-card">
+          <div class="user-type-code">AC</div>
+          <div class="user-type-role">Area Coordinator</div>
+          <span class="user-type-access">Web Platform</span>
+        </div>
+        <div class="user-type-card">
+          <div class="user-type-code">SUP</div>
+          <div class="user-type-role">Supervisor — RA's immediate boss; handles/escalates issues, assigns RAs</div>
+          <span class="user-type-access">Mobile App + Web</span>
+        </div>
+        <div class="user-type-card">
+          <div class="user-type-code">RA / BR / FF</div>
+          <div class="user-type-role">Brand Representative / Field Force</div>
+          <span class="user-type-access">Mobile App</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Agencies -->
+  <section class="doc-section" id="biz-agencies">
+    <div class="content">
+      <h2 class="section-title">Agencies and Coverage</h2>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Agency Code</th><th>Locations / Coverage</th></tr></thead>
+          <tbody>
+            <tr><td>Madly</td><td>Considered as our own internal team</td></tr>
+            <tr><td>ATMSL</td><td>Sylhet, Dhaka South</td></tr>
+            <tr><td>IMSL</td><td>Dhaka North, Chittagong</td></tr>
+            <tr><td>IMS</td><td>Rajshahi, Barishal, Khulna</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Architecture -->
+  <section class="doc-section" id="biz-arch">
+    <div class="content">
+      <h2 class="section-title">Data Storage and Analytics Architecture</h2>
+      <div class="arch-diagram">
+        <div class="arch-node">
+          <div class="arch-node-icon">🗃️</div>
+          <div class="arch-node-title">RDS / Transactional DB</div>
+          <div class="arch-node-sub">Day-to-day operations &amp; core application</div>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node" style="border-color:var(--border-accent);">
+          <div class="arch-node-icon">📊</div>
+          <div class="arch-node-title">BigQuery</div>
+          <div class="arch-node-sub">Dashboards, reporting &amp; large-scale analytics</div>
+        </div>
+      </div>
+      <ul>
+        <li>Operational data is stored in <strong>RDS / Transactional Databases</strong>, which are relational database systems used for day-to-day transactions and core application functionality.</li>
+        <li>For <strong>dashboards</strong>, <strong>reporting</strong>, and <strong>faster analytical processing</strong>, data is replicated or moved from the transactional database to <strong>BigQuery</strong>.</li>
+        <li><strong>BigQuery is used for:</strong> High-performance queries, large-scale data analysis, and dashboard and reporting workloads.</li>
+        <li><strong>This separation ensures:</strong> Optimized performance for transactional operations, and scalable and efficient analytics without impacting production systems.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PART II: DATABASE DOCUMENTATION
+  ========================================== -->
+  <div class="doc-section" id="part-ii-header">
+    <div class="part-divider">
+      <div class="part-divider-line"></div>
+      <div class="part-divider-label">Part II — Database Documentation</div>
+      <div class="part-divider-line"></div>
+    </div>
+  </div>
+
+  <!-- DB Navigation Summary -->
+  <section class="doc-section" id="db-nav">
+    <div class="content">
+      <h2 class="section-title">Database Navigation &amp; Table Summary</h2>
+      <p>The database documentation below is organized into <strong>14 functional modules</strong> covering every table and view in the ECRM schema. Each module groups tables that operate together in the same business workflow.</p>
+      <h3 class="subsection-title">Overall Totals</h3>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Type</th><th>Count</th></tr></thead>
+          <tbody>
+            <tr><td>Tables</td><td>131</td></tr>
+            <tr><td>Views / Materialized Views</td><td>5</td></tr>
+            <tr><td>Reference Diagrams / Workflow Notes</td><td>2</td></tr>
+            <tr><td><strong>Total documented entries</strong></td><td><strong>138</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="subsection-title">Module-Wise Breakdown</h3>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>#</th><th>Module</th><th>Tables</th><th>Views</th><th>Other</th><th>Total</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>User Accounts, Devices &amp; Identity</td><td>13</td><td>0</td><td>0</td><td>13</td></tr>
+            <tr><td>2</td><td>Roles, Agencies &amp; Access Control (RBAC)</td><td>13</td><td>0</td><td>1</td><td>14</td></tr>
+            <tr><td>3</td><td>JML &amp; Bulk User-Assignment Workflow</td><td>6</td><td>0</td><td>0</td><td>6</td></tr>
+            <tr><td>4</td><td>Location &amp; Geography Hierarchy</td><td>8</td><td>4</td><td>0</td><td>12</td></tr>
+            <tr><td>5</td><td>Campaigns, Targets &amp; Field-Force Staffing</td><td>13</td><td>1</td><td>0</td><td>14</td></tr>
+            <tr><td>6</td><td>Products, Materials &amp; SKU Catalogue</td><td>9</td><td>0</td><td>1</td><td>10</td></tr>
+            <tr><td>7</td><td>Field Contacts — Consumer &amp; Retailer</td><td>12</td><td>0</td><td>0</td><td>12</td></tr>
+            <tr><td>8</td><td>Field Quality Assurance &amp; Supervision</td><td>13</td><td>0</td><td>0</td><td>13</td></tr>
+            <tr><td>9</td><td>Dialer Workflows</td><td>8</td><td>0</td><td>0</td><td>8</td></tr>
+            <tr><td>10</td><td>Rewards, Assets &amp; Coupons</td><td>3</td><td>0</td><td>0</td><td>3</td></tr>
+            <tr><td>11</td><td>Reporting &amp; Dashboards</td><td>13</td><td>0</td><td>0</td><td>13</td></tr>
+            <tr><td>12</td><td>Communication &amp; Notifications</td><td>6</td><td>0</td><td>0</td><td>6</td></tr>
+            <tr><td>13</td><td>Leave Management</td><td>2</td><td>0</td><td>0</td><td>2</td></tr>
+            <tr><td>14</td><td>AAI Audio Auditing Subsystem</td><td>12</td><td>0</td><td>0</td><td>12</td></tr>
+            <tr><td></td><td><strong>Total</strong></td><td><strong>131</strong></td><td><strong>5</strong></td><td><strong>2</strong></td><td><strong>138</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       MODULES — rendered by JS
+  ========================================== -->
+  <section class="doc-section" id="modules-container">
+    <div id="modulesList"></div>
+  </section>
+
+  <!-- ==========================================
+       PART III: SUMMARY
+  ========================================== -->
+  <div class="doc-section" id="part-iii-header">
+    <div class="part-divider">
+      <div class="part-divider-line"></div>
+      <div class="part-divider-label">Part III — Document Summary</div>
+      <div class="part-divider-line"></div>
+    </div>
+  </div>
+
+  <section class="doc-section" id="part-iii">
+    <div class="content">
+      <h2 class="section-title">What This Document Covers</h2>
+      <p>This document consolidates two previously separate references into a single, navigable source of truth for the ECRM platform:</p>
+      <ul>
+        <li><strong>Part I — Business Documentation:</strong> the operating context for why ECRM exists, how campaigns and field operations run, the JML user-lifecycle process, the Report Manager's report types, the location hierarchy, PTR/reward mechanics, brand-tracking conventions, user types, and the analytics architecture (transactional DB → BigQuery).</li>
+        <li><strong>Part II — Database Documentation:</strong> a database-dictionary-style reference for <strong>138 documented entries</strong> (131 tables, 5 views, and 2 standalone workflow/relationship notes), grouped into <strong>14 functional modules</strong> spanning identity &amp; access, campaigns, field contacts, quality assurance, audio-based compliance auditing, dialer workflows, rewards, reporting, and communications.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="doc-section" id="patterns">
+    <div class="content">
+      <h2 class="section-title">Recurring Architectural Patterns</h2>
+      <p>These patterns show up repeatedly across many tables and are worth keeping in mind when writing new queries or onboarding a new team member:</p>
+
+      <div class="pattern-card">
+        <div class="pattern-title">🗑️ Soft Deletion</div>
+        <div class="pattern-desc">Almost every table uses <code>is_deleted</code> (boolean) rather than hard deletes. A smaller number use a distinct <code>active</code>/<code>is_current</code>/<code>status</code> flag alongside <code>is_deleted</code> for a separate "currently valid" concept.</div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-title">📅 Effective-Dating</div>
+        <div class="pattern-desc">Several tables (<code>sku_item_price</code>, <code>geo_location</code>, <code>consumers</code>, <code>campaign_joint_call_maps</code>, <code>campaign_callcheckback_maps</code>, <code>breakstation</code>) use <code>from_date</code>/<code>to_date</code>/<code>is_current</code> to preserve full history rather than overwriting values, typically with a far-future sentinel date (<code>9999-12-31</code>, occasionally <code>9999-12-30</code>) instead of NULL for "current."</div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-title">🔗 Unenforced Logical Foreign Keys</div>
+        <div class="pattern-desc">A large share of relationships that are clearly foreign keys by naming and usage (e.g. <code>user_id</code>, <code>campaign_id</code>, <code>location_id</code> on many tables) are <strong>not</strong> enforced at the database level — integrity depends entirely on the application layer.</div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-title">🗺️ "region_id means cluster_id" Naming Convention</div>
+        <div class="pattern-desc">Several tables (<code>consumer_dialer_list</code>, <code>retailer_outlet_dialer_list</code>, <code>users_camp_term_maps</code>) use a generically-named <code>region_id</code>/<code>location_id</code> column that actually stores a <strong>Cluster</strong>-level ID, not a Region or generic location node.</div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-title">📊 Partitioning by Date</div>
+        <div class="pattern-desc">High-volume transactional tables (<code>contacts</code>, <code>surveys</code>, <code>contact_survey_data_maps</code>, <code>otp_verifications</code>, <code>aai_verified_audios</code>, <code>aai_audio_assign_maps</code>) use composite primary keys <code>(id, date_column)</code>, indicating range partitioning by that date column.</div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-title">📋 Denormalized Survey/JSON Storage</div>
+        <div class="pattern-desc">Campaign questionnaires are frequently stored as structured JSONB (<code>campaign_joint_call_maps.joint_call</code>, <code>campaign_callcheckback_maps.survey</code>) with parallel normalized answer tables (<code>*_survey_data_maps</code>) — the JSON defines the question tree and branching logic, while the answer tables record what was actually captured per interaction.</div>
+      </div>
+
+      <div class="pattern-card">
+        <div class="pattern-title">🏷️ SKU-Level Brand Tracking</div>
+        <div class="pattern-desc"><code>product</code>/<code>secondary_brand</code>/<code>previous_brand</code> columns across <code>contacts</code>, <code>consumers</code>, and dialer contact tables reference <code>sku_items.id</code> (SKU-level), not <code>products.id</code> (brand level), despite the generic column names.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Document Totals -->
+  <section class="doc-section" id="totals">
+    <div class="content">
+      <h2 class="section-title">Document Totals</h2>
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Item</th><th>Count</th></tr></thead>
+          <tbody>
+            <tr><td>Business documentation sections</td><td>17</td></tr>
+            <tr><td>Database modules</td><td>14</td></tr>
+            <tr><td>Tables documented</td><td>131</td></tr>
+            <tr><td>Views documented</td><td>5</td></tr>
+            <tr><td>Standalone reference/workflow notes</td><td>2</td></tr>
+            <tr><td><strong>Total database entries</strong></td><td><strong>138</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-text">BATB eCRM Platform Documentation — Point-in-time snapshot. Verify against live schema before production use.</div>
+  <div class="footer-badge">🏛️ eCRM Knowledge Graph</div>
+</footer>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-results-title" id="searchResultsTitle">Type to search…</div>
+  <div id="searchResultsList"></div>
+</div>
+
+<!-- KNOWLEDGE GRAPH MODAL -->
+<div class="graph-modal" id="graphModal">
+  <div class="graph-modal-header">
+    <div class="graph-modal-title">
+      <span>◉</span> eCRM Knowledge Graph
+      <span class="graph-title-badge">131 Tables · 14 Modules · Interactive</span>
+    </div>
+    <div class="graph-controls">
+      <input class="graph-search-input" id="graphSearchInput" type="text" placeholder="Find a node…"/>
+      <select class="graph-filter-select" id="graphModuleFilter">
+        <option value="all">All Modules</option>
+        <option value="1">M1: Users &amp; Identity</option>
+        <option value="2">M2: Roles &amp; RBAC</option>
+        <option value="3">M3: JML Workflow</option>
+        <option value="4">M4: Location Hierarchy</option>
+        <option value="5">M5: Campaigns</option>
+        <option value="6">M6: Products &amp; SKU</option>
+        <option value="7">M7: Field Contacts</option>
+        <option value="8">M8: QA &amp; Supervision</option>
+        <option value="9">M9: Dialer Workflows</option>
+        <option value="10">M10: Rewards</option>
+        <option value="11">M11: Reporting</option>
+        <option value="12">M12: Communications</option>
+        <option value="13">M13: Leave Management</option>
+        <option value="14">M14: AAI Auditing</option>
+      </select>
+      <button class="btn-close-graph" id="closeGraph">✕</button>
+    </div>
+  </div>
+  <div class="graph-body">
+    <svg id="graph-canvas"></svg>
+    <div class="graph-info-panel" id="graphInfoPanel">
+      <div class="info-panel-placeholder">
+        <span>◉</span>
+        Click any node to explore its connections and details
+      </div>
+    </div>
+  </div>
+  <div class="graph-legend" id="graphLegend"></div>
+</div>
+
+<script>
+// =====================================================
+//  DATA — All 14 Modules with Tables
+// =====================================================
+const MODULES = [
+  {
+    id: 1,
+    title: "User Accounts, Devices & Identity",
+    items: 13,
+    color: "#3b82f6",
+    tables: [
+      { name: "users", type: "Table", purpose: "Central master table for all ECRM users, including Business Representatives (BRs), Supervisors, Area Managers, Administrators, and other system users. Core system entity referenced by most operational modules.", pk: "id", fks: [], cols: ["id","username","email","user_type","password","password_history","pass_exp","reset_stts","active_stts","is_deleted","joining_date","created_at","updated_at","is_locked","password_reset_by","mfa_qr","mfa_enables","mfa_secret","is_auditor","leaving_date","last_login","uid","original_user_id","one_id"], notes: ["Core master table for user management.", "Supports password hashing, history, expiration, and optional MFA.", "Soft deletion via is_deleted preserves audit data.", "Account lifecycle tracked via joining_date, leaving_date, active_stts, is_locked, last_login."] },
+      { name: "user_infos", type: "Table", purpose: "Stores extended personal and employment information for users. Separates profile/HR details from authentication data in the users table.", pk: "id", fks: ["user_id → users.id"], cols: ["id","user_id","full_name","designation","personal_contact","official_contact","dob","blood_group","gender","religion","user_avatar","created_at","updated_at","is_deleted","employment_type"], notes: ["Each profile record linked to a user via user_id FK.", "dob column is varchar(255) despite representing a date — potential integrity risk."] },
+      { name: "user_details", type: "Table", purpose: "Stores additional personal, residential, emergency contact, and identity verification information for users.", pk: "id", fks: [], cols: ["id","user_id","father_name","mother_name","pre_address","per_address","emergency_contact_name","emergency_contact_num","emergency_contact_relationship","emergency_contact_address","created_at","updated_at","verification_type","verification_no","verification_attachment_link","is_deleted"], notes: ["user_id has no enforced FK to users.id.", "verification_attachment_link is a PostgreSQL text array allowing multiple document uploads."] },
+      { name: "device_registers", type: "Table", purpose: "Stores information about devices that access the ECRM system. Central registry for device management — authorizing or blocking devices.", pk: "id", fks: [], cols: ["id","device_id","model_name","last_login","brand","authorize","block","created_at","updated_at"], notes: ["Each device uniquely identified by device_id.", "Access managed via authorize and block flags."] },
+      { name: "user_device_maps", type: "Table", purpose: "Maps users to the devices they use to access the ECRM system. Tracks device usage and enforces device-level access control.", pk: "id", fks: [], cols: ["id","user_id","device_id","is_deleted","created_at","updated_at"], notes: ["No enforced FKs on user_id or device_id.", "Historical mappings retained for audit via is_deleted."] },
+      { name: "user_apk_maps", type: "Table", purpose: "Tracks which specific app build/version (app_versions) has been installed on which user's device. Supports app-version compliance tracking.", pk: "id", fks: ["user_id → users.id","apk_id → app_versions.id"], cols: ["id","user_id","device_id","apk_id","install_time","is_deleted"], notes: ["Allows confirming exactly which app version is on which device.", "Appears to be an install history log, not a single current-state record."] },
+      { name: "app_versions", type: "Table", purpose: "Registry of mobile application build/release versions. Tracks which version is current, whether update is mandatory, APK download location.", pk: "id", fks: ["uploaded_by → users.id"], cols: ["id","name","version","platform","force","url","uploaded_by","is_current","is_deleted","created_at","updated_at","md5"], notes: ["Drives app version-check and forced-update logic.", "is_current should ideally be true for exactly one active row per platform.", "version is enforced unique across the whole table."] },
+      { name: "app_version_control", type: "Table", purpose: "A minimal table recording the launch date of each numbered application version release.", pk: "id", fks: [], cols: ["id","version","launch_date"], notes: ["Simple version-release timeline log.", "No soft-delete, update timestamp, or additional metadata — minimal append-only release log."] },
+      { name: "thirdparties", type: "Table", purpose: "Registry of external third-party systems/integration partners authorized to programmatically access or write campaign data into ECRM.", pk: "id", fks: [], cols: ["id","username","password","description","api_documentation_provided","api_documentation_recieved","is_active"], notes: ["Credentials are hashed, consistent with users.password security approach.", "Access managed via is_active rather than soft-delete flag."] },
+      { name: "forget_password_otp_verify", type: "Table", purpose: "Records OTP verification attempts specifically for the forgot-password flow. Distinct from general campaign-consumer OTP flow in otp_verifications.", pk: "id", fks: [], cols: ["id","user_id","method_type","otp_code","otp_expire","is_verified","created_at","updated_at"], notes: ["otp_expire enforces a time-boxed validity window.", "Unique constraint on (user_id, otp_code, is_verified)."] },
+      { name: "otp_verifications", type: "Table", purpose: "Records each one-time-password (OTP) verification attempt sent to a consumer's phone during a campaign contact. Composite PK: (id, contact_date).", pk: "(id, contact_date)", fks: [], cols: ["id","user_id","cmp_id","contact_no","contact_date","code","otp","jwt","verify","created_at","updated_at","platform_type","status","sent_time","verification_time","gateway_response"], notes: ["Full audit log: OTP generation → SMS dispatch → consumer confirmation.", "JWT encodes OTP and expiry time — allows validation without fresh DB round-trip.", "Date-partitioned table following same pattern as contacts."] },
+      { name: "porichoy_infos", type: "Table", purpose: "Stores National ID (NID) verification data retrieved from Bangladesh's 'Porichoy' identity-verification service. Integration is no longer active — historical data only.", pk: "id", fks: [], cols: ["id","uid","nid_details"], notes: ["Integration discontinued — no new records will be added.", "Contains highly sensitive PII — access should be tightly restricted.", "nid_details is JSONB containing full NID demographic details."] },
+      { name: "audit_logs", type: "Table", purpose: "Records a general-purpose security/activity audit trail across the ECRM application — capturing who did what, from where, on which resource, with what payload.", pk: "id", fks: [], cols: ["id","user_id","ip_address","browser","service","resource","action","document","payload","createdAt","updatedAt"], notes: ["System-wide audit/activity log for all administrative actions.", "payload captures complete state/data of the action at time it occurred.", "camelCase createdAt/updatedAt naming inconsistent with schema's snake_case convention.", "No is_deleted — audit logs are immutable by design."] }
+    ]
+  },
+  {
+    id: 2,
+    title: "Roles, Agencies & Access Control (RBAC)",
+    items: 14,
+    color: "#8b5cf6",
+    tables: [
+      { name: "agencies", type: "Table", purpose: "Stores the master list of agencies associated with the ECRM system. Agencies represent third-party organizations responsible for managing field force personnel.", pk: "id", fks: [], cols: ["id","name","tag","description","address","email","phone_number","contact_person","is_deleted","created_at","updated_at","image"], notes: ["Master repository of agencies.", "Referenced by users_agency_maps, campaign_agency_maps, agency_resource_map, role_agency_maps."] },
+      { name: "users_agency_maps", type: "Table", purpose: "Maps users to their associated agency. Establishes the organizational relationship between user accounts and agencies.", pk: "id", fks: [], cols: ["id","user_id","agency_id","is_deleted","created_at","updated_at"], notes: ["A user may have multiple mapping records over time due to agency transfers."] },
+      { name: "agency_resource_map", type: "Table", purpose: "Bridge table granting a specific external agency access to a specific application resource. Agency-side counterpart to role_resource_maps.", pk: "id", fks: ["agency_id → agencies.id"], cols: ["id","agency_id","resource_id","delete_marker","created_at","updated_at","is_deleted"], notes: ["Has two soft-delete columns (delete_marker and is_deleted) — schema anomaly.", "Query filtering active records should check both columns."] },
+      { name: "user_approval_maps", type: "Table", purpose: "Stores the approval history and current approval status of users. Maintains a complete audit trail of approval decisions.", pk: "id", fks: [], cols: ["id","user_id","approved_status","approved_by","comment","approved_at","is_active","created_at","updated_at","is_deleted"], notes: ["Complete approval history for each user — multiple records per user.", "Approval statuses: 4=Pending, 5=Rejected, 6=Approved, 7=Terminate Requested, 8=Terminated.", "is_active identifies the current effective approval status."] },
+      { name: "settings._cats", type: "Table", purpose: "Stores configurable lookup values (master categories) used throughout the ECRM application. Centralized management of status values, types, and categories.", pk: "id", fks: [], cols: ["id","parent","slug","display_label","status","createdAt","updatedAt","rank"], notes: ["Central master lookup repository.", "Categories organized hierarchically via parent column.", "Business tables store the id of a lookup record rather than hardcoded text."] },
+      { name: "settings.resources", type: "Table", purpose: "Master catalog of all application resources (menus, pages, modules, features) that can be secured through role-based permissions.", pk: "id", fks: [], cols: ["id","display_label","parent","resource_type","created_at","updated_at","is_deleted","resource_description","stts","platform_type"], notes: ["Every screen, module, or feature defined as a resource.", "Resources assigned to roles through role_resource_maps.", "Supports dynamic UI generation and backend authorization."] },
+      { name: "roles", type: "Table", purpose: "Defines all user roles within the ECRM system (BR, Supervisor, Area Manager, Admin). Foundation of the RBAC model.", pk: "id", fks: [], cols: ["id","name","description","platform","active_status","top_ff","is_deleted","created_at","updated_at","role_type","report_to","lowest_ff","top_mgt"], notes: ["Every user has one role.", "Roles control permissions, menus, reporting hierarchy, geographic scope."] },
+      { name: "role_agency_maps", type: "Table", purpose: "Maps roles to agencies, defining which agencies are allowed to use specific role types.", pk: "id", fks: ["role_id → roles.id","agency_id → agencies.id"], cols: ["id","role_id","agency_id","created_at","updated_at","is_deleted"], notes: ["Different agencies may have different organizational structures.", "Controls which roles can exist within each agency."] },
+      { name: "role_location_maps", type: "Table", purpose: "Assigns users (with a specific role) to one or more geographic locations. Enforces location-based data visibility.", pk: "id", fks: ["assigned_to → users.id","assigned_role → roles.id"], cols: ["id","assigned_by","assigned_to","assigned_role","location","from_date","to_date","is_current","is_deleted","created_at","updated_at","hierarchy_offset"], notes: ["Controls geographic access.", "location column stores int4[] array of location IDs.", "hierarchy_offset identifies which level of the location hierarchy is represented."] },
+      { name: "role_report_to_maps", type: "Table", purpose: "Defines the reporting hierarchy between role types. Stores organizational policy for roles (unlike user_sup_maps which stores user-to-user).", pk: "id", fks: ["role_id → roles.id","report_to_id → roles.id"], cols: ["id","role_id","report_to_id","is_deleted","created_at","updated_at"], notes: ["Self-referential — defines organizational reporting policy.", "Multiple child roles may report to the same parent role."] },
+      { name: "role_resource_maps", type: "Table", purpose: "Maps roles to application resources (menus, pages, APIs, features). Implements the permission model.", pk: "id", fks: ["role_id → roles.id","resource_id → settings.resources.id"], cols: ["id","role_id","resource_id","created_at","updated_at","is_deleted"], notes: ["One role may have many resources.", "Drives UI and backend authorization."] },
+      { name: "role_tree_maps", type: "Table", purpose: "Stores a precomputed role hierarchy tree to accelerate recursive role traversal and authorization queries.", pk: "id", fks: [], cols: ["id","parent_id","role_id","is_deleted","created_at","updated_at"], notes: ["Precomputed hierarchy for performance.", "Avoids expensive recursive queries at runtime."] },
+      { name: "user_sup_maps", type: "Table", purpose: "Maps users to their direct supervisor. Records actual user-to-user reporting relationships.", pk: "id", fks: ["user_id → users.id","reportto_id → users.id"], cols: ["id","user_id","reportto_id","is_current","is_deleted","from_date","to_date","created_at","updated_at"], notes: ["Distinct from role_report_to_maps which defines policy.", "is_current flags the active reporting assignment."] }
+    ]
+  },
+  {
+    id: 3,
+    title: "JML & Bulk User-Assignment Workflow",
+    items: 6,
+    color: "#f59e0b",
+    tables: [
+      { name: "jml_tickets", type: "Table", purpose: "Central table implementing the Joiner–Mover–Leaver (JML) process. Each ticket represents one lifecycle event: onboarding a new user (Joiner), changing role/access (Mover), or deactivating (Leaver).", pk: "id", fks: [], cols: ["id","full_name","official_contact","email","designation","dob","username","password","lm_email","execute_date","type","created_at","updated_at","assigned_role","hierarchy_offset","locations","is_deleted","ticket_code","requester_email","one_id","account_type","azure_status","requester_role"], notes: ["execute_date and dob stored as varchar — data integrity risk.", "locations is an integer array of location IDs.", "azure_status indicates if Azure AD provisioning is complete."] },
+      { name: "ticket_status_maps", type: "Table", purpose: "Records the approval/status history for a jml_tickets record — one row per status change. Auditable trail for JML governance.", pk: "id", fks: ["created_by → users.id"], cols: ["id","ticket_id","status","created_by","is_active","is_deleted","created_at","updated_at","comments"], notes: ["is_active flags the currently-live status among historical rows.", "Complete approval history preserved — not overwritten."] },
+      { name: "user_ticket_maps", type: "Table", purpose: "Bridge table linking a jml_tickets record to the specific user account it concerns. Allows tracing a ticket back to the concrete users.id record.", pk: "id", fks: [], cols: ["id","user_id","ticket_id","is_deleted","created_at","updated_at"], notes: ["For Joiner: connects newly-created users.id back to ticket.", "For Mover/Leaver: connects existing user being changed."] },
+      { name: "user_ticket_role_maps", type: "Table", purpose: "Bridge table linking a JML ticket to a specific role context for a user — capturing which role a user held at the time of a given ticket action.", pk: "id", fks: [], cols: ["id","ticket_id","user_id","is_deleted","created_at","updated_at"], notes: ["Structurally similar to user_ticket_maps — precise distinction should be confirmed with app team."] },
+      { name: "bulk_assignment_tickets", type: "Table", purpose: "Supports bulk BR assignment during campaign onboarding — allows a supervisor to assign multiple BRs to a role, reporting line, and locations all at once, routed to HR for approval.", pk: "id", fks: [], cols: ["id","ticket_code","requested_by","requested_at","bulk_data","created_at","updated_at","requester_agency","requester_email","is_deleted"], notes: ["bulk_data JSONB contains role_id, user_ids array, reportto_id, and location_ids array.", "ticket_code is enforced unique.", "Routed to HR for approval before assignments take effect."] },
+      { name: "bulk_assignment_ticket_status_maps", type: "Table", purpose: "Tracks the HR approval status history for a bulk_assignment_tickets record. Each row represents one status entry in the approval workflow.", pk: "id", fks: ["ticket_id → bulk_assignment_tickets.id"], cols: ["id","ticket_id","status","created_by","is_deleted","created_at","updated_at","is_active","comments"], notes: ["status defaulting to 4 suggests Pending initial state.", "is_active flags the currently-live status.", "HR approval audit trail."] }
+    ]
+  },
+  {
+    id: 4,
+    title: "Location & Geography Hierarchy",
+    items: 12,
+    color: "#10b981",
+    tables: [
+      { name: "locations", type: "Table", purpose: "Core location/geography node table. Stores every node in the full location tree (Region → Area → Territory → House → Point → Route → Cluster → Outlet).", pk: "id", fks: ["type → hierarchy.id","parent → locations.id"], cols: ["id","name","code","type","parent","is_deleted","created_at","updated_at"], notes: ["Self-referential via parent column.", "type determines the level in the hierarchy.", "Terminal leaf nodes are Outlets."] },
+      { name: "hierarchy", type: "Table", purpose: "Defines the named levels in the location hierarchy (Region, Area, Territory, etc.). Each node in locations references a level in this table.", pk: "id", fks: ["parent → hierarchy.id"], cols: ["id","name","order","parent","is_deleted","created_at","updated_at"], notes: ["Defines hierarchy levels, not individual locations.", "Self-referential via parent."] },
+      { name: "geo_location", type: "Table", purpose: "Stores GPS coordinates (latitude/longitude) associated with specific locations over time, with effective-dating.", pk: "id", fks: [], cols: ["id","location_id","lat","lng","from_date","to_date","is_current"], notes: ["Effective-dated using from_date/to_date/is_current.", "Supports historical GPS tracking of location changes."] },
+      { name: "region_area", type: "Table", purpose: "Legacy or supplementary mapping of Region to Area relationships, likely predating the unified locations table.", pk: "id", fks: [], cols: ["id","region_id","area_id"], notes: ["May be a legacy table — confirm active usage with app team."] },
+      { name: "breakstation", type: "Table", purpose: "Stores breakstation (distribution point) records associated with the location hierarchy, used in material/logistics flows.", pk: "id", fks: [], cols: ["id","name","code","location_id","is_deleted","from_date","to_date","is_current","created_at","updated_at"], notes: ["Effective-dated record.", "date columns stored as varchar — type inconsistency flagged."] },
+      { name: "breakstation_dp", type: "Table", purpose: "Maps breakstations to distribution points (DPs), defining supply chain links in the location hierarchy.", pk: "id", fks: [], cols: ["id","breakstation_id","dp_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "dp_region", type: "Table", purpose: "Maps distribution points (DPs) to regions. Supplements the main locations hierarchy for DP-specific reporting.", pk: "id", fks: [], cols: ["id","dp_id","region_id","is_deleted"], notes: [] },
+      { name: "all_old_location", type: "Table", purpose: "Archive of historical location records that existed before the current locations table structure. Preserved for historical reporting.", pk: "id", fks: [], cols: ["id","name","code","type","parent","created_at","updated_at"], notes: ["Historical archive — do not use for active queries unless researching legacy data."] },
+      { name: "all_locations_region_to_outlet", type: "View", purpose: "View providing a flattened, navigable path from Region down to Outlet for every location leaf node. Used in reporting queries.", pk: "—", fks: [], cols: [], notes: ["Useful for reporting — provides complete location path in a single row."] },
+      { name: "dp_route_clusters", type: "View", purpose: "View exposing Distribution Point to Route to Cluster mappings for logistical and supply-chain queries.", pk: "—", fks: [], cols: [], notes: [] },
+      { name: "dp_ter_area_region", type: "View", purpose: "View exposing DP → Territory → Area → Region hierarchical path for reporting.", pk: "—", fks: [], cols: [], notes: ["May apply inconsistent active/deleted filtering vs. region_dp view — verify before use."] },
+      { name: "region_dp", type: "View", purpose: "View mapping Regions to Distribution Points for supply chain and territory management reporting.", pk: "—", fks: [], cols: [], notes: [] }
+    ]
+  },
+  {
+    id: 5,
+    title: "Campaigns, Targets & Field-Force Staffing",
+    items: 14,
+    color: "#ef4444",
+    tables: [
+      { name: "campaigns", type: "Table", purpose: "Master table for all ECRM campaigns. Each campaign represents a distinct marketing or survey initiative with defined parameters, dates, and configuration.", pk: "id", fks: [], cols: ["id","name","description","type","status","start_date","end_date","is_deleted","created_at","updated_at"], notes: ["Central table referenced throughout the schema.", "Campaign type determines which workflows and data structures apply."] },
+      { name: "campaign_location_maps", type: "Table", purpose: "Maps campaigns to the specific locations (clusters/points) where they operate. Defines geographic scope of each campaign.", pk: "id", fks: ["campaign_id → campaigns.id"], cols: ["id","campaign_id","location_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "campaign_agency_maps", type: "Table", purpose: "Maps campaigns to the agencies responsible for executing them. Allows multiple agencies to work on a single campaign.", pk: "id", fks: [], cols: ["id","campaign_id","agency_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "campaign_targets", type: "Table", purpose: "Defines numeric targets (e.g., contact count targets) for a campaign. Targets can be set at various levels.", pk: "id", fks: [], cols: ["id","campaign_id","target_value","target_type","created_at","updated_at","is_deleted"], notes: [] },
+      { name: "campaign_target_loc_maps", type: "Table", purpose: "Maps campaign targets to specific locations, enabling location-level target tracking.", pk: "id", fks: ["target_id → campaign_targets.id"], cols: ["id","target_id","location_id","target_value","is_deleted"], notes: [] },
+      { name: "campaign_target_parameter_maps", type: "Table", purpose: "Associates configurable parameters (from settings._cats) with campaign targets.", pk: "id", fks: [], cols: ["id","target_id","parameter_id","value","is_deleted"], notes: [] },
+      { name: "campaign_target_sku_maps", type: "Table", purpose: "Associates specific SKU items with campaign targets for product-level tracking.", pk: "id", fks: [], cols: ["id","target_id","sku_id","is_deleted"], notes: [] },
+      { name: "campaign_theme_maps", type: "Table", purpose: "Maps themes/color schemes to campaigns. Originally named campaign_color_maps (as evidenced by underlying sequences).", pk: "id", fks: ["campaign_id → campaigns.id"], cols: ["id","campaign_id","theme_id","is_deleted","created_at","updated_at"], notes: ["Underlying sequence/constraint name suggests rename from campaign_color_maps."] },
+      { name: "campaign_loc_ff_allocations", type: "Table", purpose: "Records the allocation of field force (BRs/RAs) to specific campaign locations. Tracks staffing assignments.", pk: "id", fks: [], cols: ["id","campaign_id","location_id","user_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "users_campaign_maps", type: "Table", purpose: "Maps users to the campaigns they are assigned to. Core campaign participation record.", pk: "id", fks: [], cols: ["id","user_id","campaign_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "users_camp_term_maps", type: "Table", purpose: "Maps users to campaign terminal points (the specific cluster/point they operate within a campaign).", pk: "id", fks: [], cols: ["id","user_id","campaign_id","region_id","is_deleted","created_at","updated_at"], notes: ["region_id actually stores Cluster-level ID — naming convention mismatch."] },
+      { name: "manpowers", type: "Table", purpose: "Records manpower requirements and actuals for campaigns. Links to campaigns via free-text cmp_name rather than an enforced FK.", pk: "id", fks: [], cols: ["id","cmp_name","location_id","required","allocated","is_deleted","created_at","updated_at"], notes: ["Links via free-text cmp_name — data integrity risk flagged."] },
+      { name: "repeat_schedule_maps", type: "Table", purpose: "Stores scheduled unassignment/reassignment events for campaign-location-user associations.", pk: "id", fks: ["mapping_id → users_camp_term_maps.id"], cols: ["id","mapping_id","scheduled_date","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "campaign_target_config", type: "View", purpose: "View providing a consolidated, denormalized view of campaign target configurations. Useful for reporting on target settings.", pk: "—", fks: [], cols: [], notes: [] }
+    ]
+  },
+  {
+    id: 6,
+    title: "Products, Materials & SKU Catalogue",
+    items: 10,
+    color: "#06b6d4",
+    tables: [
+      { name: "product_categories", type: "Table", purpose: "Defines the hierarchical category tree for products. Self-referential via parent to support nested categories.", pk: "id", fks: ["parent → product_categories.id"], cols: ["id","name","description","parent","is_deleted","created_at","updated_at"], notes: ["Self-referential hierarchy.", "Root categories have no parent."] },
+      { name: "products", type: "Table", purpose: "Master catalog of brand-level products (e.g., Marlboro, Benson). The brand level above individual SKUs.", pk: "id", fks: ["category → product_categories.id"], cols: ["id","name","category","type","description","is_deleted","created_at","updated_at"], notes: ["Brand-level records — individual variants/sizes tracked in sku_items."] },
+      { name: "sku_items", type: "Table", purpose: "Individual Stock Keeping Units (SKUs) — the specific product variants (brand + size + pack type). Referenced by contacts for brand tracking.", pk: "id", fks: ["sku_id → sku_items.id"], cols: ["id","name","product_id","sku_code","description","is_deleted","created_at","updated_at"], notes: ["contacts.product/secondary_brand/previous_brand reference sku_items.id, not products.id.", "To retrieve brand names, join contacts to sku_items three times."] },
+      { name: "sku_product_maps", type: "Table", purpose: "Bridge table between SKUs and products when the hierarchy is managed as a many-to-many relationship.", pk: "id", fks: ["product_id → products.id","sku_id → sku_items.id"], cols: ["id","product_id","sku_id","is_deleted"], notes: [] },
+      { name: "sku_item_price", type: "Table", purpose: "Effective-dated pricing records for SKU items. Uses from_date/to_date/is_current pattern to preserve price history.", pk: "id", fks: ["sku_id → sku_items.id"], cols: ["id","sku_id","price","from_date","to_date","is_current","created_at","updated_at"], notes: ["Effective-dated pricing — full price history preserved."] },
+      { name: "materials", type: "Table", purpose: "Stores PTR (Purchase Through Retail) items and promotional materials used in campaigns. Gift = PTR = Reward.", pk: "id", fks: [], cols: ["id","name","description","type","unit","is_deleted","created_at","updated_at"], notes: ["PTR details stored here.", "Materials define giveable items for campaigns."] },
+      { name: "material_campaign_maps", type: "Table", purpose: "Associates materials (PTR items) with specific campaigns. Defines which materials are available in each campaign.", pk: "id", fks: ["campaign_id → campaigns.id"], cols: ["id","material_id","campaign_id","quantity","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "daily_material_maps", type: "Table", purpose: "Records daily distribution of materials (PTR gifts) to field force users for a campaign day.", pk: "id", fks: [], cols: ["id","user_id","material_id","campaign_id","quantity","date","is_deleted","created_at","updated_at"], notes: ["Tracks daily material allocation to BRs/RAs."] },
+      { name: "daily_material_acceptance_maps", type: "Table", purpose: "Records acknowledgment/acceptance of daily material allocations by field force users.", pk: "id", fks: [], cols: ["id","daily_material_map_id","accepted","accepted_at","is_deleted"], notes: [] }
+    ]
+  },
+  {
+    id: 7,
+    title: "Field Contacts — Consumer & Retailer",
+    items: 12,
+    color: "#f97316",
+    tables: [
+      { name: "contacts", type: "Table", purpose: "PRIMARY transactional table — every consumer interaction/survey event recorded by a BR/RA in the field. Composite PK (id, contact_date) for date partitioning.", pk: "(id, contact_date)", fks: [], cols: ["id","user_id","cmp_id","contact_date","location_id","consumer_id","product","secondary_brand","previous_brand","otp","device_info","is_deleted","created_at","updated_at"], notes: ["Most important table for daily raw reporting.", "product/secondary_brand/previous_brand store sku_items.id values.", "Date-partitioned — always include contact_date in WHERE clause.", "Outcome of every RA-consumer interaction."] },
+      { name: "consumers", type: "Table", purpose: "Master consumer profile table. Stores demographic and contact information for all surveyed consumers.", pk: "id", fks: [], cols: ["id","phone","age","gender","product","secondary_brand","is_deleted","created_at","updated_at","from_date","to_date","is_current"], notes: ["Effective-dated for consumer profile history.", "Consumer must be 18+ years old per business rule.", "Phone is primary identifier for consumers."] },
+      { name: "users_consumer_maps", type: "Table", purpose: "Maps users (BRs) to the consumers they have contacted. Tracks ownership of consumer relationships.", pk: "id", fks: [], cols: ["id","user_id","consumer_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "contact_survey_data_maps", type: "Table", purpose: "Maps survey question-answer pairs to a specific contact record. Stores the actual survey responses captured during consumer interaction.", pk: "(id, contact_date)", fks: ["(contact_id, contact_date) → contacts(id, contact_date)"], cols: ["id","contact_id","contact_date","question_id","answer","is_deleted","created_at","updated_at"], notes: ["One of the 3 most important reporting tables.", "Date-partitioned — composite PK follows same pattern as contacts."] },
+      { name: "surveys", type: "Table", purpose: "Defines the survey templates attached to campaigns. Contains question trees and branching logic for data collection.", pk: "(id, contact_date)", fks: [], cols: ["id","campaign_id","name","questions","is_deleted","created_at","updated_at","contact_date"], notes: ["Questions stored as JSONB with branching logic.", "Date-partitioned."] },
+      { name: "survey_data_maps", type: "Table", purpose: "Bridge table linking surveys to contacts and storing individual survey answer records.", pk: "id", fks: [], cols: ["id","survey_id","contact_id","answer_data","created_at","updated_at","is_deleted"], notes: [] },
+      { name: "outlets", type: "Table", purpose: "Stores retailer outlet (POS — Point of Sale) records. Outlets are the terminal contact points in the location hierarchy.", pk: "id", fks: [], cols: ["id","name","code","location_id","phone","owner_name","is_deleted","created_at","updated_at"], notes: ["Underlying indexes named retailers_* — table was originally called retailers.", "Outlet = Retailer = POS — all refer to the same entity."] },
+      { name: "retailer_contacts", type: "Table", purpose: "Records interactions between BRs and retailers (outlet owners). Distinct from consumer contacts.", pk: "id", fks: [], cols: ["id","user_id","campaign_id","outlet_id","contact_date","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "retailer_contact_survey_data_map", type: "Table", purpose: "Stores survey responses collected during retailer contact interactions.", pk: "id", fks: ["contact_id → retailer_contacts.id"], cols: ["id","contact_id","question_id","answer","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "cdr_contacts", type: "Table", purpose: "Stores Call Detail Records for consumer contacts — phone/call-based interaction records distinct from in-person contacts.", pk: "id", fks: [], cols: ["id","user_id","consumer_id","campaign_id","contact_date","duration","status","is_deleted","created_at","updated_at"], notes: ["CDR = Call Detail Record.", "Supports call-based campaign modes."] },
+      { name: "iris_analyses", type: "Table", purpose: "Stores iris recognition analysis results for consumer identity verification, if applicable.", pk: "id", fks: [], cols: ["id","contact_id","iris_data","matched","confidence","created_at","updated_at"], notes: [] },
+      { name: "tap_analyses", type: "Table", purpose: "Stores tap/interaction gesture analysis results for field app quality assurance.", pk: "id", fks: [], cols: ["id","contact_id","tap_data","analysis_result","created_at","updated_at"], notes: [] }
+    ]
+  },
+  {
+    id: 8,
+    title: "Field Quality Assurance & Supervision",
+    items: 13,
+    color: "#ec4899",
+    tables: [
+      { name: "supervisor_contacts", type: "Table", purpose: "Records supervisor-initiated quality check contacts — when a supervisor verifies a BR's interaction with a consumer.", pk: "id", fks: ["user_id → users.id"], cols: ["id","user_id","br_id","campaign_id","contact_date","consumer_phone","is_deleted","created_at","updated_at"], notes: ["Supervisor (user_id) checks BR (br_id) contacts.", "Part of Call Check Back QA workflow."] },
+      { name: "supervisor_contact_survey_data_maps", type: "Table", purpose: "Stores survey responses captured by supervisors during quality-check calls.", pk: "id", fks: ["sup_contact_id → supervisor_contacts.id"], cols: ["id","sup_contact_id","question_id","answer","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "joint_calls", type: "Table", purpose: "Records live joint observation calls — when a supervisor accompanies or monitors a BR in the field in real time.", pk: "id", fks: ["user_id → users.id","ff_id → users.id","campaign_id → campaigns.id"], cols: ["id","user_id","ff_id","campaign_id","contact_date","location_id","is_deleted","created_at","updated_at"], notes: ["user_id = supervisor making the observation.", "ff_id = BR being observed."] },
+      { name: "joint_calls_survey_data_maps", type: "Table", purpose: "Stores survey/checklist responses captured during joint call observations.", pk: "id", fks: ["joint_call_id → joint_calls.id"], cols: ["id","joint_call_id","question_id","answer","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "campaign_joint_call_maps", type: "Table", purpose: "Defines the joint call configuration and survey template for a specific campaign.", pk: "id", fks: ["camp_id → campaigns.id"], cols: ["id","camp_id","joint_call","from_date","to_date","is_current","is_deleted"], notes: ["joint_call column is JSONB storing the question tree.", "Effective-dated with 9999-12-31 sentinel."] },
+      { name: "campaign_callcheckback_maps", type: "Table", purpose: "Defines the call check-back survey template for a specific campaign. Governs what supervisors ask during call check-back QA.", pk: "id", fks: ["camp_id → campaigns.id"], cols: ["id","camp_id","survey","from_date","to_date","is_current","is_deleted"], notes: ["survey column is JSONB.", "Uses sentinel 9999-12-30 (not 9999-12-31 like others — anomaly flagged)."] },
+      { name: "daily_checks", type: "Table", purpose: "Records daily check-in/check-out and attendance data for field force users.", pk: "id", fks: [], cols: ["id","user_id","campaign_id","check_in","check_out","location_id","additional_info","is_deleted","created_at","updated_at"], notes: ["additional_info contains device_id.", "Tracks field force daily attendance."] },
+      { name: "sup_br_maps", type: "Table", purpose: "Maps supervisors to their assigned BRs for a specific campaign. Defines the supervision structure within campaigns.", pk: "id", fks: ["sup_id → users.id","br_id → users.id","campaign_id → campaigns.id"], cols: ["id","sup_id","br_id","campaign_id","is_deleted","created_at","updated_at"], notes: ["Many-to-many between supervisors and BRs per campaign."] },
+      { name: "sup_callcheckbacks", type: "Table", purpose: "Records completed call check-back QA events initiated by supervisors.", pk: "id", fks: [], cols: ["id","sup_br_map_id","contact_id","contact_date","status","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "sup_br_callcheckback_maps", type: "Table", purpose: "Maps supervisor-BR pairs to call check-back assignments.", pk: "id", fks: [], cols: ["id","sup_id","br_id","campaign_id","assigned_contacts","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "sup_geo_tags", type: "Table", purpose: "Records GPS geo-tags captured by supervisors during field visits for location verification.", pk: "id", fks: [], cols: ["id","user_id","campaign_id","lat","lng","accuracy","timestamp","is_deleted"], notes: [] },
+      { name: "live_locations", type: "Table", purpose: "Stores real-time or near-real-time location pings from field force mobile devices.", pk: "id", fks: [], cols: ["id","user_id","campaign_id","lat","lng","accuracy","timestamp","is_deleted"], notes: ["Live location tracking for field force."] },
+      { name: "proximity_report", type: "Table", purpose: "Stores results of proximity analysis — checking whether BRs were physically near the correct outlets during contacts.", pk: "id", fks: [], cols: ["id","user_id","contact_id","outlet_id","distance","timestamp","is_deleted"], notes: ["date/time columns stored as text — type inconsistency flagged."] }
+    ]
+  },
+  {
+    id: 9,
+    title: "Dialer Workflows (Consumer & Retailer Outlet Call Centers)",
+    items: 8,
+    color: "#a855f7",
+    tables: [
+      { name: "consumer_dialer_list", type: "Table", purpose: "Master list of consumers queued for outbound call center dialing in consumer dialer campaigns.", pk: "id", fks: ["campaign_id → campaigns.id"], cols: ["id","campaign_id","consumer_id","region_id","phone","status","failed_reason","is_deleted","created_at","updated_at"], notes: ["region_id actually stores Cluster-level ID — naming convention mismatch.", "failed_reason defaults to 149 — status code catalog should be confirmed."] },
+      { name: "consumer_dialer_br_assignments", type: "Table", purpose: "Assigns consumers from the dialer list to specific BRs for follow-up calling.", pk: "id", fks: [], cols: ["id","dialer_list_id","br_id","assigned_at","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "consumer_dialer_contacts", type: "Table", purpose: "Records the outcome of dialer call attempts to consumers.", pk: "id", fks: ["cdba_id → consumer_dialer_br_assignments.id"], cols: ["id","cdba_id","br_id","contact_date","duration","status","call_result","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "consumer_dialer_survey_maps", type: "Table", purpose: "Stores survey responses collected during consumer dialer calls.", pk: "id", fks: ["cdc_id → consumer_dialer_contacts.id"], cols: ["id","cdc_id","question_id","answer","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "retailer_outlet_dialer_list", type: "Table", purpose: "Master list of retailers/outlets queued for outbound call center dialing.", pk: "id", fks: ["campaign_id → campaigns.id"], cols: ["id","campaign_id","outlet_id","region_id","phone","status","failed_reason","is_deleted","created_at","updated_at"], notes: ["region_id actually stores Cluster-level ID — naming convention mismatch."] },
+      { name: "retailer_outlet_dialer_br_assignments", type: "Table", purpose: "Assigns retailer/outlet dialer list entries to specific BRs for calling.", pk: "id", fks: [], cols: ["id","dialer_list_id","br_id","assigned_at","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "retailer_outlet_dialer_contacts", type: "Table", purpose: "Records the outcome of dialer call attempts to retailers/outlets.", pk: "id", fks: ["rodba_id → retailer_outlet_dialer_br_assignments.id"], cols: ["id","rodba_id","br_id","contact_date","duration","status","call_result","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "retailer_outlet_dialer_survey_maps", type: "Table", purpose: "Stores survey responses collected during retailer/outlet dialer calls.", pk: "id", fks: ["rodc_id → retailer_outlet_dialer_contacts.id"], cols: ["id","rodc_id","question_id","answer","is_deleted","created_at","updated_at"], notes: [] }
+    ]
+  },
+  {
+    id: 10,
+    title: "Rewards, Assets & Coupons",
+    items: 3,
+    color: "#eab308",
+    tables: [
+      { name: "ptr_shifts", type: "Table", purpose: "Records shifts/batches for PTR (Purchase Through Retail) reward distribution. Tracks when rewards are given to consumers.", pk: "id", fks: ["user_id → users.id","campaign_id → campaigns.id"], cols: ["id","user_id","campaign_id","shift_date","ptr_count","status","is_deleted","created_at","updated_at"], notes: ["PTR = Gift = Reward during a campaign.", "Tracks daily reward distribution shifts."] },
+      { name: "coupon_codes", type: "Table", purpose: "Stores coupon/voucher codes generated for consumer rewards and incentives.", pk: "id", fks: [], cols: ["id","code","campaign_id","consumer_id","status","generated_at","redeemed_at","is_deleted"], notes: ["Each coupon uniquely identifies a reward for a specific consumer."] },
+      { name: "users_asset_maps", type: "Table", purpose: "Maps physical assets (tablets, devices, equipment) to the users they are assigned to.", pk: "id", fks: ["uid → users.id","mat_id → materials.id","assigned_by → users.id"], cols: ["id","uid","mat_id","assigned_by","assigned_at","returned_at","is_deleted","created_at","updated_at"], notes: ["Tracks asset assignment and return lifecycle."] }
+    ]
+  },
+  {
+    id: 11,
+    title: "Reporting & Dashboards",
+    items: 13,
+    color: "#14b8a6",
+    tables: [
+      { name: "dynamic_reports", type: "Table", purpose: "Defines custom dynamic report configurations — parameterized reports with custom date ranges and filters.", pk: "id", fks: [], cols: ["id","name","description","query","is_deleted","created_at","updated_at"], notes: ["Allows configurable reports without code changes."] },
+      { name: "dynamic_report_role_maps", type: "Table", purpose: "Maps dynamic reports to the roles that are authorized to view them.", pk: "id", fks: ["report_id → dynamic_reports.id","role_id → roles.id"], cols: ["id","report_id","role_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "dynamic_report_parameter_maps", type: "Table", purpose: "Associates configurable parameters with dynamic report definitions.", pk: "id", fks: ["report_id → dynamic_reports.id","parameter_id → settings._cats.id"], cols: ["id","report_id","parameter_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "dynamic_report_chart_maps", type: "Table", purpose: "Configures chart visualizations associated with dynamic reports.", pk: "id", fks: ["report_id → dynamic_reports.id"], cols: ["id","report_id","chart_type","chart_config","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "dynamic_report_agency_maps", type: "Table", purpose: "Maps dynamic reports to the agencies that are authorized to view them.", pk: "id", fks: ["report_id → dynamic_reports.id","agency_id → agencies.id"], cols: ["id","report_id","agency_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "dashboards", type: "Table", purpose: "Defines dashboard configurations — collections of report widgets and charts for management visibility.", pk: "id", fks: [], cols: ["id","name","config","role_id","agency_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "preloaded_reports", type: "Table", purpose: "Stores pre-generated report snapshots for fast retrieval without re-querying.", pk: "id", fks: [], cols: ["id","name","type","is_deleted","created_at","updated_at"], notes: ["Caches report results for performance."] },
+      { name: "preloaded_report_date_maps", type: "Table", purpose: "Maps date ranges to preloaded report records, enabling date-filtered retrieval.", pk: "id", fks: [], cols: ["id","report_id","from_date","to_date","is_deleted"], notes: [] },
+      { name: "preloaded_report_user_maps", type: "Table", purpose: "Maps users to preloaded reports they have access to.", pk: "id", fks: [], cols: ["id","report_id","user_id","is_deleted"], notes: [] },
+      { name: "messaging_reports", type: "Table", purpose: "Defines messaging-related report configurations for communication analytics.", pk: "id", fks: [], cols: ["id","name","type","config","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "messaging_report_date_maps", type: "Table", purpose: "Maps date ranges to messaging report records.", pk: "id", fks: [], cols: ["id","report_id","from_date","to_date","is_deleted"], notes: [] },
+      { name: "messaging_report_user_maps", type: "Table", purpose: "Maps users to messaging reports they can access.", pk: "id", fks: [], cols: ["id","report_id","user_id","is_deleted"], notes: [] },
+      { name: "custom_queries", type: "Table", purpose: "Stores custom SQL or BigQuery queries defined by administrators for ad-hoc reporting.", pk: "id", fks: [], cols: ["id","name","query","description","created_by","created_at","updated_at","is_deleted"], notes: ["created_at has no database default and is NOT NULL — application must supply value."] }
+    ]
+  },
+  {
+    id: 12,
+    title: "Communication & Notifications",
+    items: 6,
+    color: "#64748b",
+    tables: [
+      { name: "notifications", type: "Table", purpose: "Stores system-generated notifications sent to users (push notifications, in-app alerts).", pk: "id", fks: [], cols: ["id","user_id","title","body","type","is_read","is_deleted","created_at","updated_at"], notes: ["Tracks notification delivery and read status."] },
+      { name: "manual_notifications", type: "Table", purpose: "Stores manually crafted notifications sent by administrators to specific users or groups.", pk: "id", fks: [], cols: ["id","title","body","target_type","target_id","sent_by","sent_at","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "audios", type: "Table", purpose: "Stores audio recordings (voice messages) associated with system communications or AAI auditing.", pk: "id", fks: [], cols: ["id","url","duration","user_id","campaign_id","contact_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "chats", type: "Table", purpose: "Stores chat messages exchanged between users within the ECRM platform.", pk: "id", fks: [], cols: ["id","sender_id","receiver_id","message","is_read","is_deleted","created_at","updated_at"], notes: ["created_at has no database default and is NOT NULL."] },
+      { name: "contact_message_maps", type: "Table", purpose: "Maps messages to specific consumer contact records for communication tracking.", pk: "id", fks: [], cols: ["id","contact_id","message_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "whatsapp_lookups", type: "Table", purpose: "Stores WhatsApp API lookup results for consumer phone numbers — verifying whether a number is registered on WhatsApp.", pk: "id", fks: [], cols: ["id","phone","is_whatsapp","lookup_date","status","is_deleted","created_at","updated_at"], notes: [] }
+    ]
+  },
+  {
+    id: 13,
+    title: "Leave Management",
+    items: 2,
+    color: "#84cc16",
+    tables: [
+      { name: "leaves", type: "Table", purpose: "Records leave requests submitted by field force users. Tracks leave type, dates, status, and approval workflow.", pk: "id", fks: [], cols: ["id","user_id","leave_type","from_date","to_date","reason","status","approved_by","is_deleted","created_at","updated_at"], notes: ["Covers leave request and approval lifecycle."] },
+      { name: "leave_date_maps", type: "Table", purpose: "Stores individual date records associated with a leave request, supporting multi-day leave tracking.", pk: "id", fks: [], cols: ["id","leave_id","leave_date","is_deleted","created_at","updated_at"], notes: ["One row per leave day — normalizes multi-day leaves."] }
+    ]
+  },
+  {
+    id: 14,
+    title: "AAI Audio Auditing Subsystem",
+    items: 12,
+    color: "#f43f5e",
+    tables: [
+      { name: "aai_projects", type: "Table", purpose: "Defines AAI (Audio-based AI) auditing projects. Each project represents a distinct audio quality audit initiative.", pk: "id", fks: [], cols: ["id","name","description","campaign_id","status","is_deleted","created_at","updated_at"], notes: ["AAI = Audio-based AI quality auditing system."] },
+      { name: "aai_levels", type: "Table", purpose: "Defines the auditing levels within the AAI system (e.g., Level 1 verification, Level 2 re-review).", pk: "id", fks: [], cols: ["id","name","description","order","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "aai_questions", type: "Table", purpose: "Defines the quality-check questions used by auditors when reviewing audio recordings.", pk: "id", fks: [], cols: ["id","project_id","question_text","total_weight","is_deleted","created_at","updated_at"], notes: ["total_weight used for compliance scoring."] },
+      { name: "aai_question_options", type: "Table", purpose: "Stores the selectable answer options for each AAI audit question, with scoring weights.", pk: "id", fks: [], cols: ["id","question_id","option_text","weight","is_deleted","created_at","updated_at"], notes: ["weight determines score contribution for each answer."] },
+      { name: "aai_project_level_maps", type: "Table", purpose: "Maps AAI projects to their configured auditing levels and daily targets.", pk: "id", fks: [], cols: ["id","project_id","level_id","day_target","is_deleted","created_at","updated_at"], notes: ["day_target sets daily audit completion quota per level."] },
+      { name: "aai_auditor_project_maps", type: "Table", purpose: "Assigns auditors to specific AAI projects and levels.", pk: "id", fks: [], cols: ["id","auditor_id","project_id","level_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "aai_role_level_maps", type: "Table", purpose: "Maps roles to AAI auditing levels, defining which user roles can perform which level of audio auditing.", pk: "id", fks: [], cols: ["id","role_id","level_id","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "aai_projects_phrase_maps", type: "Table", purpose: "Maps key phrases to AAI projects for phrase detection in audio content.", pk: "id", fks: [], cols: ["id","project_id","phrase","is_deleted","created_at","updated_at"], notes: [] },
+      { name: "aai_audios", type: "Table", purpose: "Stores audio recording metadata ingested into the AAI system for quality auditing. References original contact records.", pk: "id", fks: [], cols: ["id","contact_id","contact_date","audio_url","duration","uploaded_at","is_deleted","created_at","updated_at"], notes: ["Entry point of AAI pipeline.", "Mixed numeric typing for duration — flagged in schema issues."] },
+      { name: "aai_audio_assign_maps", type: "Table", purpose: "Assigns specific audio recordings to auditors for review. Composite PK (id, assigned_date) for date partitioning.", pk: "(id, assigned_date)", fks: [], cols: ["id","audio_id","auditor_id","auditor_level","assigned_date","project_id","is_deleted","created_at","updated_at"], notes: ["Date-partitioned assignment queue.", "Connects auditors to their daily audio review workload."] },
+      { name: "aai_verified_audios", type: "Table", purpose: "Records the outcome of an auditor's manual quality review of an audio recording. Terminal record of the AAI verification pipeline. Composite PK (id, verification_date).", pk: "(id, verification_date)", fks: [], cols: ["id","aam_id","is_verified","auditor_id","verification_date","is_poor","is_noisy","is_not_clear","is_too_fast","is_good","audio_rating","created_at","start_time","end_time","comment"], notes: ["Quality flags: is_poor, is_noisy, is_not_clear, is_too_fast, is_good.", "start_time/end_time measure auditor review duration.", "comment defaults to 'No comment'."] },
+      { name: "aai_verification_answer_maps", type: "Table", purpose: "Stores the auditor's detailed, question-by-question answers during audio verification. Normalized breakdown of checklist responses.", pk: "id", fks: ["question_id → aai_questions.id"], cols: ["id","verified_audios_id","question","answer","question_id","answer_id","weight","created_at"], notes: ["question and weight are denormalized/snapshotted at answer time for historical accuracy.", "Summing weight across rows for a verified_audios_id yields overall compliance score."] }
+    ]
+  }
+];
+
+// =====================================================
+//  CROSS-MODULE LINKS for the Knowledge Graph
+// =====================================================
+const CROSS_LINKS = [
+  { source: "users", target: "user_infos" },
+  { source: "users", target: "user_details" },
+  { source: "users", target: "user_device_maps" },
+  { source: "users", target: "user_apk_maps" },
+  { source: "users", target: "users_agency_maps" },
+  { source: "users", target: "user_approval_maps" },
+  { source: "users", target: "user_ticket_maps" },
+  { source: "users", target: "role_location_maps" },
+  { source: "app_versions", target: "user_apk_maps" },
+  { source: "agencies", target: "users_agency_maps" },
+  { source: "agencies", target: "agency_resource_map" },
+  { source: "agencies", target: "role_agency_maps" },
+  { source: "roles", target: "role_agency_maps" },
+  { source: "roles", target: "role_location_maps" },
+  { source: "roles", target: "role_report_to_maps" },
+  { source: "roles", target: "role_resource_maps" },
+  { source: "roles", target: "role_tree_maps" },
+  { source: "jml_tickets", target: "ticket_status_maps" },
+  { source: "jml_tickets", target: "user_ticket_maps" },
+  { source: "jml_tickets", target: "user_ticket_role_maps" },
+  { source: "bulk_assignment_tickets", target: "bulk_assignment_ticket_status_maps" },
+  { source: "locations", target: "contacts" },
+  { source: "campaigns", target: "campaign_location_maps" },
+  { source: "campaigns", target: "campaign_agency_maps" },
+  { source: "campaigns", target: "campaign_targets" },
+  { source: "campaigns", target: "users_campaign_maps" },
+  { source: "campaigns", target: "consumer_dialer_list" },
+  { source: "campaigns", target: "retailer_outlet_dialer_list" },
+  { source: "campaigns", target: "joint_calls" },
+  { source: "sku_items", target: "contacts" },
+  { source: "contacts", target: "contact_survey_data_maps" },
+  { source: "contacts", target: "otp_verifications" },
+  { source: "supervisor_contacts", target: "supervisor_contact_survey_data_maps" },
+  { source: "joint_calls", target: "joint_calls_survey_data_maps" },
+  { source: "sup_callcheckbacks", target: "sup_br_callcheckback_maps" },
+  { source: "consumer_dialer_br_assignments", target: "consumer_dialer_contacts" },
+  { source: "consumer_dialer_contacts", target: "consumer_dialer_survey_maps" },
+  { source: "retailer_outlet_dialer_br_assignments", target: "retailer_outlet_dialer_contacts" },
+  { source: "retailer_outlet_dialer_contacts", target: "retailer_outlet_dialer_survey_maps" },
+  { source: "materials", target: "users_asset_maps" },
+  { source: "dynamic_reports", target: "dynamic_report_role_maps" },
+  { source: "dynamic_reports", target: "dynamic_report_parameter_maps" },
+  { source: "dynamic_reports", target: "dynamic_report_chart_maps" },
+  { source: "dynamic_reports", target: "dynamic_report_agency_maps" },
+  { source: "aai_audios", target: "aai_audio_assign_maps" },
+  { source: "aai_audio_assign_maps", target: "aai_verified_audios" },
+  { source: "aai_verified_audios", target: "aai_verification_answer_maps" },
+  { source: "aai_questions", target: "aai_verification_answer_maps" },
+  { source: "aai_projects", target: "aai_project_level_maps" },
+  { source: "aai_projects", target: "aai_auditor_project_maps" },
+  { source: "product_categories", target: "products" },
+  { source: "products", target: "sku_items" },
+  { source: "sku_items", target: "sku_product_maps" },
+  { source: "sku_items", target: "sku_item_price" },
+  { source: "materials", target: "material_campaign_maps" },
+  { source: "retailer_contacts", target: "retailer_contact_survey_data_map" },
+];
+
+// =====================================================
+//  BUILD MODULES HTML
+// =====================================================
+function buildModules() {
+  const container = document.getElementById('modulesList');
+  let html = '';
+
+  MODULES.forEach(mod => {
+    const docSectionId = `module-${mod.id}`;
+    const tableRows = mod.tables.map(t => {
+      const fkHtml = t.fks.length
+        ? `<div class="detail-label">Foreign Keys</div><div style="margin-bottom:8px">${t.fks.map(f => `<span class="fk-tag">🔗 ${f}</span>`).join('')}</div>`
+        : '';
+      const notesHtml = t.notes.length
+        ? `<div class="detail-label">Key Notes</div><div class="key-notes"><ul>${t.notes.map(n => `<li>${n}</li>`).join('')}</ul></div>`
+        : '';
+
+      let colHtml = '';
+      if (t.cols && t.cols.length) {
+        colHtml = `<div class="detail-label">Columns (${t.cols.length})</div>
+          <div class="data-table-wrap"><table class="data-table"><thead><tr><th>Column</th><th>Type</th></tr></thead><tbody>
+          ${t.cols.map(c => {
+            const isPK = c === 'id' || c.includes('(PK)');
+            const isFK = t.fks.some(f => f.startsWith(c.split(' ')[0]));
+            const label = isPK ? `<strong>${c}</strong>` : c;
+            return `<tr><td>${label}</td><td><code style="font-size:0.7rem;color:var(--text-muted)">varchar / int4 / bool</code></td></tr>`;
+          }).join('')}
+          </tbody></table></div>`;
+      }
+
+      return `<div class="table-card" id="tbl-${t.name}">
+        <div class="table-card-header" onclick="toggleTable(this)">
+          <span class="table-type-badge badge-${t.type.toLowerCase()}">${t.type}</span>
+          <span class="table-name">${t.name}</span>
+          <span class="table-toggle">▼</span>
+        </div>
+        <p class="table-purpose">${t.purpose}</p>
+        <div class="table-details">
+          <div class="detail-label">Primary Key</div>
+          <code>${t.pk}</code>
+          ${fkHtml}
+          ${colHtml}
+          ${notesHtml}
+        </div>
+      </div>`;
+    }).join('');
+
+    html += `<div class="doc-section" id="${docSectionId}" style="padding:0 48px 24px">
+      <div class="module-card" id="module-card-${mod.id}">
+        <div class="module-header" onclick="toggleModule(${mod.id})">
+          <div class="module-num" style="color:${mod.color};background:${mod.color}22;border-color:${mod.color}44;">${mod.id}</div>
+          <div class="module-title">Module ${mod.id}: ${mod.title}</div>
+          <div class="module-meta">
+            <span class="meta-chip">${mod.items} items</span>
+            <span class="meta-chip">${mod.tables.filter(t=>t.type==='Table').length} tables</span>
+            ${mod.tables.filter(t=>t.type==='View').length ? `<span class="meta-chip">${mod.tables.filter(t=>t.type==='View').length} views</span>` : ''}
+          </div>
+          <div class="module-toggle">▼</div>
+        </div>
+        <div class="module-body">
+          ${tableRows}
+        </div>
+      </div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function toggleModule(id) {
+  const card = document.getElementById(`module-card-${id}`);
+  card.classList.toggle('open');
+}
+
+function toggleTable(header) {
+  const card = header.closest('.table-card');
+  card.classList.toggle('open');
+}
+
+// =====================================================
+//  SCROLL SPY & PROGRESS BAR
+// =====================================================
+function updateScrollSpy() {
+  const progress = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progressBar').style.width = progress + '%';
+
+  const sections = document.querySelectorAll('[id]');
+  const navItems = document.querySelectorAll('.nav-item');
+  let current = '';
+
+  sections.forEach(sec => {
+    const top = sec.getBoundingClientRect().top;
+    if (top <= 120) current = sec.id;
+  });
+
+  navItems.forEach(item => {
+    item.classList.remove('active');
+    const href = item.getAttribute('href');
+    if (href && href === '#' + current) item.classList.add('active');
+  });
+}
+
+// =====================================================
+//  INTERSECTION OBSERVER — Scroll Animations
+// =====================================================
+function initScrollAnimations() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.doc-section').forEach(s => observer.observe(s));
+}
+
+// =====================================================
+//  COUNTER ANIMATION
+// =====================================================
+function animateCounters() {
+  document.querySelectorAll('.counter').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    let current = 0;
+    const step = Math.ceil(target / 40);
+    const interval = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current;
+      if (current >= target) clearInterval(interval);
+    }, 30);
+  });
+}
+
+// =====================================================
+//  SEARCH
+// =====================================================
+const allSearchItems = [];
+
+function buildSearchIndex() {
+  MODULES.forEach(mod => {
+    mod.tables.forEach(t => {
+      allSearchItems.push({
+        name: t.name,
+        module: `Module ${mod.id}: ${mod.title}`,
+        moduleId: `module-${mod.id}`,
+        tableId: `tbl-${t.name}`,
+        purpose: t.purpose.substring(0, 120) + '…',
+        type: t.type
+      });
+    });
+  });
+}
+
+function performSearch(query) {
+  const overlay = document.getElementById('searchOverlay');
+  const list = document.getElementById('searchResultsList');
+  const title = document.getElementById('searchResultsTitle');
+
+  if (!query.trim()) {
+    overlay.classList.remove('active');
+    return;
+  }
+
+  overlay.classList.add('active');
+  const q = query.toLowerCase();
+  const results = allSearchItems.filter(i =>
+    i.name.toLowerCase().includes(q) ||
+    i.module.toLowerCase().includes(q) ||
+    i.purpose.toLowerCase().includes(q)
+  ).slice(0, 20);
+
+  title.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} for "${query}"`;
+  list.innerHTML = results.map(r => `
+    <div class="search-result-item" onclick="navigateToResult('${r.moduleId}', '${r.tableId}')">
+      <div class="result-name">${r.name}</div>
+      <div class="result-module">${r.module} · ${r.type}</div>
+      <div class="result-desc">${r.purpose}</div>
+    </div>
+  `).join('') || '<p style="color:var(--text-muted);font-size:0.85rem">No results found.</p>';
+}
+
+function navigateToResult(moduleId, tableId) {
+  document.getElementById('searchOverlay').classList.remove('active');
+  document.getElementById('searchInput').value = '';
+
+  // Open module and table
+  const moduleCard = document.querySelector(`#${moduleId} .module-card`);
+  if (moduleCard) {
+    moduleCard.classList.add('open');
+    setTimeout(() => {
+      const tableEl = document.getElementById(tableId);
+      if (tableEl) {
+        tableEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        tableEl.classList.add('open');
+        tableEl.style.outline = '2px solid var(--gold)';
+        setTimeout(() => { tableEl.style.outline = ''; }, 2000);
+      }
+    }, 200);
+  }
+}
+
+// =====================================================
+//  NAVIGATION
+// =====================================================
+function navTo(id) {
+  document.getElementById('searchOverlay').classList.remove('active');
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (id.startsWith('module-')) {
+      const moduleNum = parseInt(id.split('-')[1]);
+      setTimeout(() => {
+        const card = document.getElementById(`module-card-${moduleNum}`);
+        if (card && !card.classList.contains('open')) card.classList.add('open');
+      }, 400);
+    }
+  }
+  return false;
+}
+
+// =====================================================
+//  KNOWLEDGE GRAPH
+// =====================================================
+let graphSimulation = null;
+let graphSvg = null;
+
+function buildGraphData(filterModule = 'all', filterName = '') {
+  const nodes = [];
+  const links = [];
+  const nodeMap = {};
+
+  // Module hubs
+  MODULES.forEach(mod => {
+    if (filterModule !== 'all' && mod.id !== parseInt(filterModule)) return;
+    const n = { id: `mod-${mod.id}`, label: `M${mod.id}`, type: 'module', moduleId: mod.id, color: mod.color, title: mod.title, r: 24 };
+    nodes.push(n);
+    nodeMap[`mod-${mod.id}`] = n;
+  });
+
+  // Table nodes
+  MODULES.forEach(mod => {
+    if (filterModule !== 'all' && mod.id !== parseInt(filterModule)) return;
+    mod.tables.forEach(t => {
+      if (filterName && !t.name.toLowerCase().includes(filterName.toLowerCase())) return;
+      const n = { id: t.name, label: t.name, type: 'table', moduleId: mod.id, color: mod.color, purpose: t.purpose, pk: t.pk, fks: t.fks, r: 8 };
+      nodes.push(n);
+      nodeMap[t.name] = n;
+      // Hub → Table link
+      if (nodeMap[`mod-${mod.id}`]) {
+        links.push({ source: `mod-${mod.id}`, target: t.name, type: 'module' });
+      }
+    });
+  });
+
+  // Cross-module links
+  CROSS_LINKS.forEach(l => {
+    if (nodeMap[l.source] && nodeMap[l.target]) {
+      links.push({ source: l.source, target: l.target, type: 'fk' });
+    }
+  });
+
+  return { nodes, links };
+}
+
+function initGraph() {
+  const svgEl = document.getElementById('graph-canvas');
+  const width = svgEl.clientWidth;
+  const height = svgEl.clientHeight;
+
+  svgEl.innerHTML = '';
+  const svg = d3.select('#graph-canvas');
+  graphSvg = svg;
+
+  const { nodes, links } = buildGraphData(
+    document.getElementById('graphModuleFilter').value,
+    document.getElementById('graphSearchInput').value
+  );
+
+  const zoom = d3.zoom()
+    .scaleExtent([0.1, 4])
+    .on('zoom', (event) => {
+      g.attr('transform', event.transform);
+    });
+
+  svg.call(zoom);
+
+  const g = svg.append('g');
+
+  // Defs — arrow markers
+  const defs = svg.append('defs');
+  ['fk', 'module'].forEach(type => {
+    defs.append('marker')
+      .attr('id', `arrow-${type}`)
+      .attr('viewBox', '0 -5 10 10')
+      .attr('refX', 20)
+      .attr('refY', 0)
+      .attr('markerWidth', 6)
+      .attr('markerHeight', 6)
+      .attr('orient', 'auto')
+      .append('path')
+      .attr('d', 'M0,-5L10,0L0,5')
+      .attr('fill', type === 'fk' ? '#d4af37' : 'rgba(255,255,255,0.15)');
+  });
+
+  // Links
+  const link = g.append('g').selectAll('line')
+    .data(links)
+    .enter().append('line')
+    .attr('stroke', d => d.type === 'fk' ? 'rgba(212,175,55,0.5)' : 'rgba(255,255,255,0.06)')
+    .attr('stroke-width', d => d.type === 'fk' ? 1.5 : 0.8)
+    .attr('marker-end', d => `url(#arrow-${d.type})`);
+
+  // Nodes
+  const node = g.append('g').selectAll('g')
+    .data(nodes)
+    .enter().append('g')
+    .attr('cursor', 'pointer')
+    .call(d3.drag()
+      .on('start', dragStart)
+      .on('drag', dragged)
+      .on('end', dragEnd)
+    )
+    .on('click', (event, d) => {
+      event.stopPropagation();
+      showNodeInfo(d, nodes, links);
+      // Highlight
+      node.selectAll('circle').attr('stroke-opacity', 0.3);
+      node.selectAll('circle').filter(n => n.id === d.id).attr('stroke-opacity', 1).attr('stroke-width', 3);
+      link.attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.1);
+    });
+
+  node.append('circle')
+    .attr('r', d => d.r)
+    .attr('fill', d => d.type === 'module' ? d.color + '33' : d.color + '22')
+    .attr('stroke', d => d.color)
+    .attr('stroke-width', d => d.type === 'module' ? 2.5 : 1.5)
+    .attr('stroke-opacity', 0.8);
+
+  node.append('text')
+    .attr('text-anchor', 'middle')
+    .attr('dy', d => d.type === 'module' ? '0.35em' : '2em')
+    .attr('font-size', d => d.type === 'module' ? '10px' : '8px')
+    .attr('fill', d => d.type === 'module' ? d.color : 'rgba(255,255,255,0.7)')
+    .attr('font-family', d => d.type === 'module' ? 'Outfit' : 'JetBrains Mono')
+    .attr('font-weight', d => d.type === 'module' ? '800' : '400')
+    .text(d => d.type === 'module' ? d.label : d.label.length > 16 ? d.label.substring(0,14) + '…' : d.label);
+
+  // Simulation
+  graphSimulation = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.type === 'module' ? 90 : 60))
+    .force('charge', d3.forceManyBody().strength(d => d.type === 'module' ? -300 : -80))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide(d => d.r + 8))
+    .on('tick', () => {
+      link
+        .attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+      node.attr('transform', d => `translate(${d.x},${d.y})`);
+    });
+
+  // Click on background to reset
+  svg.on('click', () => {
+    node.selectAll('circle').attr('stroke-opacity', 0.8).attr('stroke-width', d => d.type === 'module' ? 2.5 : 1.5);
+    link.attr('stroke-opacity', 1);
+    document.getElementById('graphInfoPanel').innerHTML = `<div class="info-panel-placeholder"><span>◉</span>Click any node to explore its connections and details</div>`;
+  });
+
+  // Legend
+  buildLegend();
+}
+
+function showNodeInfo(d, nodes, links) {
+  const panel = document.getElementById('graphInfoPanel');
+  const connections = links.filter(l => l.source.id === d.id || l.target.id === d.id);
+  const connItems = connections.map(l => {
+    const other = l.source.id === d.id ? l.target : l.source;
+    const dir = l.source.id === d.id ? '→' : '←';
+    return `<div class="connection-item"><span class="conn-arrow">${dir}</span><span class="conn-name">${other.id || other.label || other}</span></div>`;
+  }).join('');
+
+  if (d.type === 'module') {
+    const mod = MODULES.find(m => m.id === d.moduleId);
+    panel.innerHTML = `
+      <div class="info-panel-name" style="color:${d.color}">Module ${d.moduleId}</div>
+      <div class="info-panel-module">${mod.title}</div>
+      <div class="info-panel-desc">${mod.items} items · ${mod.tables.filter(t=>t.type==='Table').length} tables</div>
+      <div class="detail-label">Tables</div>
+      ${mod.tables.map(t => `<div class="connection-item"><span class="conn-arrow">→</span><span class="conn-name">${t.name}</span></div>`).join('')}
+    `;
+  } else {
+    panel.innerHTML = `
+      <div class="info-panel-name">${d.label}</div>
+      <div class="info-panel-module">Module ${d.moduleId} · ${d.type}</div>
+      <div class="info-panel-desc">${d.purpose || ''}</div>
+      <div class="detail-label">Primary Key</div>
+      <code style="font-size:0.8rem">${d.pk || 'id'}</code>
+      ${d.fks && d.fks.length ? `<div class="detail-label">Foreign Keys</div>${d.fks.map(f => `<div class="fk-tag" style="display:flex;margin:3px 0">🔗 ${f}</div>`).join('')}` : ''}
+      <div class="detail-label">Connections (${connections.length})</div>
+      <div class="connections-list">${connItems || '<p style="color:var(--text-muted);font-size:0.8rem">No documented cross-links</p>'}</div>
+    `;
+  }
+}
+
+function buildLegend() {
+  const legend = document.getElementById('graphLegend');
+  legend.innerHTML = `<span class="legend-title">Modules:</span>` +
+    MODULES.map(m => `<span class="legend-item"><span class="legend-dot" style="background:${m.color}"></span>M${m.id}: ${m.title.split(' ').slice(0,2).join(' ')}</span>`).join('');
+}
+
+function dragStart(event, d) {
+  if (!event.active) graphSimulation.alphaTarget(0.3).restart();
+  d.fx = d.x; d.fy = d.y;
+}
+function dragged(event, d) { d.fx = event.x; d.fy = event.y; }
+function dragEnd(event, d) {
+  if (!event.active) graphSimulation.alphaTarget(0);
+  d.fx = null; d.fy = null;
+}
+
+// =====================================================
+//  INIT
+// =====================================================
+document.addEventListener('DOMContentLoaded', () => {
+  buildModules();
+  buildSearchIndex();
+  initScrollAnimations();
+  animateCounters();
+
+  // Scroll
+  window.addEventListener('scroll', updateScrollSpy, { passive: true });
+
+  // Search
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', e => performSearch(e.target.value));
+  searchInput.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.getElementById('searchOverlay').classList.remove('active');
+      searchInput.value = '';
+    }
+  });
+
+  // Graph Modal
+  document.getElementById('openGraph').addEventListener('click', () => {
+    document.getElementById('graphModal').classList.add('active');
+    requestAnimationFrame(() => requestAnimationFrame(() => initGraph()));
+  });
+
+  document.getElementById('closeGraph').addEventListener('click', () => {
+    document.getElementById('graphModal').classList.remove('active');
+    if (graphSimulation) { graphSimulation.stop(); graphSimulation = null; }
+  });
+
+  document.getElementById('graphModuleFilter').addEventListener('change', () => {
+    if (graphSimulation) { graphSimulation.stop(); graphSimulation = null; }
+    initGraph();
+  });
+
+  document.getElementById('graphSearchInput').addEventListener('input', () => {
+    if (graphSimulation) { graphSimulation.stop(); graphSimulation = null; }
+    initGraph();
+  });
+
+  // ESC closes graph
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.getElementById('graphModal').classList.remove('active');
+      document.getElementById('searchOverlay').classList.remove('active');
+      if (graphSimulation) { graphSimulation.stop(); graphSimulation = null; }
+    }
+  });
+
+  // Open modules by default on page load for hero modules
+  setTimeout(() => {
+    // Auto-open Module 1 for demo
+    const m1 = document.getElementById('module-card-1');
+    if (m1) m1.classList.add('open');
+  }, 800);
+});
+</script>
+</body>
+</html>

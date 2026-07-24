@@ -1,0 +1,2981 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "eCRM Complete Documentation",
+      "type": "Project",
+      "module_id": null,
+      "summary": "BATB eCRM Platform Architecture and Database Schema",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "ecrm complete documentation",
+      "id": "eCRM_Platform",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "M1: Users & Identity",
+      "type": "Module",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "m1: users & identity",
+      "id": "Module_1",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "M2: Roles & RBAC",
+      "type": "Module",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "m2: roles & rbac",
+      "id": "Module_2",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "M3: JML Workflow",
+      "type": "Module",
+      "module_id": 3,
+      "summary": "",
+      "file_type": "concept",
+      "community": 11,
+      "norm_label": "m3: jml workflow",
+      "id": "Module_3",
+      "community_name": "M3: JML Workflow"
+    },
+    {
+      "label": "M4: Location Hierarchy",
+      "type": "Module",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "m4: location hierarchy",
+      "id": "Module_4",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "M5: Campaigns",
+      "type": "Module",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "m5: campaigns",
+      "id": "Module_5",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "M6: Products & SKU",
+      "type": "Module",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "m6: products & sku",
+      "id": "Module_6",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "M7: Field Contacts",
+      "type": "Module",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "m7: field contacts",
+      "id": "Module_7",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "M8: QA & Supervision",
+      "type": "Module",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "m8: qa & supervision",
+      "id": "Module_8",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "M9: Dialer Workflows",
+      "type": "Module",
+      "module_id": 9,
+      "summary": "",
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "m9: dialer workflows",
+      "id": "Module_9",
+      "community_name": "M9: Dialer Workflows"
+    },
+    {
+      "label": "M10: Rewards & Coupons",
+      "type": "Module",
+      "module_id": 10,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "m10: rewards & coupons",
+      "id": "Module_10",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "M11: Reporting",
+      "type": "Module",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "m11: reporting",
+      "id": "Module_11",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "M12: Communications",
+      "type": "Module",
+      "module_id": 12,
+      "summary": "",
+      "file_type": "concept",
+      "community": 10,
+      "norm_label": "m12: communications",
+      "id": "Module_12",
+      "community_name": "M12: Communications"
+    },
+    {
+      "label": "M13: Leave Management",
+      "type": "Module",
+      "module_id": 13,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "m13: leave management",
+      "id": "Module_13",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "M14: AAI Audio Auditing",
+      "type": "Module",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "m14: aai audio auditing",
+      "id": "Module_14",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "users",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "users",
+      "id": "users",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "user_infos",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "user_infos",
+      "id": "user_infos",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "user_details",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "user_details",
+      "id": "user_details",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "device_registers",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "device_registers",
+      "id": "device_registers",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "user_device_maps",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "user_device_maps",
+      "id": "user_device_maps",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "user_apk_maps",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "user_apk_maps",
+      "id": "user_apk_maps",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "app_versions",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "app_versions",
+      "id": "app_versions",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "app_version_control",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "app_version_control",
+      "id": "app_version_control",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "thirdparties",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "thirdparties",
+      "id": "thirdparties",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "forget_password_otp_verify",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "forget_password_otp_verify",
+      "id": "forget_password_otp_verify",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "otp_verifications",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "otp_verifications",
+      "id": "otp_verifications",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "porichoy_infos",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "porichoy_infos",
+      "id": "porichoy_infos",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "audit_logs",
+      "type": "Table",
+      "module_id": 1,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "audit_logs",
+      "id": "audit_logs",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "agencies",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "agencies",
+      "id": "agencies",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "users_agency_maps",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "users_agency_maps",
+      "id": "users_agency_maps",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "agency_resource_map",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "agency_resource_map",
+      "id": "agency_resource_map",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "user_approval_maps",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 1,
+      "norm_label": "user_approval_maps",
+      "id": "user_approval_maps",
+      "community_name": "M1: Users & Identity"
+    },
+    {
+      "label": "settings._cats",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "settings._cats",
+      "id": "settings._cats",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "settings.resources",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "settings.resources",
+      "id": "settings.resources",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "roles",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "roles",
+      "id": "roles",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "role_agency_maps",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "role_agency_maps",
+      "id": "role_agency_maps",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "role_location_maps",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "role_location_maps",
+      "id": "role_location_maps",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "role_report_to_maps",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "role_report_to_maps",
+      "id": "role_report_to_maps",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "role_resource_maps",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "role_resource_maps",
+      "id": "role_resource_maps",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "role_tree_maps",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "role_tree_maps",
+      "id": "role_tree_maps",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "user_sup_maps",
+      "type": "Table",
+      "module_id": 2,
+      "summary": "",
+      "file_type": "concept",
+      "community": 5,
+      "norm_label": "user_sup_maps",
+      "id": "user_sup_maps",
+      "community_name": "M2: Roles & RBAC"
+    },
+    {
+      "label": "jml_tickets",
+      "type": "Table",
+      "module_id": 3,
+      "summary": "",
+      "file_type": "concept",
+      "community": 11,
+      "norm_label": "jml_tickets",
+      "id": "jml_tickets",
+      "community_name": "M3: JML Workflow"
+    },
+    {
+      "label": "ticket_status_maps",
+      "type": "Table",
+      "module_id": 3,
+      "summary": "",
+      "file_type": "concept",
+      "community": 11,
+      "norm_label": "ticket_status_maps",
+      "id": "ticket_status_maps",
+      "community_name": "M3: JML Workflow"
+    },
+    {
+      "label": "user_ticket_maps",
+      "type": "Table",
+      "module_id": 3,
+      "summary": "",
+      "file_type": "concept",
+      "community": 11,
+      "norm_label": "user_ticket_maps",
+      "id": "user_ticket_maps",
+      "community_name": "M3: JML Workflow"
+    },
+    {
+      "label": "user_ticket_role_maps",
+      "type": "Table",
+      "module_id": 3,
+      "summary": "",
+      "file_type": "concept",
+      "community": 11,
+      "norm_label": "user_ticket_role_maps",
+      "id": "user_ticket_role_maps",
+      "community_name": "M3: JML Workflow"
+    },
+    {
+      "label": "bulk_assignment_tickets",
+      "type": "Table",
+      "module_id": 3,
+      "summary": "",
+      "file_type": "concept",
+      "community": 11,
+      "norm_label": "bulk_assignment_tickets",
+      "id": "bulk_assignment_tickets",
+      "community_name": "M3: JML Workflow"
+    },
+    {
+      "label": "bulk_assignment_ticket_status_maps",
+      "type": "Table",
+      "module_id": 3,
+      "summary": "",
+      "file_type": "concept",
+      "community": 11,
+      "norm_label": "bulk_assignment_ticket_status_maps",
+      "id": "bulk_assignment_ticket_status_maps",
+      "community_name": "M3: JML Workflow"
+    },
+    {
+      "label": "locations",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "locations",
+      "id": "locations",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "hierarchy",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "hierarchy",
+      "id": "hierarchy",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "geo_location",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "geo_location",
+      "id": "geo_location",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "region_area",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "region_area",
+      "id": "region_area",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "breakstation",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "breakstation",
+      "id": "breakstation",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "breakstation_dp",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "breakstation_dp",
+      "id": "breakstation_dp",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "dp_region",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "dp_region",
+      "id": "dp_region",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "all_old_location",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "all_old_location",
+      "id": "all_old_location",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "all_locations_region_to_outlet",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "all_locations_region_to_outlet",
+      "id": "all_locations_region_to_outlet",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "dp_route_clusters",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "dp_route_clusters",
+      "id": "dp_route_clusters",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "dp_ter_area_region",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "dp_ter_area_region",
+      "id": "dp_ter_area_region",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "region_dp",
+      "type": "Table",
+      "module_id": 4,
+      "summary": "",
+      "file_type": "concept",
+      "community": 6,
+      "norm_label": "region_dp",
+      "id": "region_dp",
+      "community_name": "M4: Location Hierarchy"
+    },
+    {
+      "label": "campaigns",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "campaigns",
+      "id": "campaigns",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "campaign_location_maps",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "campaign_location_maps",
+      "id": "campaign_location_maps",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "campaign_agency_maps",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "campaign_agency_maps",
+      "id": "campaign_agency_maps",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "campaign_targets",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "campaign_targets",
+      "id": "campaign_targets",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "campaign_target_parameter_maps",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "campaign_target_parameter_maps",
+      "id": "campaign_target_parameter_maps",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "campaign_target_sku_maps",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "campaign_target_sku_maps",
+      "id": "campaign_target_sku_maps",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "campaign_theme_maps",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "campaign_theme_maps",
+      "id": "campaign_theme_maps",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "campaign_loc_ff_allocations",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "campaign_loc_ff_allocations",
+      "id": "campaign_loc_ff_allocations",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "users_campaign_maps",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "users_campaign_maps",
+      "id": "users_campaign_maps",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "users_camp_term_maps",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "users_camp_term_maps",
+      "id": "users_camp_term_maps",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "manpowers",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "manpowers",
+      "id": "manpowers",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "repeat_schedule_maps",
+      "type": "Table",
+      "module_id": 5,
+      "summary": "",
+      "file_type": "concept",
+      "community": 7,
+      "norm_label": "repeat_schedule_maps",
+      "id": "repeat_schedule_maps",
+      "community_name": "M5: Campaigns"
+    },
+    {
+      "label": "product_categories",
+      "type": "Table",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "product_categories",
+      "id": "product_categories",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "products",
+      "type": "Table",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "products",
+      "id": "products",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "sku_items",
+      "type": "Table",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "sku_items",
+      "id": "sku_items",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "sku_product_maps",
+      "type": "Table",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "sku_product_maps",
+      "id": "sku_product_maps",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "sku_item_price",
+      "type": "Table",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "sku_item_price",
+      "id": "sku_item_price",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "materials",
+      "type": "Table",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "materials",
+      "id": "materials",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "material_campaign_maps",
+      "type": "Table",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "material_campaign_maps",
+      "id": "material_campaign_maps",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "daily_material_maps",
+      "type": "Table",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "daily_material_maps",
+      "id": "daily_material_maps",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "daily_material_acceptance_maps",
+      "type": "Table",
+      "module_id": 6,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "daily_material_acceptance_maps",
+      "id": "daily_material_acceptance_maps",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "contacts",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "contacts",
+      "id": "contacts",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "consumers",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "consumers",
+      "id": "consumers",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "users_consumer_maps",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "users_consumer_maps",
+      "id": "users_consumer_maps",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "contact_survey_data_maps",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "contact_survey_data_maps",
+      "id": "contact_survey_data_maps",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "surveys",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "surveys",
+      "id": "surveys",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "survey_data_maps",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "survey_data_maps",
+      "id": "survey_data_maps",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "outlets",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "outlets",
+      "id": "outlets",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "retailer_contacts",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "retailer_contacts",
+      "id": "retailer_contacts",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "retailer_contact_survey_data_map",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "retailer_contact_survey_data_map",
+      "id": "retailer_contact_survey_data_map",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "cdr_contacts",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "cdr_contacts",
+      "id": "cdr_contacts",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "iris_analyses",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "iris_analyses",
+      "id": "iris_analyses",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "tap_analyses",
+      "type": "Table",
+      "module_id": 7,
+      "summary": "",
+      "file_type": "concept",
+      "community": 2,
+      "norm_label": "tap_analyses",
+      "id": "tap_analyses",
+      "community_name": "M7: Field Contacts"
+    },
+    {
+      "label": "supervisor_contacts",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "supervisor_contacts",
+      "id": "supervisor_contacts",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "supervisor_contact_survey_data_maps",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "supervisor_contact_survey_data_maps",
+      "id": "supervisor_contact_survey_data_maps",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "joint_calls",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "joint_calls",
+      "id": "joint_calls",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "joint_calls_survey_data_maps",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "joint_calls_survey_data_maps",
+      "id": "joint_calls_survey_data_maps",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "campaign_joint_call_maps",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "campaign_joint_call_maps",
+      "id": "campaign_joint_call_maps",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "campaign_callcheckback_maps",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "campaign_callcheckback_maps",
+      "id": "campaign_callcheckback_maps",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "daily_checks",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "daily_checks",
+      "id": "daily_checks",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "sup_br_maps",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "sup_br_maps",
+      "id": "sup_br_maps",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "sup_callcheckbacks",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "sup_callcheckbacks",
+      "id": "sup_callcheckbacks",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "sup_br_callcheckback_maps",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "sup_br_callcheckback_maps",
+      "id": "sup_br_callcheckback_maps",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "sup_geo_tags",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "sup_geo_tags",
+      "id": "sup_geo_tags",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "live_locations",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "live_locations",
+      "id": "live_locations",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "proximity_report",
+      "type": "Table",
+      "module_id": 8,
+      "summary": "",
+      "file_type": "concept",
+      "community": 3,
+      "norm_label": "proximity_report",
+      "id": "proximity_report",
+      "community_name": "M8: QA & Supervision"
+    },
+    {
+      "label": "consumer_dialer_list",
+      "type": "Table",
+      "module_id": 9,
+      "summary": "",
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "consumer_dialer_list",
+      "id": "consumer_dialer_list",
+      "community_name": "M9: Dialer Workflows"
+    },
+    {
+      "label": "consumer_dialer_br_assignments",
+      "type": "Table",
+      "module_id": 9,
+      "summary": "",
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "consumer_dialer_br_assignments",
+      "id": "consumer_dialer_br_assignments",
+      "community_name": "M9: Dialer Workflows"
+    },
+    {
+      "label": "consumer_dialer_contacts",
+      "type": "Table",
+      "module_id": 9,
+      "summary": "",
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "consumer_dialer_contacts",
+      "id": "consumer_dialer_contacts",
+      "community_name": "M9: Dialer Workflows"
+    },
+    {
+      "label": "consumer_dialer_survey_maps",
+      "type": "Table",
+      "module_id": 9,
+      "summary": "",
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "consumer_dialer_survey_maps",
+      "id": "consumer_dialer_survey_maps",
+      "community_name": "M9: Dialer Workflows"
+    },
+    {
+      "label": "retailer_outlet_dialer_list",
+      "type": "Table",
+      "module_id": 9,
+      "summary": "",
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "retailer_outlet_dialer_list",
+      "id": "retailer_outlet_dialer_list",
+      "community_name": "M9: Dialer Workflows"
+    },
+    {
+      "label": "retailer_outlet_dialer_br_assignments",
+      "type": "Table",
+      "module_id": 9,
+      "summary": "",
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "retailer_outlet_dialer_br_assignments",
+      "id": "retailer_outlet_dialer_br_assignments",
+      "community_name": "M9: Dialer Workflows"
+    },
+    {
+      "label": "retailer_outlet_dialer_survey_maps",
+      "type": "Table",
+      "module_id": 9,
+      "summary": "",
+      "file_type": "concept",
+      "community": 9,
+      "norm_label": "retailer_outlet_dialer_survey_maps",
+      "id": "retailer_outlet_dialer_survey_maps",
+      "community_name": "M9: Dialer Workflows"
+    },
+    {
+      "label": "ptr_shifts",
+      "type": "Table",
+      "module_id": 10,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "ptr_shifts",
+      "id": "ptr_shifts",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "coupon_codes",
+      "type": "Table",
+      "module_id": 10,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "coupon_codes",
+      "id": "coupon_codes",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "users_asset_maps",
+      "type": "Table",
+      "module_id": 10,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "users_asset_maps",
+      "id": "users_asset_maps",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "dynamic_reports",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "dynamic_reports",
+      "id": "dynamic_reports",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "dynamic_report_role_maps",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "dynamic_report_role_maps",
+      "id": "dynamic_report_role_maps",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "dynamic_report_parameter_maps",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "dynamic_report_parameter_maps",
+      "id": "dynamic_report_parameter_maps",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "dynamic_report_chart_maps",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "dynamic_report_chart_maps",
+      "id": "dynamic_report_chart_maps",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "dynamic_report_agency_maps",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "dynamic_report_agency_maps",
+      "id": "dynamic_report_agency_maps",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "dashboards",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "dashboards",
+      "id": "dashboards",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "preloaded_reports",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "preloaded_reports",
+      "id": "preloaded_reports",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "preloaded_report_user_maps",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "preloaded_report_user_maps",
+      "id": "preloaded_report_user_maps",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "messaging_reports",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "messaging_reports",
+      "id": "messaging_reports",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "messaging_report_date_maps",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "messaging_report_date_maps",
+      "id": "messaging_report_date_maps",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "messaging_report_user_maps",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "messaging_report_user_maps",
+      "id": "messaging_report_user_maps",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "custom_queries",
+      "type": "Table",
+      "module_id": 11,
+      "summary": "",
+      "file_type": "concept",
+      "community": 4,
+      "norm_label": "custom_queries",
+      "id": "custom_queries",
+      "community_name": "M11: Reporting"
+    },
+    {
+      "label": "notifications",
+      "type": "Table",
+      "module_id": 12,
+      "summary": "",
+      "file_type": "concept",
+      "community": 10,
+      "norm_label": "notifications",
+      "id": "notifications",
+      "community_name": "M12: Communications"
+    },
+    {
+      "label": "manual_notifications",
+      "type": "Table",
+      "module_id": 12,
+      "summary": "",
+      "file_type": "concept",
+      "community": 10,
+      "norm_label": "manual_notifications",
+      "id": "manual_notifications",
+      "community_name": "M12: Communications"
+    },
+    {
+      "label": "audios",
+      "type": "Table",
+      "module_id": 12,
+      "summary": "",
+      "file_type": "concept",
+      "community": 10,
+      "norm_label": "audios",
+      "id": "audios",
+      "community_name": "M12: Communications"
+    },
+    {
+      "label": "chats",
+      "type": "Table",
+      "module_id": 12,
+      "summary": "",
+      "file_type": "concept",
+      "community": 10,
+      "norm_label": "chats",
+      "id": "chats",
+      "community_name": "M12: Communications"
+    },
+    {
+      "label": "contact_message_maps",
+      "type": "Table",
+      "module_id": 12,
+      "summary": "",
+      "file_type": "concept",
+      "community": 10,
+      "norm_label": "contact_message_maps",
+      "id": "contact_message_maps",
+      "community_name": "M12: Communications"
+    },
+    {
+      "label": "whatsapp_lookups",
+      "type": "Table",
+      "module_id": 12,
+      "summary": "",
+      "file_type": "concept",
+      "community": 10,
+      "norm_label": "whatsapp_lookups",
+      "id": "whatsapp_lookups",
+      "community_name": "M12: Communications"
+    },
+    {
+      "label": "leaves",
+      "type": "Table",
+      "module_id": 13,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "leaves",
+      "id": "leaves",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "leave_date_maps",
+      "type": "Table",
+      "module_id": 13,
+      "summary": "",
+      "file_type": "concept",
+      "community": 0,
+      "norm_label": "leave_date_maps",
+      "id": "leave_date_maps",
+      "community_name": "eCRM Complete Documentation"
+    },
+    {
+      "label": "aai_projects",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_projects",
+      "id": "aai_projects",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_levels",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_levels",
+      "id": "aai_levels",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_questions",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_questions",
+      "id": "aai_questions",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_project_level_maps",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_project_level_maps",
+      "id": "aai_project_level_maps",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_auditor_project_maps",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_auditor_project_maps",
+      "id": "aai_auditor_project_maps",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_role_level_maps",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_role_level_maps",
+      "id": "aai_role_level_maps",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_projects_phrase_maps",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_projects_phrase_maps",
+      "id": "aai_projects_phrase_maps",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_audios",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_audios",
+      "id": "aai_audios",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_audio_assign_maps",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_audio_assign_maps",
+      "id": "aai_audio_assign_maps",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_verified_audios",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_verified_audios",
+      "id": "aai_verified_audios",
+      "community_name": "M14: AAI Audio Auditing"
+    },
+    {
+      "label": "aai_verification_answer_maps",
+      "type": "Table",
+      "module_id": 14,
+      "summary": "",
+      "file_type": "concept",
+      "community": 8,
+      "norm_label": "aai_verification_answer_maps",
+      "id": "aai_verification_answer_maps",
+      "community_name": "M14: AAI Audio Auditing"
+    }
+  ],
+  "links": [
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_1"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_10"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_11"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_12"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_13"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_14"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_2"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_3"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_4"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_5"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_6"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_7"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_8"
+    },
+    {
+      "type": "contains",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "eCRM_Platform",
+      "target": "Module_9"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "app_version_control"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "app_versions"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "audit_logs"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "device_registers"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "forget_password_otp_verify"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "otp_verifications"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "porichoy_infos"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "thirdparties"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "user_apk_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "user_details"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "user_device_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "user_infos"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_1",
+      "target": "users"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "agencies"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "agency_resource_map"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "role_agency_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "role_location_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "role_report_to_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "role_resource_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "role_tree_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "roles"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "settings._cats"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "settings.resources"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "user_approval_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "user_sup_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_2",
+      "target": "users_agency_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_3",
+      "target": "bulk_assignment_ticket_status_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_3",
+      "target": "bulk_assignment_tickets"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_3",
+      "target": "jml_tickets"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_3",
+      "target": "ticket_status_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_3",
+      "target": "user_ticket_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_3",
+      "target": "user_ticket_role_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "all_locations_region_to_outlet"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "all_old_location"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "breakstation"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "breakstation_dp"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "dp_region"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "dp_route_clusters"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "dp_ter_area_region"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "geo_location"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "hierarchy"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "locations"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "region_area"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_4",
+      "target": "region_dp"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "campaign_agency_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "campaign_loc_ff_allocations"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "campaign_location_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "campaign_target_parameter_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "campaign_target_sku_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "campaign_targets"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "campaign_theme_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "campaigns"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "manpowers"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "repeat_schedule_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "users_camp_term_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_5",
+      "target": "users_campaign_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_6",
+      "target": "daily_material_acceptance_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_6",
+      "target": "daily_material_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_6",
+      "target": "material_campaign_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_6",
+      "target": "materials"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_6",
+      "target": "product_categories"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_6",
+      "target": "products"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_6",
+      "target": "sku_item_price"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_6",
+      "target": "sku_items"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_6",
+      "target": "sku_product_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "cdr_contacts"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "consumers"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "contact_survey_data_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "contacts"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "iris_analyses"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "outlets"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "retailer_contact_survey_data_map"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "retailer_contacts"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "survey_data_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "surveys"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "tap_analyses"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_7",
+      "target": "users_consumer_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "campaign_callcheckback_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "campaign_joint_call_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "daily_checks"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "joint_calls"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "joint_calls_survey_data_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "live_locations"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "proximity_report"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "sup_br_callcheckback_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "sup_br_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "sup_callcheckbacks"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "sup_geo_tags"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "supervisor_contact_survey_data_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_8",
+      "target": "supervisor_contacts"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_9",
+      "target": "consumer_dialer_br_assignments"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_9",
+      "target": "consumer_dialer_contacts"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_9",
+      "target": "consumer_dialer_list"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_9",
+      "target": "consumer_dialer_survey_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_9",
+      "target": "retailer_outlet_dialer_br_assignments"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_9",
+      "target": "retailer_outlet_dialer_list"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_9",
+      "target": "retailer_outlet_dialer_survey_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_10",
+      "target": "coupon_codes"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_10",
+      "target": "ptr_shifts"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_10",
+      "target": "users_asset_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "custom_queries"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "dashboards"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "dynamic_report_agency_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "dynamic_report_chart_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "dynamic_report_parameter_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "dynamic_report_role_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "dynamic_reports"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "messaging_report_date_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "messaging_report_user_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "messaging_reports"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "preloaded_report_user_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_11",
+      "target": "preloaded_reports"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_12",
+      "target": "audios"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_12",
+      "target": "chats"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_12",
+      "target": "contact_message_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_12",
+      "target": "manual_notifications"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_12",
+      "target": "notifications"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_12",
+      "target": "whatsapp_lookups"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_13",
+      "target": "leave_date_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_13",
+      "target": "leaves"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_audio_assign_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_audios"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_auditor_project_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_levels"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_project_level_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_projects"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_projects_phrase_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_questions"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_role_level_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_verification_answer_maps"
+    },
+    {
+      "type": "belongs_to",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "Module_14",
+      "target": "aai_verified_audios"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "users",
+      "target": "role_location_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "users",
+      "target": "user_apk_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "users",
+      "target": "user_approval_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "users",
+      "target": "user_details"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "users",
+      "target": "user_device_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "users",
+      "target": "user_infos"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "users",
+      "target": "users_agency_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "app_versions",
+      "target": "user_apk_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "contacts",
+      "target": "otp_verifications"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "agencies",
+      "target": "agency_resource_map"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "agencies",
+      "target": "role_agency_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "agencies",
+      "target": "users_agency_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "roles",
+      "target": "role_agency_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "roles",
+      "target": "role_location_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "roles",
+      "target": "role_report_to_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "roles",
+      "target": "role_resource_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "roles",
+      "target": "role_tree_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "jml_tickets",
+      "target": "ticket_status_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "jml_tickets",
+      "target": "user_ticket_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "jml_tickets",
+      "target": "user_ticket_role_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "bulk_assignment_tickets",
+      "target": "bulk_assignment_ticket_status_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "campaigns",
+      "target": "campaign_agency_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "campaigns",
+      "target": "campaign_location_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "campaigns",
+      "target": "campaign_targets"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "campaigns",
+      "target": "consumer_dialer_list"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "campaigns",
+      "target": "joint_calls"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "campaigns",
+      "target": "retailer_outlet_dialer_list"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "campaigns",
+      "target": "users_campaign_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "products",
+      "target": "sku_items"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "sku_items",
+      "target": "contacts"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "materials",
+      "target": "material_campaign_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "materials",
+      "target": "users_asset_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "contacts",
+      "target": "contact_survey_data_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "retailer_contacts",
+      "target": "retailer_contact_survey_data_map"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "supervisor_contacts",
+      "target": "supervisor_contact_survey_data_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "joint_calls",
+      "target": "joint_calls_survey_data_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "consumer_dialer_br_assignments",
+      "target": "consumer_dialer_contacts"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "consumer_dialer_contacts",
+      "target": "consumer_dialer_survey_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "retailer_outlet_dialer_br_assignments",
+      "target": "retailer_outlet_dialer_list"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "retailer_outlet_dialer_list",
+      "target": "retailer_outlet_dialer_survey_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "dynamic_reports",
+      "target": "dynamic_report_agency_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "dynamic_reports",
+      "target": "dynamic_report_chart_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "dynamic_reports",
+      "target": "dynamic_report_parameter_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "dynamic_reports",
+      "target": "dynamic_report_role_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "aai_projects",
+      "target": "aai_auditor_project_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "aai_projects",
+      "target": "aai_project_level_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "aai_questions",
+      "target": "aai_verification_answer_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "aai_audios",
+      "target": "aai_audio_assign_maps"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "aai_audio_assign_maps",
+      "target": "aai_verified_audios"
+    },
+    {
+      "type": "foreign_key",
+      "source_file": "",
+      "confidence_score": 1.0,
+      "source": "aai_verified_audios",
+      "target": "aai_verification_answer_maps"
+    }
+  ],
+  "hyperedges": []
+}

@@ -1,0 +1,253 @@
+{
+  "communities": {
+    "0": [
+      "Module_10",
+      "Module_13",
+      "Module_6",
+      "coupon_codes",
+      "daily_material_acceptance_maps",
+      "daily_material_maps",
+      "eCRM_Platform",
+      "leave_date_maps",
+      "leaves",
+      "material_campaign_maps",
+      "materials",
+      "product_categories",
+      "products",
+      "ptr_shifts",
+      "sku_item_price",
+      "sku_items",
+      "sku_product_maps",
+      "users_asset_maps"
+    ],
+    "1": [
+      "Module_1",
+      "app_version_control",
+      "app_versions",
+      "audit_logs",
+      "device_registers",
+      "forget_password_otp_verify",
+      "porichoy_infos",
+      "thirdparties",
+      "user_apk_maps",
+      "user_approval_maps",
+      "user_details",
+      "user_device_maps",
+      "user_infos",
+      "users"
+    ],
+    "2": [
+      "Module_7",
+      "cdr_contacts",
+      "consumers",
+      "contact_survey_data_maps",
+      "contacts",
+      "iris_analyses",
+      "otp_verifications",
+      "outlets",
+      "retailer_contact_survey_data_map",
+      "retailer_contacts",
+      "survey_data_maps",
+      "surveys",
+      "tap_analyses",
+      "users_consumer_maps"
+    ],
+    "3": [
+      "Module_8",
+      "campaign_callcheckback_maps",
+      "campaign_joint_call_maps",
+      "daily_checks",
+      "joint_calls",
+      "joint_calls_survey_data_maps",
+      "live_locations",
+      "proximity_report",
+      "sup_br_callcheckback_maps",
+      "sup_br_maps",
+      "sup_callcheckbacks",
+      "sup_geo_tags",
+      "supervisor_contact_survey_data_maps",
+      "supervisor_contacts"
+    ],
+    "4": [
+      "Module_11",
+      "custom_queries",
+      "dashboards",
+      "dynamic_report_agency_maps",
+      "dynamic_report_chart_maps",
+      "dynamic_report_parameter_maps",
+      "dynamic_report_role_maps",
+      "dynamic_reports",
+      "messaging_report_date_maps",
+      "messaging_report_user_maps",
+      "messaging_reports",
+      "preloaded_report_user_maps",
+      "preloaded_reports"
+    ],
+    "5": [
+      "Module_2",
+      "agencies",
+      "agency_resource_map",
+      "role_agency_maps",
+      "role_location_maps",
+      "role_report_to_maps",
+      "role_resource_maps",
+      "role_tree_maps",
+      "roles",
+      "settings._cats",
+      "settings.resources",
+      "user_sup_maps",
+      "users_agency_maps"
+    ],
+    "6": [
+      "Module_4",
+      "all_locations_region_to_outlet",
+      "all_old_location",
+      "breakstation",
+      "breakstation_dp",
+      "dp_region",
+      "dp_route_clusters",
+      "dp_ter_area_region",
+      "geo_location",
+      "hierarchy",
+      "locations",
+      "region_area",
+      "region_dp"
+    ],
+    "7": [
+      "Module_5",
+      "campaign_agency_maps",
+      "campaign_loc_ff_allocations",
+      "campaign_location_maps",
+      "campaign_target_parameter_maps",
+      "campaign_target_sku_maps",
+      "campaign_targets",
+      "campaign_theme_maps",
+      "campaigns",
+      "manpowers",
+      "repeat_schedule_maps",
+      "users_camp_term_maps",
+      "users_campaign_maps"
+    ],
+    "8": [
+      "Module_14",
+      "aai_audio_assign_maps",
+      "aai_audios",
+      "aai_auditor_project_maps",
+      "aai_levels",
+      "aai_project_level_maps",
+      "aai_projects",
+      "aai_projects_phrase_maps",
+      "aai_questions",
+      "aai_role_level_maps",
+      "aai_verification_answer_maps",
+      "aai_verified_audios"
+    ],
+    "9": [
+      "Module_9",
+      "consumer_dialer_br_assignments",
+      "consumer_dialer_contacts",
+      "consumer_dialer_list",
+      "consumer_dialer_survey_maps",
+      "retailer_outlet_dialer_br_assignments",
+      "retailer_outlet_dialer_list",
+      "retailer_outlet_dialer_survey_maps"
+    ],
+    "10": [
+      "Module_12",
+      "audios",
+      "chats",
+      "contact_message_maps",
+      "manual_notifications",
+      "notifications",
+      "whatsapp_lookups"
+    ],
+    "11": [
+      "Module_3",
+      "bulk_assignment_ticket_status_maps",
+      "bulk_assignment_tickets",
+      "jml_tickets",
+      "ticket_status_maps",
+      "user_ticket_maps",
+      "user_ticket_role_maps"
+    ]
+  },
+  "cohesion": {
+    "0": 0.13071895424836602,
+    "1": 0.1978021978021978,
+    "2": 0.16483516483516483,
+    "3": 0.16483516483516483,
+    "4": 0.20512820512820512,
+    "5": 0.2564102564102564,
+    "6": 0.15384615384615385,
+    "7": 0.20512820512820512,
+    "8": 0.25757575757575757,
+    "9": 0.39285714285714285,
+    "10": 0.2857142857142857,
+    "11": 0.47619047619047616
+  },
+  "gods": [],
+  "surprises": [
+    {
+      "source": "eCRM Complete Documentation",
+      "target": "M1: Users & Identity",
+      "source_files": [
+        "",
+        ""
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "",
+      "note": "Bridges community 0 → community 1"
+    },
+    {
+      "source": "eCRM Complete Documentation",
+      "target": "M11: Reporting",
+      "source_files": [
+        "",
+        ""
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "",
+      "note": "Bridges community 0 → community 4"
+    },
+    {
+      "source": "eCRM Complete Documentation",
+      "target": "M12: Communications",
+      "source_files": [
+        "",
+        ""
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "",
+      "note": "Bridges community 0 → community 10"
+    },
+    {
+      "source": "eCRM Complete Documentation",
+      "target": "M14: AAI Audio Auditing",
+      "source_files": [
+        "",
+        ""
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "",
+      "note": "Bridges community 0 → community 8"
+    },
+    {
+      "source": "eCRM Complete Documentation",
+      "target": "M2: Roles & RBAC",
+      "source_files": [
+        "",
+        ""
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "",
+      "note": "Bridges community 0 → community 5"
+    }
+  ],
+  "questions": [
+    {
+      "type": "low_cohesion",
+      "question": "Should `eCRM Complete Documentation` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.13071895424836602 - nodes in this community are weakly interconnected."
+    }
+  ]
+}

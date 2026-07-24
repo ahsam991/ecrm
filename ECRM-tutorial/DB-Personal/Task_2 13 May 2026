@@ -1,0 +1,93 @@
+-- Find Count of consumer. how many of them are Fresh Consumer. if true fresh consumer ,if false 'not fresh consumer'.
+--campaign 161 
+--date range 2025-10-20 to till date
+-- Solution 
+SELECT 
+    consumer_id,
+    contact_date,
+    CASE 
+        WHEN additional_info::jsonb ->> 'fresh_consumer' = 'true' THEN 'Fresh Consumer' ELSE 'Not Fresh Consumer'
+    END AS consumer_status
+FROM ecrm.contacts
+WHERE campaign_id = 161
+    AND contact_date >= '2025-10-20'
+    AND is_deleted = false
+ORDER BY contact_date;
+
+
+--- Task 2 
+
+
+SELECT 
+ c.contact_date as "Contact Date ",
+ c.id as "Contact Id",
+from ecrm.contacts
+join ecrm.materials ms on ecrm.contacts c.giveable = ms.id
+where campaign_id = 161;
+
+
+
+
+
+SELECT 
+    c.contact_date AS "Contact Date",
+    COUNT(c.giveable) AS "Total giveable",
+   -- COUNT( c.consumer_id) AS "Total  Consumers",
+    m.name  AS "Materials Given"
+FROM ecrm.contacts c
+LEFT JOIN ecrm.materials m ON c.giveable = m.id 
+WHERE c.campaign_id = 161
+     AND c.contact_date >= '2025-10-20'
+GROUP BY c.contact_date ,m.name
+ORDER BY c.contact_date DESC
+LIMIT 500;
+
+
+-- Total Contacts PTR item name 
+select 
+ distinct giveable
+ from ecrm.contacts
+ where campaign_id = 161;
+ --limit 200; 
+ 
+ ---- Unique PTR -----------
+ SELECT 
+ DISTINCT 
+    c.giveable,
+    m.name AS "Material_Name"
+FROM ecrm.contacts c
+LEFT JOIN ecrm.materials m ON c.giveable = m.id 
+WHERE c.campaign_id = 161
+    AND c.giveable IS NOT NULL
+ORDER BY c.giveable;
+
+
+
+-------------outlet wise ptr count ------------
+
+SELECT 
+    ou.retailer_code AS "Retailer Code",
+    c.contact_date AS "Contact Date",
+    COUNT(c.id) AS "Total Contacts",
+    COUNT(CASE WHEN m.name = 'Lighter' OR c.giveable = 7 THEN 1 END) AS "Lighter",
+    COUNT(CASE WHEN m.name = 'Pocket Body Spray' OR c.giveable = 135 THEN 1 END) AS "Pocket Body Spray",
+    COUNT(CASE WHEN m.name = 'Xcel Gum' OR c.giveable = 138 THEN 1 END) AS "Xcel Gum",
+    COUNT(CASE WHEN m.name = 'Swapping' OR c.giveable = 140 THEN 1 END) AS "Swapping",
+    COUNT(CASE WHEN m.name = 'Biker Jacket' OR c.giveable = 152 THEN 1 END) AS "Biker Jacket",
+    COUNT(CASE WHEN c.giveable IS NULL 
+                OR CAST(c.giveable AS TEXT) IN ('null', 'none', '0', 'None','NULL', '')
+                OR c.giveable = 0 THEN 1 END) AS "No PTR"
+FROM ecrm.contacts c
+LEFT JOIN ecrm.materials m ON c.giveable = m.id AND m.is_deleted = false
+LEFT JOIN ecrm.outlets_u ou ON c.location_id = ou.location_id
+WHERE c.campaign_id = 161
+    AND c.is_deleted = false
+    -- AND c.contact_date >= '2025-10-20'
+GROUP BY ou.retailer_code, c.contact_date
+ORDER BY c.contact_date DESC, ou.retailer_code
+LIMIT 200;
+
+------------------------------------------------------
+
+
+

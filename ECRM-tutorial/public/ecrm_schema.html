@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/svg+xml" href="img/ECRM_Logo.aa055d6f9939ac675c4fe4f3451220f2.svg">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECRM Schema — Table Relationships</title>
+<link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+<link rel="apple-touch-icon" href="img/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0d0f14;
+  --bg2:       #13161e;
+  --bg3:       #1a1d28;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.13);
+  --text:      #c8ccda;
+  --text-dim:  #5a6070;
+  --text-bright: #eef0f6;
+
+  --blue:      #3b82f6;
+  --blue-dim:  rgba(59,130,246,0.12);
+  --blue-glow: rgba(59,130,246,0.3);
+  --purple:    #a78bfa;
+  --purple-dim:rgba(167,139,250,0.12);
+  --teal:      #2dd4bf;
+  --teal-dim:  rgba(45,212,191,0.12);
+  --coral:     #fb7185;
+  --coral-dim: rgba(251,113,133,0.12);
+  --amber:     #fbbf24;
+  --amber-dim: rgba(251,191,36,0.12);
+  --green:     #4ade80;
+  --green-dim: rgba(74,222,128,0.12);
+
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+  --radius: 8px;
+}
+
+html { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 14px; }
+body { min-height: 100vh; }
+
+/* ── Layout ─────────────────────────────────────── */
+.shell {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.header-left { display: flex; align-items: center; gap: 14px; }
+
+.db-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--blue);
+  background: var(--blue-dim);
+  border: 1px solid rgba(59,130,246,0.2);
+  border-radius: 4px;
+  padding: 3px 8px;
+}
+
+h1 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-bright);
+  letter-spacing: -0.01em;
+}
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.tab {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all .18s ease;
+  white-space: nowrap;
+}
+.tab:hover { color: var(--text); border-color: rgba(255,255,255,0.22); background: var(--bg3); }
+.tab.active { background: var(--blue-dim); border-color: var(--blue); color: var(--blue); }
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  overflow: hidden;
+}
+
+/* ── Canvas ─────────────────────────────────────── */
+.canvas-wrap {
+  position: relative;
+  overflow: auto;
+  background: var(--bg);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+svg { display: block; }
+
+/* Table node styles */
+.tbl-node { cursor: pointer; }
+.tbl-node rect { transition: filter .15s; }
+.tbl-node:hover rect.body { filter: brightness(1.25); }
+.tbl-node.selected rect.body { filter: brightness(1.4); }
+
+/* Edge styles */
+.edge { cursor: pointer; }
+.edge path, .edge line { transition: stroke-width .15s, opacity .15s; }
+.edge:hover path, .edge:hover line { stroke-width: 2.5 !important; }
+.edge.faded path, .edge.faded line { opacity: 0.08; }
+.edge.highlighted path, .edge.highlighted line { opacity: 1 !important; }
+
+/* ── Sidebar ────────────────────────────────────── */
+.sidebar {
+  border-left: 1px solid var(--border);
+  background: var(--bg2);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.sidebar-content { padding: 16px 20px; flex: 1; }
+
+.empty-state {
+  color: var(--text-dim);
+  font-size: 13px;
+  line-height: 1.6;
+  padding-top: 8px;
+}
+
+.detail-title {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-bright);
+  margin-bottom: 4px;
+  word-break: break-all;
+}
+
+.detail-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  margin-bottom: 12px;
+}
+
+.detail-sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.detail-section { margin-bottom: 16px; }
+.detail-section-title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.join-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  cursor: pointer;
+  transition: border-color .15s;
+}
+.join-row:hover { border-color: var(--border2); }
+
+.join-type {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.join-type.inner { color: var(--blue); }
+.join-type.left  { color: var(--text-dim); }
+.join-type.cross { color: var(--green); }
+
+.join-tables {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-bright);
+}
+
+.join-key {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  white-space: pre-wrap;
+  line-height: 1.4;
+}
+
+/* Legend */
+.legend {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+
+.leg-line {
+  width: 28px;
+  height: 2px;
+  flex-shrink: 0;
+}
+
+/* Tooltip */
+#tooltip {
+  position: fixed;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-bright);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .12s;
+  max-width: 220px;
+  line-height: 1.5;
+  z-index: 100;
+  white-space: pre-wrap;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+
+/* SQL Panel */
+#sqlPanel {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: rgba(13,15,20,0.92);
+  backdrop-filter: blur(4px);
+  flex-direction: column;
+}
+#sqlPanel.visible { display: flex; }
+
+.sql-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  flex-shrink: 0;
+}
+.sql-panel-title {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--amber);
+  letter-spacing: 0.04em;
+}
+.sql-close {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.sql-close:hover { color: var(--text-bright); border-color: rgba(255,255,255,0.25); }
+
+.sql-copy-btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.3);
+  color: var(--amber);
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.sql-copy-btn:hover { background: rgba(251,191,36,0.2); }
+
+.sql-body {
+  flex: 1;
+  overflow: auto;
+  padding: 24px 28px;
+}
+
+.sql-meta {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.sql-meta-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 3px;
+  border: 1px solid var(--border2);
+  color: var(--text-dim);
+}
+
+pre.sql-code {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.75;
+  color: var(--text);
+  white-space: pre;
+  tab-size: 4;
+  overflow-x: auto;
+  padding: 20px 24px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  border-left: 3px solid var(--amber);
+}
+
+/* SQL syntax colours */
+.kw  { color: #60a5fa; }   /* keywords: SELECT FROM LEFT JOIN WHERE GROUP BY */
+.fn  { color: #a78bfa; }   /* functions: TO_CHAR MAX CASE WHEN */
+.str { color: #86efac; }   /* strings */
+.cm  { color: #4b5563; font-style: italic; }  /* comments */
+.tbl { color: #2dd4bf; }   /* table names */
+.col { color: #fbbf24; }   /* column aliases */
+.num { color: #f97316; }   /* numbers / type values */
+</style>
+</head>
+<body>
+<div id="tooltip"></div>
+
+<div class="shell">
+  <header>
+    <div class="header-left">
+      <span class="db-badge">ecrm_prod</span>
+      <h1>ECRM — Table Relationship Viewer</h1>
+    </div>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-report="daily">Daily Contact</button>
+      <button class="tab" data-report="live">Live Observation</button>
+      <button class="tab" data-report="checkback">Call Checkback</button>
+      <button class="tab" data-report="callcenter">Call Center</button>
+      <button class="tab" data-report="all">All Tables</button>
+      <button class="tab" id="sqlToggleBtn" onclick="toggleSQL()" style="margin-left:8px;border-color:rgba(251,191,36,0.35);color:#fbbf24;">&#60;/&#62; SQL</button>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="canvas-wrap" id="canvasWrap" style="position: relative;">
+      <!-- Floating Canvas Toolbar -->
+      <div style="position: absolute; bottom: 20px; left: 20px; z-index: 10; display: flex; gap: 6px; background: rgba(19, 22, 30, 0.85); backdrop-filter: blur(8px); border: 1px solid var(--border2); padding: 6px; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); align-items: center;">
+        <button class="tab" onclick="schemaZoom(1.15)" style="padding: 4px 10px; min-width: 32px; font-weight: bold; margin: 0;">＋</button>
+        <button class="tab" onclick="schemaZoom(0.85)" style="padding: 4px 10px; min-width: 32px; font-weight: bold; margin: 0;">－</button>
+        <button class="tab" onclick="schemaZoomReset()" style="padding: 4px 10px; margin: 0;">Reset</button>
+        <span id="schemaZoomLabel" style="font-family:var(--mono); font-size:11px; color:var(--text); display:flex; align-items:center; padding:0 8px; font-weight: 500;">100%</span>
+      </div>
+
+      <!-- SVG container that will be scaled -->
+      <div id="svgContainer" style="transform-origin: 0 0; transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1); display: block;"></div>
+
+      <!-- SQL overlay panel (shown when SQL button clicked) -->
+      <div id="sqlPanel">
+        <div class="sql-panel-header">
+          <span class="sql-panel-title" id="sqlPanelTitle">SQL Query</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <button class="sql-copy-btn" onclick="copySQL()">Copy SQL</button>
+            <button class="sql-close" onclick="toggleSQL()">✕ Close</button>
+          </div>
+        </div>
+        <div class="sql-body">
+          <div class="sql-meta" id="sqlMeta"></div>
+          <pre class="sql-code" id="sqlCode"></pre>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar">
+      <div class="sidebar-header">Inspector</div>
+      <div class="sidebar-content" id="sidebarContent">
+        <p class="empty-state">Click a table or connection to inspect it.</p>
+      </div>
+      <div class="legend">
+        <div class="leg-item">
+          <div class="leg-line" style="background:var(--blue)"></div>
+          <span>INNER JOIN</span>
+        </div>
+        <div class="leg-item">
+          <div class="leg-line" style="background:var(--text-dim)"></div>
+          <span>LEFT JOIN</span>
+        </div>
+        <div class="leg-item">
+          <div class="leg-line" style="background:var(--green)"></div>
+          <span>Cross-schema (apsis_data)</span>
+        </div>
+        <div class="leg-item">
+          <div class="leg-line" style="background:var(--blue); opacity:.4; border-top:2px dashed var(--blue); height:0"></div>
+          <span>apsis_data table</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const REPORTS = {
+  daily: {
+    label: "Daily Contact Survey — ecrm.contacts",
+    tables: [
+      { id:"contacts",    label:"ecrm.contacts",         sub:"c · primary",          x:300, y:40,  w:210, color:"blue",   schema:"ecrm",
+        desc:"Primary fact table. One row per consumer contact event. Joined by 14 other tables in this report.",
+        fields:["id PK","contact_date","contact_no","user_id","campaign_id","location_id","product","secondary_brand","contacted_br","signature","start","end"] },
+      { id:"l_outlet",    label:"ecrm.locations",         sub:"type=8 · outlet",      x:50,  y:180, w:185, color:"purple", schema:"ecrm",
+        desc:"Lowest level of the location hierarchy. Joined via c.location_id. INNER JOIN — contacts without a valid outlet are excluded.",
+        fields:["id PK","name","type=8","parent FK→l_cluster"] },
+      { id:"l_cluster",   label:"ecrm.locations",         sub:"type=7 · cluster",     x:50,  y:290, w:185, color:"purple", schema:"ecrm",
+        desc:"One level above outlet. Joined via l_outlet.parent.",fields:["id PK","name","type=7","parent FK→l_route"] },
+      { id:"l_route",     label:"ecrm.locations",         sub:"type=6 · route",       x:50,  y:400, w:185, color:"purple", schema:"ecrm",
+        desc:"One level above cluster. Joined via l_cluster.parent.",fields:["id PK","name","type=6","parent FK→l_point"] },
+      { id:"l_point",     label:"ecrm.locations",         sub:"type=5 · point",       x:50,  y:510, w:185, color:"purple", schema:"ecrm",
+        desc:"Distributor point. Joined via l_route.parent.",fields:["id PK","name","type=5","parent FK→l_territory","source_id"] },
+      { id:"l_territory", label:"ecrm.locations",         sub:"type=3 · territory",   x:50,  y:620, w:185, color:"purple", schema:"ecrm",
+        desc:"One level above distributor point.",fields:["id PK","name","type=3","parent FK→l_area"] },
+      { id:"l_area",      label:"ecrm.locations",         sub:"type=2 · area",        x:50,  y:730, w:185, color:"purple", schema:"ecrm",
+        desc:"One level above territory.",fields:["id PK","name","type=2","parent FK→r"] },
+      { id:"r",           label:"ecrm.locations",         sub:"type=1 · region",      x:50,  y:840, w:185, color:"purple", schema:"ecrm",
+        desc:"Top-level geography. Highest location in the hierarchy.",fields:["id PK","name","type=1","parent NULL"] },
+      { id:"user_infos",  label:"ecrm.user_infos",        sub:"ui · BR full name",    x:550, y:180, w:195, color:"teal",   schema:"ecrm",
+        desc:"Stores full display names for users. Joined via c.user_id = ui.user_id.",fields:["user_id FK","full_name"] },
+      { id:"campaigns",   label:"ecrm.campaigns",         sub:"ca · campaign name",   x:550, y:290, w:195, color:"teal",   schema:"ecrm",
+        desc:"Campaign master table. Joined via c.campaign_id = ca.id.",fields:["id PK","name"] },
+      { id:"consumers",   label:"ecrm.consumers",         sub:"co · consumer profile",x:550, y:400, w:195, color:"teal",   schema:"ecrm",
+        desc:"Consumer profile data. Joined by phone number — not by ID. Beware of duplicates if same number has multiple records.",fields:["contact_no UK","name","fathers_name","dob","address","profession"] },
+      { id:"products_pr", label:"ecrm.products",          sub:"pr · primary brand",   x:550, y:510, w:195, color:"amber",  schema:"ecrm",
+        desc:"Resolves c.product integer to a human-readable brand name.",fields:["id PK","name"] },
+      { id:"products_sr", label:"ecrm.products",          sub:"sr · secondary brand", x:550, y:620, w:195, color:"amber",  schema:"ecrm",
+        desc:"Same table as pr, different alias. Resolves c.secondary_brand.",fields:["id PK","name"] },
+      { id:"csdm",        label:"ecrm.contact_survey\n_data_maps",sub:"cs · survey pivot",   x:550, y:730, w:195, color:"coral",  schema:"ecrm",
+        desc:"One row per question per contact. Pivoted in SELECT using CASE WHEN + MAX() to collapse into one row per contact.",fields:["id PK","contact_id FK","question","answer"] },
+    ],
+    joins: [
+      { from:"contacts",    to:"l_outlet",    type:"inner", key:"c.location_id = l_outlet.id\nAND l_outlet.type = 8" },
+      { from:"l_outlet",    to:"l_cluster",   type:"left",  key:"l_outlet.parent = l_cluster.id\nAND l_cluster.type = 7" },
+      { from:"l_cluster",   to:"l_route",     type:"left",  key:"l_cluster.parent = l_route.id\nAND l_route.type = 6" },
+      { from:"l_route",     to:"l_point",     type:"left",  key:"l_route.parent = l_point.id\nAND l_point.type = 5" },
+      { from:"l_point",     to:"l_territory", type:"left",  key:"l_point.parent = l_territory.id\nAND l_territory.type = 3" },
+      { from:"l_territory", to:"l_area",      type:"left",  key:"l_territory.parent = l_area.id\nAND l_area.type = 2" },
+      { from:"l_area",      to:"r",           type:"left",  key:"l_area.parent = r.id\nAND r.type = 1" },
+      { from:"contacts",    to:"user_infos",  type:"left",  key:"c.user_id = ui.user_id" },
+      { from:"contacts",    to:"campaigns",   type:"left",  key:"c.campaign_id = ca.id" },
+      { from:"contacts",    to:"consumers",   type:"left",  key:"c.contact_no = co.contact_no" },
+      { from:"contacts",    to:"products_pr", type:"left",  key:"c.product = pr.id" },
+      { from:"contacts",    to:"products_sr", type:"left",  key:"c.secondary_brand = sr.id" },
+      { from:"contacts",    to:"csdm",        type:"inner", key:"c.id = cs.contact_id" },
+    ]
+  },
+
+  live: {
+    label: "Live Observation — ecrm.joint_calls",
+    tables: [
+      { id:"jc",        label:"ecrm.joint_calls",    sub:"jc · primary",           x:290, y:40,  w:210, color:"blue",   schema:"ecrm",
+        desc:"Primary table. Each row = one supervisor observation of a BR conducting a contact.",
+        fields:["id PK","contact_date","location_id","user_id (supervisor)","ff_id (BR/field force)","campaign_id"] },
+      { id:"l_outlet",  label:"ecrm.locations",       sub:"type=8 · outlet",        x:50,  y:180, w:185, color:"purple", schema:"ecrm",
+        desc:"LEFT JOIN (unlike Daily's INNER). Joint calls with no outlet still appear.",fields:["id PK","name","type=8","parent"] },
+      { id:"l_cluster", label:"ecrm.locations",       sub:"type=7 · cluster",       x:50,  y:290, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"l_route",   label:"ecrm.locations",       sub:"type=6 · route",         x:50,  y:400, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"l_point",   label:"ecrm.locations",       sub:"type=5 · point",         x:50,  y:510, w:185, color:"purple", schema:"ecrm",
+        desc:"Key table for cross-schema join. l_point.name matched against apsis_data.distributorspoint.name (text-based — fragile).",fields:["id PK","name","type=5","parent"] },
+      { id:"l_terr",    label:"ecrm.locations",       sub:"type=3 · territory",     x:50,  y:620, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"l_area",    label:"ecrm.locations",       sub:"type=2 · area",          x:50,  y:730, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"r",         label:"ecrm.locations",       sub:"type=1 · region",        x:50,  y:840, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"campaigns", label:"ecrm.campaigns",       sub:"ca · campaign name",     x:560, y:180, w:185, color:"teal",   schema:"ecrm", desc:"",fields:["id PK","name"] },
+      { id:"dp",        label:"apsis_data\n.distributorspoint",sub:"dp · name match",x:560,y:310, w:185, color:"green",  schema:"apsis",
+        desc:"Cross-schema. Joined via l_point.name = dp.name (TEXT match). Fragile — name differences between schemas silently return NULL.",
+        fields:["id PK","name","dsid FK→company"] },
+      { id:"co",        label:"apsis_data.company",   sub:"co · parent company",    x:560, y:440, w:185, color:"green",  schema:"apsis",
+        desc:"Company master in apsis_data schema.",fields:["id PK","name"] },
+      { id:"sup",       label:"ecrm.users",           sub:"sup · supervisor",       x:560, y:550, w:185, color:"teal",   schema:"ecrm",
+        desc:"Supervisor — joined via jc.user_id. jc.user_id = supervisor, jc.ff_id = BR. These are semantic opposites of each other.",fields:["id PK","username"] },
+      { id:"sup_i",     label:"ecrm.user_infos",      sub:"sup_i · supervisor name",x:560, y:650, w:185, color:"teal",   schema:"ecrm", desc:"",fields:["user_id FK","full_name"] },
+      { id:"br",        label:"ecrm.users",           sub:"br · field force",       x:560, y:750, w:185, color:"teal",   schema:"ecrm",
+        desc:"BR (field force) being observed — joined via jc.ff_id. ff_id is the only field distinguishing BR from supervisor in this table.",fields:["id PK","username"] },
+      { id:"br_i",      label:"ecrm.user_infos",      sub:"br_i · BR name",         x:560, y:850, w:185, color:"teal",   schema:"ecrm", desc:"",fields:["user_id FK","full_name"] },
+      { id:"jcsdm",     label:"ecrm.joint_calls\n_survey_data_maps",sub:"jcs · survey",x:290,y:960,w:210,color:"coral",  schema:"ecrm",
+        desc:"Survey answers for joint calls. join column: joint_call_id (NOT contact_id). 16 pivot questions about BR process compliance.",fields:["id PK","joint_call_id FK","question","answer"] },
+    ],
+    joins: [
+      { from:"jc",      to:"l_outlet",  type:"left",  key:"jc.location_id = l_outlet.id\nAND l_outlet.type = 8" },
+      { from:"l_outlet",to:"l_cluster", type:"left",  key:"l_outlet.parent = l_cluster.id" },
+      { from:"l_cluster",to:"l_route",  type:"left",  key:"l_cluster.parent = l_route.id" },
+      { from:"l_route", to:"l_point",   type:"left",  key:"l_route.parent = l_point.id" },
+      { from:"l_point", to:"l_terr",    type:"left",  key:"l_point.parent = l_terr.id" },
+      { from:"l_terr",  to:"l_area",    type:"left",  key:"l_terr.parent = l_area.id" },
+      { from:"l_area",  to:"r",         type:"left",  key:"l_area.parent = r.id" },
+      { from:"jc",      to:"campaigns", type:"left",  key:"jc.campaign_id = ca.id" },
+      { from:"l_point", to:"dp",        type:"cross",  key:"l_point.name = dp.name\n⚠ name-based cross-schema match" },
+      { from:"dp",      to:"co",        type:"left",  key:"dp.dsid = co.id" },
+      { from:"jc",      to:"sup",       type:"left",  key:"jc.user_id = sup.id\n(supervisor)" },
+      { from:"sup",     to:"sup_i",     type:"left",  key:"sup.id = sup_i.user_id" },
+      { from:"jc",      to:"br",        type:"left",  key:"jc.ff_id = br.id\n(field force / BR)" },
+      { from:"br",      to:"br_i",      type:"left",  key:"br.id = br_i.user_id" },
+      { from:"jc",      to:"jcsdm",     type:"left",  key:"jc.id = jcs.joint_call_id" },
+    ]
+  },
+
+  checkback: {
+    label: "Call Checkback — ecrm.supervisor_contacts",
+    tables: [
+      { id:"sc",    label:"ecrm.supervisor\n_contacts",    sub:"sc · primary",           x:280, y:40,  w:210, color:"blue",   schema:"ecrm",
+        desc:"Supervisor's post-contact verification call. Each row = one supervisor phone call to a consumer.",
+        fields:["id PK","contact_date","contact (phone)","user_id (supervisor)","br_id","campaign_id"] },
+      { id:"c",     label:"ecrm.contacts",                 sub:"c · 4-key join",          x:280, y:160, w:210, color:"blue",   schema:"ecrm",
+        desc:"The original BR contact being verified. Linked via 4-key composite join: phone+BR+campaign+date. Any mismatch = NULL location data.",
+        fields:["contact_no","user_id","campaign_id","contact_date","location_id"] },
+      { id:"ou",    label:"ecrm.locations",                sub:"type=8 · outlet",         x:50,  y:300, w:185, color:"purple", schema:"ecrm", desc:"Location from c (not from sc). NULL if 4-key join fails.",fields:[] },
+      { id:"cl",    label:"ecrm.locations",                sub:"type=7 · cluster",        x:50,  y:410, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"ro",    label:"ecrm.locations",                sub:"type=6 · route",          x:50,  y:520, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"po",    label:"ecrm.locations",                sub:"type=5 · point",          x:50,  y:630, w:185, color:"purple", schema:"ecrm",
+        desc:"Key for cross-schema join. Uses po.source_id = dp.id (ID-based — more reliable than Live Obs name match).",fields:["id PK","name","type=5","source_id"] },
+      { id:"ter",   label:"ecrm.locations",                sub:"type=3 · territory",      x:50,  y:740, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"ar",    label:"ecrm.locations",                sub:"type=2 · area",           x:50,  y:850, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"re",    label:"ecrm.locations",                sub:"type=1 · region",         x:50,  y:960, w:185, color:"purple", schema:"ecrm", desc:"",fields:[] },
+      { id:"dp",    label:"apsis_data\n.distributorspoint",sub:"dp · ID match",           x:560, y:300, w:185, color:"green",  schema:"apsis",
+        desc:"Cross-schema. Joined via po.source_id = dp.id (integer ID match). More reliable than Live Obs name match.",fields:["id PK","name","dsid FK"] },
+      { id:"co_a",  label:"apsis_data.company",            sub:"co · parent company",     x:560, y:430, w:185, color:"green",  schema:"apsis", desc:"",fields:["id PK","name"] },
+      { id:"sup",   label:"ecrm.users",                   sub:"sup · supervisor",         x:560, y:550, w:185, color:"teal",   schema:"ecrm",
+        desc:"The supervisor making the checkback call — sc.user_id.",fields:["id PK","username"] },
+      { id:"sup_i", label:"ecrm.user_infos",              sub:"sup_i · supervisor name",  x:560, y:650, w:185, color:"teal",   schema:"ecrm", desc:"",fields:["user_id FK","full_name"] },
+      { id:"br",    label:"ecrm.users",                   sub:"br · BR being verified",   x:560, y:750, w:185, color:"teal",   schema:"ecrm",
+        desc:"The BR whose original contact is being audited — sc.br_id. Also used as one of the 4 join keys to ecrm.contacts.",fields:["id PK","username"] },
+      { id:"br_i",  label:"ecrm.user_infos",              sub:"br_i · BR name",           x:560, y:850, w:185, color:"teal",   schema:"ecrm", desc:"",fields:["user_id FK","full_name"] },
+      { id:"cm",    label:"ecrm.campaigns",               sub:"cm · campaign name",       x:560, y:950, w:185, color:"teal",   schema:"ecrm", desc:"",fields:["id PK","name"] },
+      { id:"scs",   label:"ecrm.supervisor_contact\n_survey_data_maps",sub:"scs · survey",x:280,y:1080,w:210,color:"coral",   schema:"ecrm",
+        desc:"Survey answers. Join key: sup_contact_id (not contact_id or joint_call_id). 17 pivot questions verifying BR's earlier contact.",fields:["id PK","sup_contact_id FK","question","answer"] },
+    ],
+    joins: [
+      { from:"sc",  to:"c",    type:"left",  key:"4-key composite:\nsc.contact = c.contact_no\nsc.br_id = c.user_id\nsc.campaign_id = c.campaign_id\nsc.contact_date = c.contact_date" },
+      { from:"c",   to:"ou",   type:"left",  key:"c.location_id = ou.id AND ou.type=8" },
+      { from:"ou",  to:"cl",   type:"left",  key:"ou.parent = cl.id" },
+      { from:"cl",  to:"ro",   type:"left",  key:"cl.parent = ro.id" },
+      { from:"ro",  to:"po",   type:"left",  key:"ro.parent = po.id" },
+      { from:"po",  to:"ter",  type:"left",  key:"po.parent = ter.id" },
+      { from:"ter", to:"ar",   type:"left",  key:"ter.parent = ar.id" },
+      { from:"ar",  to:"re",   type:"left",  key:"ar.parent = re.id" },
+      { from:"po",  to:"dp",   type:"cross",  key:"po.source_id = dp.id\n✓ ID-based cross-schema match" },
+      { from:"dp",  to:"co_a", type:"left",  key:"dp.dsid = co.id" },
+      { from:"sc",  to:"sup",  type:"left",  key:"sc.user_id = sup.id" },
+      { from:"sup", to:"sup_i",type:"left",  key:"sup.id = sup_i.user_id" },
+      { from:"sc",  to:"br",   type:"left",  key:"sc.br_id = br.id" },
+      { from:"br",  to:"br_i", type:"left",  key:"br.id = br_i.user_id" },
+      { from:"sc",  to:"cm",   type:"left",  key:"sc.campaign_id = cm.id" },
+      { from:"sc",  to:"scs",  type:"left",  key:"sc.id = scs.sup_contact_id" },
+    ]
+  },
+
+  callcenter: {
+    label: "Call Center Report — ecrm.consumer_dialer_contacts",
+    sql: `SELECT
+    cdc.id AS "Contact id",
+
+    -- LOCATION HIERARCHY
+    re.name AS "Region",
+    ar.name AS "Area",
+    ter.name AS "Territory",
+    po.name AS "Distributors Point",
+    ro.name AS "Route",
+    cl.name AS "Cluster",
+
+    -- USER
+    br.username AS "User ID",
+    br_i.full_name AS "User Name",
+
+    -- AGENCY (derived from region name)
+    CASE
+        WHEN re.name IN ('Dhaka South', 'Sylhet') THEN 'Asiatic Trade Marketing Services Limited'
+        WHEN re.name IN ('Khulna', 'Barishal', 'Rajshahi') THEN 'Integrated Marketing Service Ltd.'
+        ELSE 'IMSL'
+    END AS "Agency",
+
+    -- CAMPAIGN
+    cam.name AS "Campaign Name",
+
+    -- CONSUMER
+    cdl.consumer_number AS "Consumer Number",
+    TO_CHAR(cdc.start_time, 'MM/DD/YY') AS "Contacted Date",
+    TO_CHAR(cdl.last_contact_date, 'MM/DD/YY') AS "Last Contacted Date",
+
+    -- SURVEY PIVOT
+    MAX(CASE WHEN cdsm.question = 'received_phone_call'
+             THEN cdsm.answer END) AS "received_phone_call",
+    cdl.failed_reason AS "call_not_received_reason",
+    MAX(CASE WHEN cdsm.question = 'agreed_to_talk'
+             THEN cdsm.answer END) AS "agreed_to_talk",
+    MAX(CASE WHEN cdsm.question = 'invitation_received'
+             THEN cdsm.answer END) AS "invitation_received",
+
+    -- TIMING & STATUS
+    TO_CHAR(cdc.start_time, 'HH24:MI:SS') AS "Contact Start",
+    TO_CHAR(cdc.end_time, 'HH24:MI:SS') AS "Contact End",
+    TO_CHAR((cdc.end_time::timestamp - cdc.start_time::timestamp), 'HH24:MI:SS') AS "Contact Duration",
+    CASE
+        WHEN cdc.end_time IS NOT NULL
+             AND (cdc.end_time::timestamp - cdc.start_time::timestamp) > '00:00:00'::interval
+             THEN 'Successful'
+        WHEN cdl.is_completed = true THEN 'Completed'
+        ELSE 'Pending'
+    END AS "Contact Status"
+
+FROM ecrm.consumer_dialer_contacts cdc
+
+LEFT JOIN ecrm.consumer_dialer_br_assignments cdba ON cdc.cdba_id = cdba.id
+LEFT JOIN ecrm.consumer_dialer_list cdl            ON cdba.cdl_id = cdl.id
+LEFT JOIN ecrm.campaigns cam                       ON cdl.campaign_id = cam.id
+LEFT JOIN ecrm.consumer_dialer_survey_maps cdsm    ON cdc.id = cdsm.cdc_id
+LEFT JOIN ecrm.users br                            ON cdba.br_id = br.id
+LEFT JOIN ecrm.user_infos br_i                     ON br.id = br_i.user_id
+
+-- LOCATION CHAIN: starts from Cluster (type=7) upward
+LEFT JOIN ecrm.locations cl  ON cdl.region_id = cl.id  AND cl.type  = 7
+LEFT JOIN ecrm.locations ro  ON cl.parent = ro.id       AND ro.type  = 6
+LEFT JOIN ecrm.locations po  ON ro.parent = po.id       AND po.type  = 5
+LEFT JOIN ecrm.locations ter ON po.parent = ter.id      AND ter.type = 3
+LEFT JOIN ecrm.locations ar  ON ter.parent = ar.id      AND ar.type  = 2
+LEFT JOIN ecrm.locations re  ON ar.parent = re.id       AND re.type  = 1
+
+WHERE cdc.id = 493001   -- remove for full data set
+
+GROUP BY
+    cdc.id, re.name, ar.name, ter.name, po.name, ro.name, cl.name,
+    br.username, br_i.full_name, cam.name, cdl.consumer_number,
+    cdc.start_time, cdl.last_contact_date, cdl.failed_reason,
+    cdl.is_completed, cdc.end_time;`,
+    tables: [
+      { id:"cdc",   label:"ecrm.consumer\n_dialer_contacts",  sub:"cdc · primary",            x:290, y:40,  w:215, color:"blue",   schema:"ecrm",
+        desc:"Primary fact table for call center. One row per outbound dialer call. Holds start/end timestamps and links to the assignment record.",
+        fields:["id PK","cdba_id FK","start_time","end_time"] },
+
+      { id:"cdba",  label:"ecrm.consumer_dialer\n_br_assignments", sub:"cdba · BR assignment", x:70,  y:180, w:215, color:"teal",   schema:"ecrm",
+        desc:"Links a specific consumer dialer list entry (cdl) to a BR user. The bridge between the dialer list and the BR who calls.",
+        fields:["id PK","cdl_id FK","br_id FK"] },
+
+      { id:"cdl",   label:"ecrm.consumer\n_dialer_list",      sub:"cdl · consumer list",      x:70,  y:320, w:215, color:"teal",   schema:"ecrm",
+        desc:"Consumer dialer list. Holds consumer_number, campaign_id, region_id (anchored at cluster type=7), last_contact_date, failed_reason, is_completed.",
+        fields:["id PK","campaign_id FK","consumer_number","region_id FK→cl","last_contact_date","failed_reason","is_completed"] },
+
+      { id:"cam",   label:"ecrm.campaigns",                   sub:"cam · campaign name",       x:560, y:180, w:190, color:"teal",   schema:"ecrm",
+        desc:"Campaign master. Joined via cdl.campaign_id = cam.id.",
+        fields:["id PK","name"] },
+
+      { id:"cdsm",  label:"ecrm.consumer_dialer\n_survey_maps", sub:"cdsm · survey pivot",    x:560, y:320, w:190, color:"coral",  schema:"ecrm",
+        desc:"Survey answers. One row per question per contact. Pivoted via CASE WHEN + MAX(). 3 pivoted questions: received_phone_call, agreed_to_talk, invitation_received. failed_reason comes directly from cdl.",
+        fields:["id PK","cdc_id FK","question","answer"] },
+
+      { id:"br",    label:"ecrm.users",                       sub:"br · BR / agent",           x:560, y:460, w:190, color:"teal",   schema:"ecrm",
+        desc:"The BR (call center agent) who made the call. Joined via cdba.br_id = br.id.",
+        fields:["id PK","username"] },
+
+      { id:"br_i",  label:"ecrm.user_infos",                  sub:"br_i · agent full name",   x:560, y:560, w:190, color:"teal",   schema:"ecrm",
+        desc:"Full name of the BR/agent. Joined via br.id = br_i.user_id.",
+        fields:["user_id FK","full_name"] },
+
+      { id:"cl",    label:"ecrm.locations",                   sub:"type=7 · cluster",          x:70,  y:470, w:215, color:"purple", schema:"ecrm",
+        desc:"⚠ Entry point for location hierarchy. The dialer list anchors to CLUSTER (type=7), not outlet (type=8) as in other reports. cdl.region_id = cl.id.",
+        fields:["id PK","name","type=7","parent FK→ro"] },
+
+      { id:"ro",    label:"ecrm.locations",                   sub:"type=6 · route",            x:70,  y:570, w:215, color:"purple", schema:"ecrm",
+        desc:"Route. Joined via cl.parent = ro.id.",fields:["id PK","name","type=6","parent FK→po"] },
+
+      { id:"po",    label:"ecrm.locations",                   sub:"type=5 · point",            x:70,  y:670, w:215, color:"purple", schema:"ecrm",
+        desc:"Distributor point.",fields:["id PK","name","type=5","parent FK→ter"] },
+
+      { id:"ter",   label:"ecrm.locations",                   sub:"type=3 · territory",        x:70,  y:770, w:215, color:"purple", schema:"ecrm",
+        desc:"Territory.",fields:["id PK","name","type=3","parent FK→ar"] },
+
+      { id:"ar",    label:"ecrm.locations",                   sub:"type=2 · area",             x:70,  y:870, w:215, color:"purple", schema:"ecrm",
+        desc:"Area.",fields:["id PK","name","type=2","parent FK→re"] },
+
+      { id:"re",    label:"ecrm.locations",                   sub:"type=1 · region",           x:70,  y:970, w:215, color:"purple", schema:"ecrm",
+        desc:"Region. Top of hierarchy. Also used in CASE expression to derive Agency name.",fields:["id PK","name","type=1"] },
+    ],
+    joins: [
+      { from:"cdc",  to:"cdba",  type:"left",  key:"cdc.cdba_id = cdba.id" },
+      { from:"cdba", to:"cdl",   type:"left",  key:"cdba.cdl_id = cdl.id" },
+      { from:"cdl",  to:"cam",   type:"left",  key:"cdl.campaign_id = cam.id" },
+      { from:"cdc",  to:"cdsm",  type:"left",  key:"cdc.id = cdsm.cdc_id" },
+      { from:"cdba", to:"br",    type:"left",  key:"cdba.br_id = br.id" },
+      { from:"br",   to:"br_i",  type:"left",  key:"br.id = br_i.user_id" },
+      { from:"cdl",  to:"cl",    type:"left",  key:"cdl.region_id = cl.id\nAND cl.type = 7\n⚠ starts at Cluster, not Outlet" },
+      { from:"cl",   to:"ro",    type:"left",  key:"cl.parent = ro.id AND ro.type = 6" },
+      { from:"ro",   to:"po",    type:"left",  key:"ro.parent = po.id AND po.type = 5" },
+      { from:"po",   to:"ter",   type:"left",  key:"po.parent = ter.id AND ter.type = 3" },
+      { from:"ter",  to:"ar",    type:"left",  key:"ter.parent = ar.id AND ar.type = 2" },
+      { from:"ar",   to:"re",    type:"left",  key:"ar.parent = re.id AND re.type = 1" },
+    ]
+  },
+
+  all: {
+    label: "All ECRM Tables — Full Overview",
+    tables: [
+      { id:"contacts",  label:"ecrm.contacts",        sub:"daily report",         x:30,  y:40,  w:185, color:"blue",   schema:"ecrm", desc:"Daily Contact Survey — 14 joins",fields:[] },
+      { id:"jc",        label:"ecrm.joint_calls",     sub:"live observation",     x:250, y:40,  w:185, color:"blue",   schema:"ecrm", desc:"Live Observation — 15 joins",fields:[] },
+      { id:"sc",        label:"ecrm.supervisor\n_contacts",sub:"call checkback",  x:470, y:40,  w:190, color:"blue",   schema:"ecrm", desc:"Call Checkback — 17 joins",fields:[] },
+      { id:"cc",        label:"ecrm.consumer\n_dialer_contacts",sub:"call center report",x:690,y:40,w:185,color:"blue",schema:"ecrm",desc:"Call Center Report — consumer_dialer_contacts, cdba, cdl chain. 12 joins.",fields:[] },
+
+      { id:"locations", label:"ecrm.locations",       sub:"7 levels — all reports",x:140, y:240, w:195, color:"purple", schema:"ecrm",
+        desc:"Self-referential hierarchy table used by all reports. Types: 1=Region, 2=Area, 3=Territory, 5=Point, 6=Route, 7=Cluster, 8=Outlet.",fields:[] },
+      { id:"users",     label:"ecrm.users",           sub:"sup, br, agent",       x:390, y:240, w:185, color:"teal",   schema:"ecrm", desc:"Used in 3 reports for supervisor and BR identity.",fields:[] },
+      { id:"user_infos",label:"ecrm.user_infos",      sub:"full names",           x:620, y:240, w:185, color:"teal",   schema:"ecrm", desc:"Provides full_name for all user records.",fields:[] },
+
+      { id:"campaigns", label:"ecrm.campaigns",       sub:"all 4 reports",        x:30,  y:440, w:185, color:"teal",   schema:"ecrm", desc:"Campaign master. Used by all 4 reports.",fields:[] },
+      { id:"consumers", label:"ecrm.consumers",       sub:"daily only",           x:250, y:440, w:185, color:"teal",   schema:"ecrm", desc:"Consumer profile. Only in Daily Contact report. Join via phone number.",fields:[] },
+      { id:"products",  label:"ecrm.products",        sub:"primary & secondary",  x:470, y:440, w:185, color:"amber",  schema:"ecrm", desc:"Joined twice in Daily report — pr (primary) and sr (secondary brand).",fields:[] },
+      { id:"agency",    label:"ecrm (agency)",        sub:"call center only",     x:690, y:440, w:185, color:"teal",   schema:"ecrm", desc:"Agency master. Only used in Call Center report.",fields:[] },
+
+      { id:"csdm",      label:"ecrm.contact_survey\n_data_maps",sub:"daily survey",x:30,  y:640, w:195, color:"coral",  schema:"ecrm", desc:"Survey pivot table for Daily Contact report. Join key: contact_id.",fields:[] },
+      { id:"jcsdm",     label:"ecrm.joint_calls\n_survey_data_maps",sub:"live survey",x:250,y:640,w:195,color:"coral",  schema:"ecrm", desc:"Survey pivot for Live Observation. Join key: joint_call_id.",fields:[] },
+      { id:"scs",       label:"ecrm.supervisor\n_contact_survey…",sub:"checkback survey",x:470,y:640,w:195,color:"coral",schema:"ecrm", desc:"Survey pivot for Call Checkback. Join key: sup_contact_id.",fields:[] },
+      { id:"ccs",       label:"ecrm (call center\nsurvey map)",sub:"cc survey",    x:690, y:640, w:185, color:"coral",  schema:"ecrm", desc:"Survey for Call Center report.",fields:[] },
+
+      { id:"apsis_dp",  label:"apsis_data\n.distributorspoint",sub:"cross-schema",x:250, y:840, w:195, color:"green",  schema:"apsis",
+        desc:"Cross-schema table. Two join methods: name-based (Live Obs) vs ID-based (Checkback). ID-based is more reliable.",fields:[] },
+      { id:"apsis_co",  label:"apsis_data.company",  sub:"parent company",        x:470, y:840, w:185, color:"green",  schema:"apsis", desc:"",fields:[] },
+    ],
+    joins: [
+      { from:"contacts", to:"locations", type:"inner", key:"location hierarchy (INNER for outlet)" },
+      { from:"jc",       to:"locations", type:"left",  key:"location hierarchy (all LEFT)" },
+      { from:"sc",       to:"contacts",  type:"left",  key:"4-key composite join" },
+      { from:"cc",       to:"locations", type:"left",  key:"location hierarchy" },
+      { from:"contacts", to:"users",     type:"left",  key:"c.user_id = ui.user_id" },
+      { from:"jc",       to:"users",     type:"left",  key:"jc.user_id + jc.ff_id" },
+      { from:"sc",       to:"users",     type:"left",  key:"sc.user_id + sc.br_id" },
+      { from:"cc",       to:"users",     type:"left",  key:"cc.user_id" },
+      { from:"users",    to:"user_infos",type:"left",  key:"user.id = ui.user_id" },
+      { from:"contacts", to:"campaigns", type:"left",  key:"c.campaign_id = ca.id" },
+      { from:"jc",       to:"campaigns", type:"left",  key:"jc.campaign_id = ca.id" },
+      { from:"sc",       to:"campaigns", type:"left",  key:"sc.campaign_id = cm.id" },
+      { from:"cc",       to:"campaigns", type:"left",  key:"cc.campaign_id = ca.id" },
+      { from:"contacts", to:"consumers", type:"left",  key:"c.contact_no = co.contact_no" },
+      { from:"contacts", to:"products",  type:"left",  key:"c.product + c.secondary_brand" },
+      { from:"cc",       to:"agency",    type:"left",  key:"cc.agency_id = agency.id" },
+      { from:"contacts", to:"csdm",      type:"inner", key:"c.id = cs.contact_id" },
+      { from:"jc",       to:"jcsdm",     type:"left",  key:"jc.id = jcs.joint_call_id" },
+      { from:"sc",       to:"scs",       type:"left",  key:"sc.id = scs.sup_contact_id" },
+      { from:"cc",       to:"ccs",       type:"left",  key:"cc.id = survey.call_center_id" },
+      { from:"locations",to:"apsis_dp",  type:"cross",  key:"name-based (Live) or ID-based (Checkback)" },
+      { from:"apsis_dp", to:"apsis_co",  type:"left",  key:"dp.dsid = co.id" },
+    ]
+  }
+};
+
+const PALETTE = {
+  blue:   { bg:"#0c1a2e", border:"#1d4ed8", label:"#60a5fa", badge:"#1e3a6e" },
+  purple: { bg:"#160f2e", border:"#7c3aed", label:"#a78bfa", badge:"#2e1a5e" },
+  teal:   { bg:"#041f1a", border:"#0d9488", label:"#2dd4bf", badge:"#0d3330" },
+  coral:  { bg:"#1f0a10", border:"#be123c", label:"#fb7185", badge:"#3d0f1f" },
+  amber:  { bg:"#1a1000", border:"#b45309", label:"#fbbf24", badge:"#3d2500" },
+  green:  { bg:"#061a0c", border:"#15803d", label:"#4ade80", badge:"#0f3019" },
+};
+
+let currentReport = 'daily';
+let selectedNode = null;
+
+function tbl(report, id) { return report.tables.find(t => t.id === id); }
+
+function nodeCenter(t) {
+  const lines = t.label.split('\n');
+  const h = lines.length > 1 ? 88 : 76;
+  return { cx: t.x + t.w/2, cy: t.y + h/2, h };
+}
+
+function edgePoints(from, to) {
+  const fh = nodeCenter(from);
+  const th = nodeCenter(to);
+  const fx = from.x + from.w/2, fy = from.y + fh.h;
+  const tx = to.x + to.w/2,   ty = to.y;
+  return { fx, fy, tx, ty };
+}
+
+function buildSVG(reportKey) {
+  const report = REPORTS[reportKey];
+  const tables = report.tables;
+  const joins = report.joins;
+
+  const pad = 50;
+  const maxX = Math.max(...tables.map(t => t.x + t.w)) + pad;
+  const maxY = Math.max(...tables.map(t => {
+    const lines = t.label.split('\n');
+    return t.y + (lines.length > 1 ? 88 : 76);
+  })) + pad;
+
+  const W = Math.max(900, maxX);
+  const H = Math.max(500, maxY);
+
+  let svg = `<svg id="mainSvg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  svg += `<defs>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#4b5563" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M2 1L8 5L2 9" fill="none" stroke="#4ade80" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>`;
+
+  // Edges first (behind nodes)
+  joins.forEach((j, idx) => {
+    const f = tbl(report, j.from);
+    const t2 = tbl(report, j.to);
+    if (!f || !t2) return;
+
+    const { fx, fy, tx, ty } = edgePoints(f, t2);
+    const sameCol = Math.abs(fx - tx) < 25;
+    const isCross = j.type === 'cross';
+    const isInner = j.type === 'inner';
+    const color = isCross ? '#4ade80' : isInner ? '#3b82f6' : '#4b5563';
+    const dash = j.type === 'left' ? '5,4' : 'none';
+    const marker = isCross ? 'arr-green' : isInner ? 'arr-blue' : 'arr-gray';
+    const sw = isInner ? 1.8 : 1.4;
+
+    let d;
+    if (sameCol && fy < ty) {
+      d = `M ${fx} ${fy} L ${tx} ${ty - 4}`;
+    } else {
+      const my = (fy + ty) / 2;
+      if (Math.abs(fx - tx) < 5) {
+        d = `M ${fx} ${fy} L ${tx} ${ty}`;
+      } else {
+        d = `M ${fx} ${fy} C ${fx} ${my} ${tx} ${my} ${tx} ${ty}`;
+      }
+    }
+
+    const esc = (s) => s.replace(/"/g,'&quot;').replace(/</g,'&lt;');
+    svg += `<g class="edge" data-idx="${idx}" data-from="${j.from}" data-to="${j.to}"
+      data-type="${j.type}" data-key="${esc(j.key)}"
+      onmouseenter="edgeHover(event,this)" onmouseleave="edgeLeave(this)" onclick="edgeClick(this)">
+      <path d="${d}" fill="none" stroke="${color}" stroke-width="${sw}" stroke-dasharray="${dash}" marker-end="url(#${marker})" stroke-linecap="round" opacity="0.75"/>
+      <path d="${d}" fill="none" stroke="transparent" stroke-width="12"/>
+    </g>`;
+  });
+
+  // Nodes
+  tables.forEach(t => {
+    const p = PALETTE[t.color];
+    const lines = t.label.split('\n');
+    const h = lines.length > 1 ? 88 : 76;
+    const cx = t.x + t.w / 2;
+    const isApsis = t.schema === 'apsis';
+    const dash = isApsis ? '4,3' : 'none';
+    const esc = (s) => s.replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/\n/g,'\\n');
+
+    svg += `<g class="tbl-node" data-id="${t.id}" onclick="nodeClick(this)" data-label="${esc(t.label)}" data-color="${t.color}">`;
+    svg += `<rect class="body" x="${t.x}" y="${t.y}" width="${t.w}" height="${h}" rx="8"
+      fill="${p.bg}" stroke="${p.border}" stroke-width="${isApsis ? 1.5 : 1}" stroke-dasharray="${dash}"/>`;
+
+    // Table name
+    if (lines.length === 1) {
+      svg += `<text x="${cx}" y="${t.y + 22}" text-anchor="middle" dominant-baseline="middle"
+        font-family="'JetBrains Mono',monospace" font-size="12" font-weight="500" fill="${p.label}">${lines[0]}</text>`;
+    } else {
+      svg += `<text x="${cx}" y="${t.y + 16}" text-anchor="middle" dominant-baseline="middle"
+        font-family="'JetBrains Mono',monospace" font-size="11" font-weight="500" fill="${p.label}">${lines[0]}</text>`;
+      svg += `<text x="${cx}" y="${t.y + 31}" text-anchor="middle" dominant-baseline="middle"
+        font-family="'JetBrains Mono',monospace" font-size="11" font-weight="500" fill="${p.label}">${lines[1]}</text>`;
+    }
+
+    // Divider
+    const divY = lines.length > 1 ? t.y + 46 : t.y + 38;
+    svg += `<line x1="${t.x+10}" y1="${divY}" x2="${t.x+t.w-10}" y2="${divY}" stroke="${p.border}" stroke-width="0.5" opacity="0.5"/>`;
+
+    // Sub-label
+    const subY = lines.length > 1 ? t.y + 62 : t.y + 55;
+    svg += `<text x="${cx}" y="${subY}" text-anchor="middle" dominant-baseline="middle"
+      font-family="'DM Sans',sans-serif" font-size="11" fill="${p.label}" opacity="0.7">${t.sub}</text>`;
+
+    // Schema badge for apsis
+    if (isApsis) {
+      svg += `<text x="${cx}" y="${t.y + h - 10}" text-anchor="middle" dominant-baseline="middle"
+        font-family="'JetBrains Mono',monospace" font-size="9" fill="${p.label}" opacity="0.5">apsis_data</text>`;
+    }
+
+    svg += `</g>`;
+  });
+
+  svg += `</svg>`;
+  return { svg, report };
+}
+
+function nodeClick(el) {
+  const id = el.dataset.id;
+  const report = REPORTS[currentReport];
+  const t = report.tables.find(x => x.id === id);
+  if (!t) return;
+
+  document.querySelectorAll('.tbl-node').forEach(n => n.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedNode = id;
+
+  const relatedJoins = report.joins.filter(j => j.from === id || j.to === id);
+  const relatedIds = new Set(relatedJoins.flatMap(j => [j.from, j.to]));
+
+  document.querySelectorAll('.edge').forEach(e => {
+    const isRel = e.dataset.from === id || e.dataset.to === id;
+    e.classList.toggle('faded', !isRel);
+    e.classList.toggle('highlighted', isRel);
+  });
+  document.querySelectorAll('.tbl-node').forEach(n => {
+    n.style.opacity = relatedIds.has(n.dataset.id) ? '1' : '0.3';
+  });
+
+  const p = PALETTE[t.color];
+  const lines = t.label.split('\n');
+
+  let html = `<div class="detail-title">${lines.join('<br>')}</div>`;
+  html += `<span class="detail-badge" style="background:${p.badge};color:${p.label};border:1px solid ${p.border}">${t.schema}</span>`;
+  if (t.desc) html += `<div class="detail-sub">${t.desc}</div>`;
+
+  if (t.fields && t.fields.length > 0) {
+    html += `<div class="detail-section"><div class="detail-section-title">Key Fields</div>`;
+    t.fields.forEach(f => {
+      html += `<div style="font-family:var(--mono);font-size:11px;color:var(--text);padding:3px 0;border-bottom:1px solid var(--border)">${f}</div>`;
+    });
+    html += `</div>`;
+  }
+
+  if (relatedJoins.length > 0) {
+    html += `<div class="detail-section"><div class="detail-section-title">Connections (${relatedJoins.length})</div>`;
+    relatedJoins.forEach(j => {
+      const typeLabel = j.type === 'inner' ? 'INNER JOIN' : j.type === 'cross' ? 'CROSS-SCHEMA' : 'LEFT JOIN';
+      const typeClass = j.type === 'inner' ? 'inner' : j.type === 'cross' ? 'cross' : 'left';
+      html += `<div class="join-row" onclick="highlightEdge('${j.from}','${j.to}')">
+        <span class="join-type ${typeClass}">${typeLabel}</span>
+        <span class="join-tables">${j.from} → ${j.to}</span>
+        <span class="join-key">${j.key}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('sidebarContent').innerHTML = html;
+}
+
+function highlightEdge(from, to) {
+  document.querySelectorAll('.edge').forEach(e => {
+    const match = e.dataset.from === from && e.dataset.to === to;
+    e.classList.toggle('highlighted', match);
+    e.classList.toggle('faded', !match);
+  });
+}
+
+function edgeHover(evt, el) {
+  const tip = document.getElementById('tooltip');
+  const typeLabel = el.dataset.type === 'inner' ? 'INNER JOIN' : el.dataset.type === 'cross' ? 'CROSS-SCHEMA JOIN' : 'LEFT JOIN';
+  tip.innerHTML = `<span style="color:${el.dataset.type==='inner'?'var(--blue)':el.dataset.type==='cross'?'var(--green)':'var(--text-dim)'}">${typeLabel}</span>\n${el.dataset.from} → ${el.dataset.to}\n\n${el.dataset.key}`;
+  tip.style.opacity = '1';
+  tip.style.left = (evt.clientX + 14) + 'px';
+  tip.style.top = (evt.clientY + 14) + 'px';
+}
+function edgeLeave(el) { document.getElementById('tooltip').style.opacity = '0'; }
+
+function edgeClick(el) {
+  const from = el.dataset.from;
+  const to = el.dataset.to;
+  const report = REPORTS[currentReport];
+  const j = report.joins.find(x => x.from === from && x.to === to);
+  if (!j) return;
+
+  document.querySelectorAll('.edge').forEach(e => {
+    e.classList.toggle('faded', !(e.dataset.from === from && e.dataset.to === to));
+    e.classList.toggle('highlighted', e.dataset.from === from && e.dataset.to === to);
+  });
+
+  const typeLabel = j.type === 'inner' ? 'INNER JOIN' : j.type === 'cross' ? 'CROSS-SCHEMA JOIN' : 'LEFT JOIN';
+  const typeColor = j.type === 'inner' ? 'var(--blue)' : j.type === 'cross' ? 'var(--green)' : 'var(--text-dim)';
+
+  let html = `<div class="detail-title">${from} → ${to}</div>`;
+  html += `<span class="detail-badge" style="background:rgba(255,255,255,0.05);color:${typeColor};border:1px solid ${typeColor}">${typeLabel}</span>`;
+  html += `<div class="detail-section"><div class="detail-section-title">Join Condition</div>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--text);white-space:pre-wrap;line-height:1.6;padding:8px;background:var(--bg3);border-radius:6px;border:1px solid var(--border)">${j.key}</div>
+  </div>`;
+
+  const fromTbl = report.tables.find(t => t.id === from);
+  const toTbl = report.tables.find(t => t.id === to);
+  if (fromTbl?.desc) html += `<div class="detail-sub" style="margin-top:12px"><strong style="color:var(--text)">${from}:</strong> ${fromTbl.desc}</div>`;
+  if (toTbl?.desc) html += `<div class="detail-sub"><strong style="color:var(--text)">${to}:</strong> ${toTbl.desc}</div>`;
+
+  document.getElementById('sidebarContent').innerHTML = html;
+}
+
+let schemaZoomFactor = 1.0;
+
+function schemaZoom(factor) {
+  schemaZoomFactor = Math.max(0.4, Math.min(3.0, schemaZoomFactor * factor));
+  applySchemaZoom();
+}
+
+function schemaZoomReset() {
+  schemaZoomFactor = 1.0;
+  applySchemaZoom();
+}
+
+function applySchemaZoom() {
+  const container = document.getElementById('svgContainer');
+  container.style.transform = `scale(${schemaZoomFactor})`;
+  document.getElementById('schemaZoomLabel').textContent = Math.round(schemaZoomFactor * 100) + '%';
+}
+
+function loadReport(key) {
+  currentReport = key;
+  selectedNode = null;
+  const { svg } = buildSVG(key);
+  
+  // Set SVG inside container (fully preserves sqlPanel!)
+  const container = document.getElementById('svgContainer');
+  container.innerHTML = svg;
+  
+  document.getElementById('sidebarContent').innerHTML = `<p class="empty-state">Click a table or connection to inspect it.</p>`;
+
+  document.querySelectorAll('.tab').forEach(t => {
+    if (t.id === 'sqlToggleBtn') return;
+    t.classList.toggle('active', t.dataset.report === key);
+  });
+
+  if (sqlVisible) renderSQL(key);
+
+  // Bind move event on the new SVG element
+  const mainSvg = document.getElementById('mainSvg');
+  if (mainSvg) {
+    mainSvg.addEventListener('mousemove', e => {
+      const tip = document.getElementById('tooltip');
+      if (tip.style.opacity === '1') {
+        tip.style.left = (e.clientX + 14) + 'px';
+        tip.style.top = (e.clientY + 14) + 'px';
+      }
+    });
+  }
+
+  // Bind click event to reset selections when clicking on the SVG background
+  const wrap = document.getElementById('canvasWrap');
+  if (mainSvg) {
+    mainSvg.addEventListener('click', e => {
+      if (e.target === mainSvg || e.target.tagName === 'svg') {
+        document.querySelectorAll('.edge').forEach(el => { el.classList.remove('faded','highlighted'); });
+        document.querySelectorAll('.tbl-node').forEach(el => { el.style.opacity = '1'; el.classList.remove('selected'); });
+        document.getElementById('sidebarContent').innerHTML = `<p class="empty-state">Click a table or connection to inspect it.</p>`;
+      }
+    });
+  }
+}
+
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    if (t.id === 'sqlToggleBtn') return;
+    loadReport(t.dataset.report);
+  });
+});
+
+loadReport('daily');
+
+// ─── SQL Panel ───────────────────────────────────────────────────────────────
+
+const SQL_QUERIES = {
+  daily: {
+    title: "Daily Contact Survey Report",
+    meta: ["Table: ecrm.contacts", "Filter: c.id = 12429776", "Pivot: CASE WHEN + MAX()"],
+    sql: `SELECT
+    -- CONTACT IDENTIFIER
+    c.id                        AS "Contact ID",
+    l_outlet.id                 AS "Location ID",
+
+    -- LOCATION HIERARCHY (Region → Outlet)
+    r.name                      AS "Region",
+    l_area.name                 AS "Area",
+    l_territory.name            AS "Territory",
+    l_point.name                AS "Distributorspoint",
+    l_route.name                AS "Routes",
+    l_cluster.name              AS "Cluster Name",
+    l_outlet.name               AS "Outlets Name",
+
+    -- USER & CAMPAIGN
+    c.contacted_br              AS "User Name",
+    ui.full_name                AS "BR Name",
+    ca.name                     AS "Campaign Name",
+
+    -- CONTACT DETAILS
+    c.contact_date              AS "Contact Date",
+    c.contact_no                AS "Consumer Number",
+
+    -- CONSUMER PROFILE
+    co.name                     AS "Consumer Name",
+    co.fathers_name             AS "Consumers fathers_name",
+    AGE(current_date, co.dob)   AS "AGE",
+    co.address                  AS "Consumer Address",
+    co.profession               AS "Consumer Occupation",
+
+    -- BRAND
+    pr.name                     AS "Primary Brand",
+    sr.name                     AS "Secondary Brand",
+
+    -- TIMING (UTC → Asia/Dhaka)
+    TO_CHAR(c.start AT TIME ZONE 'Asia/Dhaka','HH24:MI:SS') AS "Contact Start",
+    TO_CHAR(c.end   AT TIME ZONE 'Asia/Dhaka','HH24:MI:SS') AS "Contact End",
+    (c.end - c.start)           AS "Contact Duration",
+    c.signature                 AS "Contact Picture",
+
+    -- SURVEY ANSWERS (PIVOT)
+    MAX(CASE WHEN cs.question='asking_about_kit'
+             THEN cs.answer END)               AS "asking_about_kit",
+    MAX(CASE WHEN cs.question='asking_about_music_kit_preference'
+             THEN cs.answer END)               AS "asking_about_music_kit_preference",
+    MAX(CASE WHEN cs.question='asking_about_travel_kit_preference'
+             THEN cs.answer END)               AS "asking_about_travel_kit_preference",
+    MAX(CASE WHEN cs.question='asking_about_art_kit_preference'
+             THEN cs.answer END)               AS "asking_about_art_kit_preference",
+    MAX(CASE WHEN cs.question='social_media_info'
+             THEN cs.answer END)               AS "social_media_info"
+
+FROM ecrm.contacts c
+
+    -- OUTLET (type=8) — INNER JOIN required for location chain
+    JOIN ecrm.locations l_outlet
+        ON c.location_id = l_outlet.id AND l_outlet.type = 8
+
+    -- CLUSTER → ROUTE → POINT → TERRITORY → AREA → REGION
+    LEFT JOIN ecrm.locations l_cluster   ON l_outlet.parent    = l_cluster.id   AND l_cluster.type   = 7
+    LEFT JOIN ecrm.locations l_route     ON l_cluster.parent   = l_route.id     AND l_route.type     = 6
+    LEFT JOIN ecrm.locations l_point     ON l_route.parent     = l_point.id     AND l_point.type     = 5
+    LEFT JOIN ecrm.locations l_territory ON l_point.parent     = l_territory.id AND l_territory.type = 3
+    LEFT JOIN ecrm.locations l_area      ON l_territory.parent = l_area.id      AND l_area.type      = 2
+    LEFT JOIN ecrm.locations r           ON l_area.parent      = r.id           AND r.type           = 1
+
+    LEFT JOIN ecrm.user_infos ui  ON c.user_id      = ui.user_id
+    LEFT JOIN ecrm.campaigns  ca  ON c.campaign_id  = ca.id
+    LEFT JOIN ecrm.consumers  co  ON c.contact_no   = co.contact_no
+    LEFT JOIN ecrm.products   pr  ON c.product      = pr.id
+    LEFT JOIN ecrm.products   sr  ON c.secondary_brand = sr.id
+
+    -- SURVEY — all questions in one join, pivoted in SELECT
+    JOIN ecrm.contact_survey_data_maps cs ON c.id = cs.contact_id
+
+WHERE c.id = 12429776   -- remove for all contacts
+
+GROUP BY
+    c.id, l_outlet.id, r.name, l_area.name, l_territory.name,
+    l_point.name, l_route.name, l_cluster.name, l_outlet.name,
+    c.contacted_br, ui.full_name, ca.name, c.contact_date,
+    c.contact_no, co.name, co.fathers_name, co.dob,
+    co.address, co.profession, pr.name, sr.name,
+    c.start, c.end, c.signature;`
+  },
+
+  live: {
+    title: "Live Observation Report (Joint Call)",
+    meta: ["Table: ecrm.joint_calls", "Filter: jc.id = 444487", "Cross-schema: apsis_data (name match)"],
+    sql: `SELECT
+    jc.id                         AS "Contact ID",
+
+    -- LOCATION HIERARCHY
+    r.name                        AS "Region",
+    l_area.name                   AS "Area",
+    l_territory.name              AS "Territory",
+    l_point.name                  AS "Distributorspoint",
+
+    -- CAMPAIGN
+    ca.name                       AS "Campaign Name",
+
+    -- SUPERVISOR
+    sup.username                  AS "Sup ID",
+    sup_i.full_name               AS "Sup Name",
+
+    -- BR (FIELD FORCE)
+    br.username                   AS "BR ID",
+    br_i.full_name                AS "BR Name",
+
+    jc.contact_date               AS "Contact Date",
+
+    -- SURVEY ANSWERS (PIVOT) — 16 questions
+    MAX(CASE WHEN jcs.question='ra_correct_cluster'               THEN jcs.answer END) AS "ra_correct_cluster",
+    MAX(CASE WHEN jcs.question='ra_correct_attire'                THEN jcs.answer END) AS "ra_correct_attire",
+    MAX(CASE WHEN jcs.question='shop_owner_permission'            THEN jcs.answer END) AS "shop_owner_permission",
+    MAX(CASE WHEN jcs.question='exists_third_part_app'            THEN jcs.answer END) AS "exists_third_part_app",
+    MAX(CASE WHEN jcs.question='choosing_correct_consumer_profile' THEN jcs.answer END) AS "choosing_correct_consumer_profile",
+    MAX(CASE WHEN jcs.question='telling_about_lucky_strike'       THEN jcs.answer END) AS "telling_about_lucky_strike",
+    MAX(CASE WHEN jcs.question='showing_av'                       THEN jcs.answer END) AS "showing_av",
+    MAX(CASE WHEN jcs.question='telling_about_circle'             THEN jcs.answer END) AS "telling_about_circle",
+    MAX(CASE WHEN jcs.question='telling_about_circle2'            THEN jcs.answer END) AS "telling_about_circle2",
+    MAX(CASE WHEN jcs.question='telling_about_circle3'            THEN jcs.answer END) AS "telling_about_circle3",
+    MAX(CASE WHEN jcs.question='showing_Global_stories'           THEN jcs.answer END) AS "showing_Global_stories",
+    MAX(CASE WHEN jcs.question='telling_never_ordinary_story'     THEN jcs.answer END) AS "telling_never_ordinary_story",
+    MAX(CASE WHEN jcs.question='asking_to_color'                  THEN jcs.answer END) AS "asking_to_color",
+    MAX(CASE WHEN jcs.question='showing_kit'                      THEN jcs.answer END) AS "showing_kit",
+    MAX(CASE WHEN jcs.question='telling_about_sticker_pack'       THEN jcs.answer END) AS "telling_about_sticker_pack",
+    MAX(CASE WHEN jcs.question='telling_about_circle_new_journey' THEN jcs.answer END) AS "telling_about_circle_new_journey"
+
+FROM ecrm.joint_calls jc
+
+    LEFT JOIN ecrm.locations l_outlet    ON jc.location_id    = l_outlet.id    AND l_outlet.type    = 8
+    LEFT JOIN ecrm.locations l_cluster   ON l_outlet.parent   = l_cluster.id   AND l_cluster.type   = 7
+    LEFT JOIN ecrm.locations l_route     ON l_cluster.parent  = l_route.id     AND l_route.type     = 6
+    LEFT JOIN ecrm.locations l_point     ON l_route.parent    = l_point.id     AND l_point.type     = 5
+    LEFT JOIN ecrm.locations l_territory ON l_point.parent    = l_territory.id AND l_territory.type = 3
+    LEFT JOIN ecrm.locations l_area      ON l_territory.parent = l_area.id     AND l_area.type      = 2
+    LEFT JOIN ecrm.locations r           ON l_area.parent     = r.id           AND r.type           = 1
+
+    LEFT JOIN ecrm.campaigns ca ON jc.campaign_id = ca.id
+
+    -- CROSS-SCHEMA: name-based match (⚠ fragile)
+    LEFT JOIN apsis_data.distributorspoint dp ON l_point.name = dp.name
+    LEFT JOIN apsis_data.company           co ON dp.dsid      = co.id
+
+    LEFT JOIN ecrm.users      sup   ON jc.user_id = sup.id
+    LEFT JOIN ecrm.user_infos sup_i ON sup.id     = sup_i.user_id
+
+    LEFT JOIN ecrm.users      br    ON jc.ff_id   = br.id
+    LEFT JOIN ecrm.user_infos br_i  ON br.id      = br_i.user_id
+
+    LEFT JOIN ecrm.joint_calls_survey_data_maps jcs ON jc.id = jcs.joint_call_id
+
+WHERE jc.id = 444487   -- remove for all joint calls
+
+GROUP BY
+    jc.id, r.name, l_area.name, l_territory.name, l_point.name,
+    ca.name, sup.username, sup_i.full_name,
+    br.username, br_i.full_name, jc.contact_date;`
+  },
+
+  checkback: {
+    title: "Call Checkback Report",
+    meta: ["Table: ecrm.supervisor_contacts", "Filter: sc.id = 495011", "4-key composite join to ecrm.contacts"],
+    sql: `SELECT
+    sc.id                          AS "Contact ID",
+
+    -- LOCATION HIERARCHY
+    re.name                        AS "Region",
+    ar.name                        AS "Area",
+    ter.name                       AS "Territory",
+    po.name                        AS "Distributorspoint",
+
+    -- CAMPAIGN
+    cm.name                        AS "Campaign Name",
+
+    -- SUPERVISOR
+    sup.username                   AS "Sup ID",
+    sup_i.full_name                AS "Sup Name",
+
+    -- BR
+    br.username                    AS "BR ID",
+    br_i.full_name                 AS "BR Name",
+
+    sc.contact_date                AS "Contact Date",
+
+    -- SURVEY ANSWERS (PIVOT) — 17 questions
+    MAX(CASE WHEN scs.question='receive_call'               THEN scs.answer END) AS "receive_call",
+    MAX(CASE WHEN scs.question='continue_conversation'      THEN scs.answer END) AS "continue_conversation",
+    MAX(CASE WHEN scs.question='correct_consumer_name'      THEN scs.answer END) AS "correct_consumer_name",
+    MAX(CASE WHEN scs.question='correct_consumer_age'       THEN scs.answer END) AS "correct_consumer_age",
+    MAX(CASE WHEN scs.question='correct_primary_brand'      THEN scs.answer END) AS "correct_primary_brand",
+    MAX(CASE WHEN scs.question='contacted_by_ra'            THEN scs.answer END) AS "contacted_by_ra",
+    MAX(CASE WHEN scs.question='telling_about_lucky_strike' THEN scs.answer END) AS "telling_about_lucky_strike",
+    MAX(CASE WHEN scs.question='showing_av'                 THEN scs.answer END) AS "showing_av",
+    MAX(CASE WHEN scs.question='telling_about_circle'       THEN scs.answer END) AS "telling_about_circle",
+    MAX(CASE WHEN scs.question='telling_about_circle2'      THEN scs.answer END) AS "telling_about_circle2",
+    MAX(CASE WHEN scs.question='telling_about_circle3'      THEN scs.answer END) AS "telling_about_circle3",
+    MAX(CASE WHEN scs.question='showing_global_series'      THEN scs.answer END) AS "showing_global_series",
+    MAX(CASE WHEN scs.question='telling_never_ordinary_story' THEN scs.answer END) AS "telling_never_ordinary_story",
+    MAX(CASE WHEN scs.question='asking_to_color'            THEN scs.answer END) AS "asking_to_color",
+    MAX(CASE WHEN scs.question='showing_kit'                THEN scs.answer END) AS "showing_kit",
+    MAX(CASE WHEN scs.question='telling_about_sticker_pack' THEN scs.answer END) AS "telling_about_sticker_pack",
+    MAX(CASE WHEN scs.question='telling_about_circle_new_journey' THEN scs.answer END) AS "telling_about_circle_new_journey"
+
+FROM ecrm.supervisor_contacts sc
+
+    -- 4-KEY COMPOSITE JOIN to original BR contact
+    LEFT JOIN ecrm.contacts c
+           ON sc.contact      = c.contact_no
+          AND sc.br_id        = c.user_id
+          AND sc.campaign_id  = c.campaign_id
+          AND sc.contact_date = c.contact_date
+
+    -- LOCATION VIA CONTACT (Outlet → Region)
+    LEFT JOIN ecrm.locations ou  ON c.location_id = ou.id  AND ou.type  = 8
+    LEFT JOIN ecrm.locations cl  ON ou.parent     = cl.id  AND cl.type  = 7
+    LEFT JOIN ecrm.locations ro  ON cl.parent     = ro.id  AND ro.type  = 6
+    LEFT JOIN ecrm.locations po  ON ro.parent     = po.id  AND po.type  = 5
+    LEFT JOIN ecrm.locations ter ON po.parent     = ter.id AND ter.type = 3
+    LEFT JOIN ecrm.locations ar  ON ter.parent    = ar.id  AND ar.type  = 2
+    LEFT JOIN ecrm.locations re  ON ar.parent     = re.id  AND re.type  = 1
+
+    -- CROSS-SCHEMA: ID-based match (✓ more reliable than Live Obs)
+    LEFT JOIN apsis_data.distributorspoint dp ON po.source_id = dp.id
+    LEFT JOIN apsis_data.company           co ON dp.dsid      = co.id
+
+    LEFT JOIN ecrm.users      sup   ON sc.user_id = sup.id
+    LEFT JOIN ecrm.user_infos sup_i ON sup.id     = sup_i.user_id
+
+    LEFT JOIN ecrm.users      br    ON sc.br_id   = br.id
+    LEFT JOIN ecrm.user_infos br_i  ON br.id      = br_i.user_id
+
+    LEFT JOIN ecrm.campaigns cm ON sc.campaign_id = cm.id
+    LEFT JOIN ecrm.supervisor_contact_survey_data_maps scs ON sc.id = scs.sup_contact_id
+
+WHERE sc.id = 495011   -- remove for all supervisor contacts
+
+GROUP BY
+    sc.id, re.name, ar.name, ter.name, po.name, cm.name,
+    sup.username, sup_i.full_name,
+    br.username, br_i.full_name,
+    sc.contact_date;`
+  },
+
+  callcenter: {
+    title: "Call Center Report",
+    meta: ["Table: ecrm.consumer_dialer_contacts", "Filter: cdc.id = 493001", "Location anchor: Cluster (type=7) — not Outlet"],
+    sql: `SELECT
+    cdc.id AS "Contact id",
+
+    -- LOCATION HIERARCHY
+    re.name  AS "Region",
+    ar.name  AS "Area",
+    ter.name AS "Territory",
+    po.name  AS "Distributors Point",
+    ro.name  AS "Route",
+    cl.name  AS "Cluster",
+
+    -- USER
+    br.username    AS "User ID",
+    br_i.full_name AS "User Name",
+
+    -- AGENCY (derived from region name — no agency table join)
+    CASE
+        WHEN re.name IN ('Dhaka South', 'Sylhet') THEN 'Asiatic Trade Marketing Services Limited'
+        WHEN re.name IN ('Khulna', 'Barishal', 'Rajshahi') THEN 'Integrated Marketing Service Ltd.'
+        ELSE 'IMSL'
+    END AS "Agency",
+
+    -- CAMPAIGN
+    cam.name AS "Campaign Name",
+
+    -- CONSUMER
+    cdl.consumer_number AS "Consumer Number",
+    TO_CHAR(cdc.start_time, 'MM/DD/YY') AS "Contacted Date",
+    TO_CHAR(cdl.last_contact_date, 'MM/DD/YY') AS "Last Contacted Date",
+
+    -- SURVEY PIVOT
+    MAX(CASE WHEN cdsm.question = 'received_phone_call'
+             THEN cdsm.answer END) AS "received_phone_call",
+
+    cdl.failed_reason AS "call_not_received_reason",   -- direct field, not pivoted
+
+    MAX(CASE WHEN cdsm.question = 'agreed_to_talk'
+             THEN cdsm.answer END) AS "agreed_to_talk",
+
+    MAX(CASE WHEN cdsm.question = 'invitation_received'
+             THEN cdsm.answer END) AS "invitation_received",
+
+    -- TIMING & STATUS
+    TO_CHAR(cdc.start_time, 'HH24:MI:SS') AS "Contact Start",
+    TO_CHAR(cdc.end_time,   'HH24:MI:SS') AS "Contact End",
+    TO_CHAR((cdc.end_time::timestamp - cdc.start_time::timestamp), 'HH24:MI:SS') AS "Contact Duration",
+    CASE
+        WHEN cdc.end_time IS NOT NULL
+             AND (cdc.end_time::timestamp - cdc.start_time::timestamp) > '00:00:00'::interval
+             THEN 'Successful'
+        WHEN cdl.is_completed = true THEN 'Completed'
+        ELSE 'Pending'
+    END AS "Contact Status"
+
+FROM ecrm.consumer_dialer_contacts cdc
+
+-- STEP 1: BR assignment bridge
+LEFT JOIN ecrm.consumer_dialer_br_assignments cdba ON cdc.cdba_id = cdba.id
+
+-- STEP 2: Consumer dialer list (holds campaign, consumer number, location anchor)
+LEFT JOIN ecrm.consumer_dialer_list cdl ON cdba.cdl_id = cdl.id
+
+-- STEP 3: Campaign
+LEFT JOIN ecrm.campaigns cam ON cdl.campaign_id = cam.id
+
+-- STEP 4: Survey answers
+LEFT JOIN ecrm.consumer_dialer_survey_maps cdsm ON cdc.id = cdsm.cdc_id
+
+-- STEP 5: BR user
+LEFT JOIN ecrm.users      br    ON cdba.br_id = br.id
+LEFT JOIN ecrm.user_infos br_i  ON br.id = br_i.user_id
+
+-- STEP 6: Location hierarchy — anchors at CLUSTER (type=7), not Outlet
+LEFT JOIN ecrm.locations cl  ON cdl.region_id = cl.id  AND cl.type  = 7
+LEFT JOIN ecrm.locations ro  ON cl.parent = ro.id       AND ro.type  = 6
+LEFT JOIN ecrm.locations po  ON ro.parent = po.id       AND po.type  = 5
+LEFT JOIN ecrm.locations ter ON po.parent = ter.id      AND ter.type = 3
+LEFT JOIN ecrm.locations ar  ON ter.parent = ar.id      AND ar.type  = 2
+LEFT JOIN ecrm.locations re  ON ar.parent = re.id       AND re.type  = 1
+
+WHERE cdc.id = 493001   -- remove for all records
+
+GROUP BY
+    cdc.id, re.name, ar.name, ter.name, po.name, ro.name, cl.name,
+    br.username, br_i.full_name, cam.name, cdl.consumer_number,
+    cdc.start_time, cdl.last_contact_date, cdl.failed_reason,
+    cdl.is_completed, cdc.end_time;`,
+  },
+
+  all: {
+    title: "All Reports — Overview",
+    meta: ["4 reports", "ecrm schema + apsis_data cross-schema"],
+    sql: `-- All primary tables across 4 reports:
+--
+-- 1. Daily Contact Survey
+--    FROM ecrm.contacts c
+--
+-- 2. Live Observation (Joint Call)
+--    FROM ecrm.joint_calls jc
+--
+-- 3. Call Checkback
+--    FROM ecrm.supervisor_contacts sc
+--    LEFT JOIN ecrm.contacts c ON (4-key composite)
+--
+-- 4. Call Center
+--    FROM ecrm.consumer_dialer_contacts cdc
+--    LEFT JOIN ecrm.consumer_dialer_br_assignments cdba ON cdc.cdba_id = cdba.id
+--    LEFT JOIN ecrm.consumer_dialer_list cdl ON cdba.cdl_id = cdl.id
+--
+-- Shared tables across all reports:
+--    ecrm.locations      — 7-level geography hierarchy (self-referential)
+--    ecrm.users          — supervisor, BR, or agent identity
+--    ecrm.user_infos     — full names
+--    ecrm.campaigns      — campaign master
+--
+-- Cross-schema (Live Obs + Checkback only):
+--    apsis_data.distributorspoint
+--    apsis_data.company
+--
+-- Survey pivot tables (one per report):
+--    ecrm.contact_survey_data_maps          (Daily)
+--    ecrm.joint_calls_survey_data_maps      (Live Obs)
+--    ecrm.supervisor_contact_survey_data_maps (Checkback)
+--    ecrm.consumer_dialer_survey_maps       (Call Center)
+--
+-- All use: CASE WHEN + MAX() pivot pattern
+-- All connect to: SELECT tab above for full queries`
+  }
+};
+
+let sqlVisible = false;
+
+function toggleSQL() {
+  sqlVisible = !sqlVisible;
+  const panel = document.getElementById('sqlPanel');
+  const btn = document.getElementById('sqlToggleBtn');
+  if (sqlVisible) {
+    panel.classList.add('visible');
+    btn.style.background = 'rgba(251,191,36,0.15)';
+    btn.style.color = '#fbbf24';
+    renderSQL(currentReport);
+  } else {
+    panel.classList.remove('visible');
+    btn.style.background = 'transparent';
+    btn.style.color = '#fbbf24';
+  }
+}
+
+function renderSQL(reportKey) {
+  const q = SQL_QUERIES[reportKey];
+  if (!q) return;
+  document.getElementById('sqlPanelTitle').textContent = q.title + ' — SQL Query';
+  const metaEl = document.getElementById('sqlMeta');
+  metaEl.innerHTML = q.meta.map(m => `<span class="sql-meta-badge">${m}</span>`).join('');
+  document.getElementById('sqlCode').textContent = q.sql;
+}
+
+function copySQL() {
+  const q = SQL_QUERIES[currentReport];
+  if (!q) return;
+  navigator.clipboard.writeText(q.sql).then(() => {
+    const btn = document.querySelector('.sql-copy-btn');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy SQL', 1500);
+  });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BATB eCRM — Business Domain & Operational Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0b0f19;
+            --bg-card: #151c2c;
+            --border: rgba(255, 255, 255, 0.08);
+            --gold: #d4af37;
+            --gold-light: #f0d060;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --blue: #3b82f6;
+            --teal: #14b8a6;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+        h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            color: var(--gold-light);
+            margin-top: 36px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+        h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            margin-top: 24px;
+            margin-bottom: 12px;
+        }
+        p { color: var(--text-secondary); margin-bottom: 16px; font-size: 0.95rem; }
+        ul, ol { margin-bottom: 16px; padding-left: 24px; color: var(--text-secondary); }
+        li { margin-bottom: 6px; }
+        strong { color: var(--text-primary); }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+        th {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        td { color: var(--text-secondary); }
+        tr:last-child td { border-bottom: none; }
+        pre {
+            background: #070a12;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            margin-bottom: 16px;
+            font-family: monospace;
+            color: #7dd3fc;
+            font-size: 0.85rem;
+        }
+        hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+        a { color: var(--gold); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BATB eCRM Platform — Business Domain &amp; Operational Guide</h1>
+<p><em>Centralized Business Overview, Field Operations, Campaign Execution &amp; Analytics Workflow</em></p>
+<hr />
+<h2>📋 Table of Contents</h2>
+<ol>
+<li><a href="#1-executive-summary">Executive Summary</a></li>
+<li><a href="#2-business-rationale--strategic-objectives">Business Rationale &amp; Strategic Objectives</a></li>
+<li><a href="#3-field-operations--data-collection-workflow">Field Operations &amp; Data Collection Workflow</a></li>
+<li><a href="#4-market-intelligence--product-analysis">Market Intelligence &amp; Product Analysis</a></li>
+<li><a href="#5-user-roles-hierarchy--access-control">User Roles, Hierarchy &amp; Access Control</a></li>
+<li><a href="#6-joiner–mover–leaver-jml-lifecycle-management">Joiner–Mover–Leaver (JML) Lifecycle Management</a></li>
+<li><a href="#7-geographic-location-hierarchy">Geographic Location Hierarchy</a></li>
+<li><a href="#8-campaign-management--trade-promotional-rewards-ptr">Campaign Management &amp; Trade Promotional Rewards (PTR)</a></li>
+<li><a href="#9-call-center--dialer-operational-workflows">Call Center &amp; Dialer Operational Workflows</a></li>
+<li><a href="#10-quality-assurance--field-supervision">Quality Assurance &amp; Field Supervision</a></li>
+<li><a href="#11-management-reports--decision-support-systems">Management Reports &amp; Decision Support Systems</a></li>
+<li><a href="#12-enterprise-agency-coverage">Enterprise Agency Coverage</a></li>
+<li><a href="#13-enterprise-analytics--data-architecture">Enterprise Analytics &amp; Data Architecture</a></li>
+</ol>
+<hr />
+<h2>1. Executive Summary</h2>
+<p><strong>Owner:</strong> British American Tobacco Bangladesh (BATB)</p>
+<p>The <strong>eCRM Platform</strong> is BATB's centralized enterprise relationship management solution engineered for direct 1-to-1 adult consumer engagement, field force coordination, market trade surveys, campaign tracking, and continuous market analytics.</p>
+<p>The system facilitates direct interaction between field Brand Representatives and target consumers (18+ years old) across thousands of retail outlets nationwide while maintaining strict governance, auditability, and role-based operational permissions.</p>
+<hr />
+<h2>2. Business Rationale &amp; Strategic Objectives</h2>
+<h3>Why This Business System Exists</h3>
+<ul>
+<li><strong>Advertising Regulations:</strong> Traditional tobacco advertisements are strictly restricted on public billboards, television, and mass media channels.</li>
+<li><strong>Direct Engagement Requirement:</strong> To communicate brand value and understand consumer preferences, the business relies on direct, face-to-face engagements conducted by field personnel at retail outlets.</li>
+<li><strong>Outlet Operations:</strong> Outlets (Points of Sale / POS) represent the primary touchpoint where adult consumers make purchase decisions.</li>
+</ul>
+<h3>Key Business Objectives</h3>
+<ul>
+<li><strong>Consumer Preference Discovery:</strong> Capture real-time preferences, brand choices, and feedback from adult smokers.</li>
+<li><strong>Survey-Driven Marketing:</strong> Deploy interactive, requirement-based marketing questionnaires during field interactions.</li>
+<li><strong>Competitor Insights:</strong> Perform continuous competitor monitoring and market share validation.</li>
+<li><strong>Data-Backed Strategy:</strong> Support executive decision-making with historical trend analysis and actionable campaign KPIs.</li>
+</ul>
+<hr />
+<h2>3. Field Operations &amp; Data Collection Workflow</h2>
+<pre><code class="language-text">[ Campaign Setup ] ──► [ Survey Creation ] ──► [ Outlet Visit by RA ]
+                                                        │
+[ Executive Dashboard ] ◄── [ QA &amp; Analytics ] ◄── [ Consumer Engagement ]
+</code></pre>
+<h3>Operational Steps</h3>
+<ol>
+<li><strong>Campaign Design:</strong> Management configures active campaigns, target criteria, survey flows, and trade promotional rewards.</li>
+<li><strong>Field Execution:</strong> Retail Agents (RAs / Brand Representatives) visit designated retail outlets with mobile field applications.</li>
+<li><strong>Adult Verification:</strong> RAs verify that the consumer is <strong>18 years or older</strong> before initiating any engagement.</li>
+<li><strong>Interaction &amp; Data Entry:</strong> RAs present structured survey questions, recording consumer details, primary brand preferences, secondary brand preferences, and switching behaviors.</li>
+<li><strong>Reward Delivery:</strong> If configured under the active campaign rules, promotional materials or rewards (PTR) are allocated to the consumer upon successful survey completion.</li>
+</ol>
+<hr />
+<h2>4. Market Intelligence &amp; Product Analysis</h2>
+<h3>Brand &amp; Product Categorization</h3>
+<p>BATB operations track two primary product categories:
+- <strong>Franchise:</strong> Proprietary BATB brands.
+- <strong>SOB (Share of Bottle / Competitor Brands):</strong> Non-BATB competitor offerings.</p>
+<h3>Consumer Brand Preferences</h3>
+<p>Consumer profiles classify brand loyalty across three distinct dimensions:
+- <strong>Primary Brand:</strong> The brand the consumer regularly purchases and consumes.
+- <strong>Secondary Brand:</strong> The alternative brand selected when the primary choice is unavailable.
+- <strong>Previous Brand:</strong> Historical brand preferences prior to recent switching.</p>
+<h3>Market &amp; Competitor Analysis Capabilities</h3>
+<ul>
+<li><strong>Competitor Product Monitoring:</strong> Track competitor pricing, promotional offers, and pack formats.</li>
+<li><strong>Product Lifecycle Management:</strong> Evaluate new product launches, pilot campaign feedback, and post-launch volume traction.</li>
+<li><strong>Trade Promotion Efficiency:</strong> Measure the impact of PTR rewards on consumer retention and brand switching.</li>
+</ul>
+<hr />
+<h2>5. User Roles, Hierarchy &amp; Access Control</h2>
+<p>The platform enforces clear operational roles across mobile and web interfaces:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">User Role</th>
+<th style="text-align: left;">Title</th>
+<th style="text-align: left;">Operational Scope &amp; Platform Access</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>DC</strong></td>
+<td style="text-align: left;">District Coordinator</td>
+<td style="text-align: left;">Web Portal — Regional operational oversight, agency coordination, high-level metrics.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>AC</strong></td>
+<td style="text-align: left;">Area Coordinator</td>
+<td style="text-align: left;">Web Portal — Area-level campaign execution, territory management, supervisor reviews.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SUP</strong></td>
+<td style="text-align: left;">Supervisor</td>
+<td style="text-align: left;">Mobile App + Web Portal — Direct supervisor to RAs; handles daily route planning, issue escalation, and live joint observations.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>RA / BR / FF</strong></td>
+<td style="text-align: left;">Retail Agent / Brand Representative / Field Force</td>
+<td style="text-align: left;">Mobile App — Operational field force conducting direct consumer engagements and surveys at outlets.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>6. Joiner–Mover–Leaver (JML) Lifecycle Management</h2>
+<p>The <strong>JML Workflow</strong> manages all workforce changes in a strictly governed, auditable manner:</p>
+<pre><code class="language-text">  [ JOINER ]               [ MOVER ]               [ LEAVER ]
+New Account Creation   Role &amp; Access Updates   Account Deactivation
+       │                       │                       │
+       └───────────────────────┼───────────────────────┘
+                               ▼
+                   [ System Approval Flow ]
+                               ▼
+                   [ Audit Log Recording ]
+</code></pre>
+<h3>JML Stages</h3>
+<ol>
+<li><strong>Joiner:</strong> Account creation, initial role assignment, territory allocation, and device registration for new personnel.</li>
+<li><strong>Mover:</strong> Controlled updates to roles, territories, reporting managers, or agency affiliations when staff shift responsibilities.</li>
+<li><strong>Leaver:</strong> Secure account suspension and immediate revocation of app access upon employee resignation or contract completion.</li>
+</ol>
+<hr />
+<h2>7. Geographic Location Hierarchy</h2>
+<p>The platform organizes field activities using an 8-tier geographic tree:</p>
+<pre><code class="language-text">Level 1: Region
+   └── Level 2: Area
+         └── Level 3: Territory
+               └── Level 4: House (Distribution House)
+                     └── Level 5: Point (Distribution Point)
+                           └── Level 6: Route
+                                 └── Level 7: Cluster
+                                       └── Level 8: Outlet (POS — Point of Sale)
+</code></pre>
+<ul>
+<li><strong>Outlet (POS):</strong> Terminal operational point where consumer interactions occur.</li>
+<li><strong>Distribution Point (Point) / Cluster:</strong> Terminal target points for campaign planning and territory allocation.</li>
+</ul>
+<hr />
+<h2>8. Campaign Management &amp; Trade Promotional Rewards (PTR)</h2>
+<h3>PTR (Purchase Through Retail) Concept</h3>
+<ul>
+<li><strong>Definition:</strong> PTR represents rewards, gifts, or trade incentives provided to consumers or retailers during marketing campaigns.</li>
+<li><strong>Equivalence:</strong> <code>Gift = PTR = Trade Reward</code>.</li>
+<li><strong>Material Management:</strong> Promotional materials and stock items are tracked to ensure accurate inventory control across field distribution routes.</li>
+</ul>
+<h3>Campaign Execution Types</h3>
+<ul>
+<li><strong>Standard Engagement Campaigns:</strong> Include consumer demographic capture, brand preference questions, and reward delivery.</li>
+<li><strong>Surveys-Only Campaigns:</strong> Focus purely on market feedback and consumer sentiment without collecting personal consumer identifiers.</li>
+</ul>
+<hr />
+<h2>9. Call Center &amp; Dialer Operational Workflows</h2>
+<p>For follow-up interactions, repeat engagements, and promotional campaigns, the system incorporates structured call center workflows:</p>
+<ul>
+<li><strong>Consumer Outbound Dialer:</strong> Contacting registered consumers for follow-up verification, reward notification, or campaign announcements.</li>
+<li><strong>Retailer Outlet Dialer:</strong> Communicating with outlet owners regarding campaign updates, promotional material delivery, and survey validation.</li>
+</ul>
+<hr />
+<h2>10. Quality Assurance &amp; Field Supervision</h2>
+<p>To guarantee data integrity and field discipline, management utilizes three core supervisory mechanisms:</p>
+<ol>
+<li><strong>Joint Calls (Joint Observations):</strong> Supervisors accompany RAs during outlet visits to evaluate communication quality, adherence to protocols, and accurate data entry.</li>
+<li><strong>Call Checkback Verification:</strong> Independent call center teams randomly contact consumers to verify that field visits and surveys actually occurred as reported.</li>
+<li><strong>Live Observation Audits:</strong> Supervisors conduct remote or random live checks to monitor RA field activity and route compliance.</li>
+<li><strong>Automated Audio Auditing (AAI):</strong> Automated audio evaluation of recorded survey conversations to verify voice authenticity, key phrase compliance, and survey completeness.</li>
+</ol>
+<hr />
+<h2>11. Management Reports &amp; Decision Support Systems</h2>
+<p>Management utilizes specialized operational and dynamic reports:</p>
+<ul>
+<li><strong>Daily Raw Report:</strong> Comprehensive log of daily field interactions, outlet coverage, and survey entries.</li>
+<li><strong>Call Checkback Report:</strong> Audit trail of quality verification calls and compliance ratings.</li>
+<li><strong>Live Observation Report:</strong> Supervisor check logs evaluating field force performance.</li>
+<li><strong>Call Center Report:</strong> Campaign tracking for secondary consumer calls and gift distribution logistics.</li>
+<li><strong>Dynamic Executive Dashboards:</strong> Customizable report engines allowing managers to select date ranges, region filters, and multi-variable cross-tabulations.</li>
+</ul>
+<hr />
+<h2>12. Enterprise Agency Coverage</h2>
+<p>Field operations are executed through specialized partner agencies covering dedicated geographic territories:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Agency Code</th>
+<th style="text-align: left;">Operational Geographic Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Madly</strong></td>
+<td style="text-align: left;">Core Internal Strategy &amp; Direct Management Team</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>ATMSL</strong></td>
+<td style="text-align: left;">Sylhet, Dhaka South</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IMSL</strong></td>
+<td style="text-align: left;">Dhaka North, Chittagong</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>IMS</strong></td>
+<td style="text-align: left;">Rajshahi, Barishal, Khulna</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>13. Enterprise Analytics &amp; Data Architecture</h2>
+<pre><code class="language-text">[ Transactional Data Store ] ──► [ Replicated Data Warehouse (BigQuery) ] ──► [ Executive Dashboards &amp; Looker ]
+ (Day-to-day Field Ops)               (High-Performance Analytics)                  (Business Decisions)
+</code></pre>
+<ul>
+<li><strong>Operational Storage:</strong> Fast transactional systems handle real-time field data capture, mobile app sync, and day-to-day workflow tracking.</li>
+<li><strong>Analytics Warehouse (BigQuery):</strong> Data is processed into scalable analytical storage for high-speed queries, historical trending, and executive reporting.</li>
+<li><strong>Separation of Concerns:</strong> Separating field operations from analytical warehousing ensures that heavy reporting queries never impact mobile app responsiveness or field data collection.</li>
+</ul>
+    </div>
+</body>
+</html>
